@@ -1,0 +1,18 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '6.0'
+
+target 'whoparty' do
+
+pod 'AFNetworking', '~> 2.5'
+pod 'MBProgressHUD', '~> 0.9'
+pod 'NUI'
+pod 'RateView'
+pod 'MagicalRecord'
+pod 'pop', '~> 1.0'
+
+end
+
+target 'whopartyTests' do
+
+end
+

@@ -1,0 +1,50 @@
+PODS:
+  - AFNetworking (2.5.1):
+    - AFNetworking/NSURLConnection (= 2.5.1)
+    - AFNetworking/NSURLSession (= 2.5.1)
+    - AFNetworking/Reachability (= 2.5.1)
+    - AFNetworking/Security (= 2.5.1)
+    - AFNetworking/Serialization (= 2.5.1)
+    - AFNetworking/UIKit (= 2.5.1)
+  - AFNetworking/NSURLConnection (2.5.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.1)
+  - AFNetworking/Security (2.5.1)
+  - AFNetworking/Serialization (2.5.1)
+  - AFNetworking/UIKit (2.5.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - MagicalRecord (2.2):
+    - MagicalRecord/Core (= 2.2)
+  - MagicalRecord/Core (2.2)
+  - MBProgressHUD (0.9)
+  - NUI (0.5.4):
+    - NUIParse
+  - NUIParse (1.2.1)
+  - pop (1.0.7)
+  - RateView (1.1)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.5)
+  - MagicalRecord
+  - MBProgressHUD (~> 0.9)
+  - NUI
+  - pop (~> 1.0)
+  - RateView
+
+SPEC CHECKSUMS:
+  AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
+  MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  NUI: ce8570dc3bb7983ffa8ae58ab0fc852d378b00cb
+  NUIParse: f29eb240cfc9848b216c827884f37ae64abd19e4
+  pop: 2f14a1ea61339767af9e66741b418c831b3844df
+  RateView: 4142c146bd42fe7715adc3365fa2ffd71ff327e0
+
+COCOAPODS: 0.35.0
