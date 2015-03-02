@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Nyu Web Developpement. All rights reserved.
 //
 
+#import <Parse/Parse.h>
+#import <NUI/NUIAppearance.h>
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
@@ -17,6 +19,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [NUISettings initWithStylesheet:@"WPTheme"];
+
+    [Parse enableLocalDatastore];
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"I2MSBxXHEXCm3uULbcYF5Io7tH1xu8bZVMx0Eryw"
+                  clientKey:@"KB7nVbC7d3D8lLRZm9rjlQhdmEzuL0yRsG9dXBMb"];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     return YES;
 }
 
