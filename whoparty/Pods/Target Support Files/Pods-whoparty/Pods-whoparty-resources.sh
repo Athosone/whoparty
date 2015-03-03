@@ -47,7 +47,12 @@ install_resource()
       ;;
   esac
 }
-          install_resource "NUI/NUI/Resources/NUIViewBackground.png"
+          install_resource "FlatUIKit/Resources/flat-ui-icons-regular.ttf"
+                    install_resource "FlatUIKit/Resources/Lato-Bold.ttf"
+                    install_resource "FlatUIKit/Resources/Lato-Italic.ttf"
+                    install_resource "FlatUIKit/Resources/Lato-Light.ttf"
+                    install_resource "FlatUIKit/Resources/Lato-Regular.ttf"
+                    install_resource "NUI/NUI/Resources/NUIViewBackground.png"
                     install_resource "NUI/NUI/NUIStyle.nss"
                     install_resource "NUI/NUI/Themes/Blue.NUI.nss"
                     install_resource "NUI/NUI/Themes/Default.NUI.nss"

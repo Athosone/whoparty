@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - FlatUIKit (1.6)
   - MBProgressHUD (0.9)
   - NUI (0.5.4):
     - NUIParse
@@ -29,6 +30,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
+  - FlatUIKit
   - MBProgressHUD (~> 0.9)
   - NUI
   - pop (~> 1.0)
@@ -36,6 +38,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
+  FlatUIKit: 48b78e6d026c2f2c8a733425aaa5015c99ffc079
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   NUI: ce8570dc3bb7983ffa8ae58ab0fc852d378b00cb
   NUIParse: f29eb240cfc9848b216c827884f37ae64abd19e4

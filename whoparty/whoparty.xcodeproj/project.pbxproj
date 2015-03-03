@@ -7,6 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */; };
+		5860EB761AA4980700D81E5F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB751AA4980700D81E5F /* MapKit.framework */; };
+		5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB791AA498A100D81E5F /* WPTabBarViewController.m */; };
+		5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */; };
+		5860EB7F1AA4A88000D81E5F /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB7E1AA4A88000D81E5F /* GoogleMaps.framework */; };
+		5860EB831AA4A90200D81E5F /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB821AA4A90200D81E5F /* GoogleMaps.bundle */; };
+		5860EB851AA4A91B00D81E5F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB841AA4A91B00D81E5F /* AVFoundation.framework */; };
+		5860EB871AA4A92900D81E5F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB861AA4A92900D81E5F /* CoreData.framework */; };
+		5860EB891AA4A94500D81E5F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB881AA4A94500D81E5F /* CoreText.framework */; };
+		5860EB8B1AA4A94A00D81E5F /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB8A1AA4A94A00D81E5F /* GLKit.framework */; };
+		5860EB8D1AA4A95300D81E5F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB8C1AA4A95300D81E5F /* ImageIO.framework */; };
+		5860EB8F1AA4A96000D81E5F /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB8E1AA4A96000D81E5F /* libc++.dylib */; };
+		5860EB911AA4A97700D81E5F /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB901AA4A97700D81E5F /* libicucore.dylib */; };
+		5860EB931AA4A98800D81E5F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB921AA4A98800D81E5F /* OpenGLES.framework */; };
+		5860EB961AA4A9BE00D81E5F /* WPHelperConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB951AA4A9BE00D81E5F /* WPHelperConstant.m */; };
+		5860EB9B1AA4AD3800D81E5F /* destPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB971AA4AD3800D81E5F /* destPin.png */; };
+		5860EB9C1AA4AD3800D81E5F /* destPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB981AA4AD3800D81E5F /* destPin@2x.png */; };
+		5860EB9D1AA4AD3800D81E5F /* startPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB991AA4AD3800D81E5F /* startPin.png */; };
+		5860EB9E1AA4AD3800D81E5F /* startPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB9A1AA4AD3800D81E5F /* startPin@2x.png */; };
+		587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */; };
 		587F56181AA27D750083638A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F56171AA27D750083638A /* main.m */; };
 		587F561B1AA27D750083638A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F561A1AA27D750083638A /* AppDelegate.m */; };
 		587F561E1AA27D750083638A /* whoparty.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 587F561C1AA27D750083638A /* whoparty.xcdatamodeld */; };
@@ -58,6 +78,31 @@
 
 /* Begin PBXFileReference section */
 		2751F0E55F0CB5423D6E17F6 /* Pods-whoparty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whoparty.release.xcconfig"; path = "Pods/Target Support Files/Pods-whoparty/Pods-whoparty.release.xcconfig"; sourceTree = "<group>"; };
+		5827C59D1AA4E67E00680747 /* MYGoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYGoogleAddress.h; sourceTree = "<group>"; };
+		5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYGoogleAddress.m; sourceTree = "<group>"; };
+		5860EB751AA4980700D81E5F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		5860EB781AA498A100D81E5F /* WPTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPTabBarViewController.h; sourceTree = "<group>"; };
+		5860EB791AA498A100D81E5F /* WPTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPTabBarViewController.m; sourceTree = "<group>"; };
+		5860EB7B1AA498D000D81E5F /* WPAddEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPAddEventViewController.h; sourceTree = "<group>"; };
+		5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPAddEventViewController.m; sourceTree = "<group>"; };
+		5860EB7E1AA4A88000D81E5F /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
+		5860EB821AA4A90200D81E5F /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		5860EB841AA4A91B00D81E5F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5860EB861AA4A92900D81E5F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5860EB881AA4A94500D81E5F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		5860EB8A1AA4A94A00D81E5F /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		5860EB8C1AA4A95300D81E5F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		5860EB8E1AA4A96000D81E5F /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		5860EB901AA4A97700D81E5F /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		5860EB921AA4A98800D81E5F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		5860EB941AA4A9BE00D81E5F /* WPHelperConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPHelperConstant.h; sourceTree = "<group>"; };
+		5860EB951AA4A9BE00D81E5F /* WPHelperConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPHelperConstant.m; sourceTree = "<group>"; };
+		5860EB971AA4AD3800D81E5F /* destPin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = destPin.png; sourceTree = "<group>"; };
+		5860EB981AA4AD3800D81E5F /* destPin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "destPin@2x.png"; sourceTree = "<group>"; };
+		5860EB991AA4AD3800D81E5F /* startPin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPin.png; sourceTree = "<group>"; };
+		5860EB9A1AA4AD3800D81E5F /* startPin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startPin@2x.png"; sourceTree = "<group>"; };
+		587CAF1D1AA4BEAD004129F9 /* GooglePlaceDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GooglePlaceDataProvider.h; sourceTree = "<group>"; };
+		587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GooglePlaceDataProvider.m; sourceTree = "<group>"; };
 		587F56121AA27D750083638A /* whoparty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = whoparty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		587F56161AA27D750083638A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587F56171AA27D750083638A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -114,6 +159,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5860EB931AA4A98800D81E5F /* OpenGLES.framework in Frameworks */,
+				5860EB911AA4A97700D81E5F /* libicucore.dylib in Frameworks */,
+				5860EB8F1AA4A96000D81E5F /* libc++.dylib in Frameworks */,
+				5860EB8D1AA4A95300D81E5F /* ImageIO.framework in Frameworks */,
+				5860EB8B1AA4A94A00D81E5F /* GLKit.framework in Frameworks */,
+				5860EB891AA4A94500D81E5F /* CoreText.framework in Frameworks */,
+				5860EB871AA4A92900D81E5F /* CoreData.framework in Frameworks */,
+				5860EB851AA4A91B00D81E5F /* AVFoundation.framework in Frameworks */,
+				5860EB7F1AA4A88000D81E5F /* GoogleMaps.framework in Frameworks */,
+				5860EB761AA4980700D81E5F /* MapKit.framework in Frameworks */,
 				588EDCED1AA3B8B9003A146F /* Social.framework in Frameworks */,
 				588EDCEB1AA3B8A6003A146F /* Twitter.framework in Frameworks */,
 				588EDCE91AA3B89F003A146F /* Accounts.framework in Frameworks */,
@@ -153,9 +208,33 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5827C5991AA4DE9200680747 /* GoogleData */ = {
+			isa = PBXGroup;
+			children = (
+				587CAF1D1AA4BEAD004129F9 /* GooglePlaceDataProvider.h */,
+				587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */,
+				5827C59D1AA4E67E00680747 /* MYGoogleAddress.h */,
+				5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */,
+			);
+			name = GoogleData;
+			sourceTree = "<group>";
+		};
+		5860EB771AA4988000D81E5F /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				5860EB781AA498A100D81E5F /* WPTabBarViewController.h */,
+				5860EB791AA498A100D81E5F /* WPTabBarViewController.m */,
+				5860EB7B1AA498D000D81E5F /* WPAddEventViewController.h */,
+				5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */,
+			);
+			name = Tabbar;
+			sourceTree = "<group>";
+		};
 		587F56091AA27D750083638A = {
 			isa = PBXGroup;
 			children = (
+				5860EB821AA4A90200D81E5F /* GoogleMaps.bundle */,
+				5860EB7E1AA4A88000D81E5F /* GoogleMaps.framework */,
 				58D7AA001AA37A2700E8E788 /* Bolts.framework */,
 				58D7AA011AA37A2700E8E788 /* Parse.framework */,
 				587F56141AA27D750083638A /* whoparty */,
@@ -239,6 +318,9 @@
 		58D7A9E21AA3687300E8E788 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5827C5991AA4DE9200680747 /* GoogleData */,
+				5860EB941AA4A9BE00D81E5F /* WPHelperConstant.h */,
+				5860EB951AA4A9BE00D81E5F /* WPHelperConstant.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -259,6 +341,7 @@
 		58D7A9E41AA3687E00E8E788 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5860EB771AA4988000D81E5F /* Tabbar */,
 				58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */,
 				58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */,
 				58D7A9E61AA36E9A00E8E788 /* LoginForm */,
@@ -280,6 +363,10 @@
 		58D7A9ED1AA36F2B00E8E788 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5860EB971AA4AD3800D81E5F /* destPin.png */,
+				5860EB981AA4AD3800D81E5F /* destPin@2x.png */,
+				5860EB991AA4AD3800D81E5F /* startPin.png */,
+				5860EB9A1AA4AD3800D81E5F /* startPin@2x.png */,
 				588EDD0E1AA3E04F003A146F /* accountLogin.png */,
 				588EDD0F1AA3E04F003A146F /* accountLogin@2x.png */,
 				588EDD101AA3E04F003A146F /* passwordCadenas.png */,
@@ -293,6 +380,15 @@
 		F5F0000FCA0955343BD41AC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5860EB921AA4A98800D81E5F /* OpenGLES.framework */,
+				5860EB901AA4A97700D81E5F /* libicucore.dylib */,
+				5860EB8E1AA4A96000D81E5F /* libc++.dylib */,
+				5860EB8C1AA4A95300D81E5F /* ImageIO.framework */,
+				5860EB8A1AA4A94A00D81E5F /* GLKit.framework */,
+				5860EB881AA4A94500D81E5F /* CoreText.framework */,
+				5860EB861AA4A92900D81E5F /* CoreData.framework */,
+				5860EB841AA4A91B00D81E5F /* AVFoundation.framework */,
+				5860EB751AA4980700D81E5F /* MapKit.framework */,
 				588EDCEC1AA3B8B9003A146F /* Social.framework */,
 				588EDCEA1AA3B8A6003A146F /* Twitter.framework */,
 				588EDCE81AA3B89F003A146F /* Accounts.framework */,
@@ -363,6 +459,7 @@
 				TargetAttributes = {
 					587F56111AA27D750083638A = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = PHAN4JE4T7;
 					};
 					587F562D1AA27D750083638A = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -394,14 +491,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5860EB9D1AA4AD3800D81E5F /* startPin.png in Resources */,
 				588EDD141AA3E04F003A146F /* passwordCadenas.png in Resources */,
+				5860EB9B1AA4AD3800D81E5F /* destPin.png in Resources */,
+				5860EB831AA4A90200D81E5F /* GoogleMaps.bundle in Resources */,
 				588EDD171AA3E161003A146F /* WPTheme.nss in Resources */,
 				587F56241AA27D750083638A /* Main.storyboard in Resources */,
 				588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */,
 				588EDD131AA3E04F003A146F /* accountLogin@2x.png in Resources */,
+				5860EB9C1AA4AD3800D81E5F /* destPin@2x.png in Resources */,
 				588EDD121AA3E04F003A146F /* accountLogin.png in Resources */,
 				58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */,
 				58D7A9F11AA36F8E00E8E788 /* backgroundImage@2x.png in Resources */,
+				5860EB9E1AA4AD3800D81E5F /* startPin@2x.png in Resources */,
 				587F56291AA27D750083638A /* LaunchScreen.xib in Resources */,
 				587F56261AA27D750083638A /* Images.xcassets in Resources */,
 			);
@@ -455,11 +557,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				588EDD0A1AA3DF13003A146F /* Animations.m in Sources */,
+				5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */,
+				5860EB961AA4A9BE00D81E5F /* WPHelperConstant.m in Sources */,
 				58D7A9F41AA3722800E8E788 /* NSString+FormValidation.m in Sources */,
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
 				58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */,
 				587F561B1AA27D750083638A /* AppDelegate.m in Sources */,
+				5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */,
+				5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */,
 				587F56181AA27D750083638A /* main.m in Sources */,
+				587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */,
 				588EDD0B1AA3DF13003A146F /* CircleAnimation.m in Sources */,
 				588EDD0C1AA3DF13003A146F /* CustomModalAnimation.m in Sources */,
 				587F561E1AA27D750083638A /* whoparty.xcdatamodeld in Sources */,
@@ -585,6 +692,8 @@
 			baseConfigurationReference = CE32DBA3C481ACEAD9EF10D2 /* Pods-whoparty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
@@ -593,6 +702,7 @@
 				INFOPLIST_FILE = whoparty/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -601,6 +711,8 @@
 			baseConfigurationReference = 2751F0E55F0CB5423D6E17F6 /* Pods-whoparty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
@@ -609,6 +721,7 @@
 				INFOPLIST_FILE = whoparty/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

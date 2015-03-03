@@ -36,5 +36,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Allow in use location such as we can calculate initerary</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow location such as we can calculate initerary</string>
 </dict>
 </plist>

@@ -8,7 +8,9 @@
 
 #import <Parse/Parse.h>
 #import <NUI/NUIAppearance.h>
+#import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
+#import "WPHelperConstant.h"
 
 @interface AppDelegate ()
 
@@ -29,6 +31,8 @@
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    [GMSServices provideAPIKey:GOOGLEIOSAPIKEY];
     return YES;
 }
 

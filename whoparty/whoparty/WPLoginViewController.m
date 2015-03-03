@@ -80,7 +80,10 @@
             if (error)
                 [super connectionFailed:[error localizedDescription]];
             else
+            {
                 NSLog(@"User successfully signin");
+                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+            }
         }];
     }
 }
@@ -119,7 +122,10 @@
             if (error)
                 [super connectionFailed:[error localizedDescription]];
             else
-                NSLog(@"User successfully signup");
+            {
+                 NSLog(@"User successfully signup");
+                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+            }
         }];
     }
   
