@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "WPLoginViewController.h"
+#import "WPHelperConstant.h"
 
 #define LEFTVIEWWIDTH 25
 
@@ -81,6 +82,11 @@
                 [super connectionFailed:[error localizedDescription]];
             else
             {
+                //RegisterChannel for this user
+                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
+                [currentInstallation saveInBackground];
+
                 NSLog(@"User successfully signin");
                 [self performSegueWithIdentifier:@"loginSuccess" sender:self];
             }

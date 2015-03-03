@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 
-@interface MYGoogleAddress : NSObject
+@interface MYGoogleAddress : PFObject<PFSubclassing>
+
++ (NSString*)parseClassName;
 
 
 @property (readwrite, nonatomic) double        longitude;

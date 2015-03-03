@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPAddEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@class WPAddEventCell;
+@protocol WPAddEventCellProtocol <NSObject>
+
+- (void) didClickOnCellButton:(id)sender datas:(NSDictionary*)datas;
+
+@end
+
+@interface WPAddEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, WPAddEventCellProtocol>
 
 @end

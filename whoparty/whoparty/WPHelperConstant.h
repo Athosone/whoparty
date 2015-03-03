@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #define GOOGLEIOSAPIKEY @"AIzaSyCNIJkpFx2qDZ1tjVaFx9o43e6BiMBmRso"
 #define GOOGLESERVERAPIKEY @"AIzaSyCj7kLbvwLb1gj56mxrIiBjPRcwEkd-aLI"
-
+#define CHANNELUSERPREFIX  @"whoParty_"
 
 @interface WPHelperConstant : NSObject
 

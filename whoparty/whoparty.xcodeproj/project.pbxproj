@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */; };
+		5827C5A21AA5CC3E00680747 /* WPSelectFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */; };
+		5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A41AA5D27200680747 /* ManagedParseUser.m */; };
+		5827C5A81AA5E62E00680747 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 5827C5A61AA5E62E00680747 /* plus.png */; };
+		5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5827C5A71AA5E62E00680747 /* plus@2x.png */; };
 		5860EB761AA4980700D81E5F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB751AA4980700D81E5F /* MapKit.framework */; };
 		5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB791AA498A100D81E5F /* WPTabBarViewController.m */; };
 		5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */; };
@@ -45,6 +49,11 @@
 		588EDD141AA3E04F003A146F /* passwordCadenas.png in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD101AA3E04F003A146F /* passwordCadenas.png */; };
 		588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD111AA3E04F003A146F /* passwordCadenas@2x.png */; };
 		588EDD171AA3E161003A146F /* WPTheme.nss in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD161AA3E161003A146F /* WPTheme.nss */; };
+		58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */; };
+		58BE5DA01AA5EFBD00BE2DB3 /* plusFriend.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */; };
+		58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */; };
+		58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9E1AA5EFBD00BE2DB3 /* validFriend.png */; };
+		58BE5DA31AA5EFBD00BE2DB3 /* validFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9F1AA5EFBD00BE2DB3 /* validFriend@2x.png */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
 		58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */; };
 		58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7A9EE1AA36F8E00E8E788 /* backgroundImage.png */; };
@@ -80,6 +89,12 @@
 		2751F0E55F0CB5423D6E17F6 /* Pods-whoparty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whoparty.release.xcconfig"; path = "Pods/Target Support Files/Pods-whoparty/Pods-whoparty.release.xcconfig"; sourceTree = "<group>"; };
 		5827C59D1AA4E67E00680747 /* MYGoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYGoogleAddress.h; sourceTree = "<group>"; };
 		5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYGoogleAddress.m; sourceTree = "<group>"; };
+		5827C5A01AA5CC3E00680747 /* WPSelectFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPSelectFriendsViewController.h; sourceTree = "<group>"; };
+		5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPSelectFriendsViewController.m; sourceTree = "<group>"; };
+		5827C5A31AA5D27200680747 /* ManagedParseUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedParseUser.h; sourceTree = "<group>"; };
+		5827C5A41AA5D27200680747 /* ManagedParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedParseUser.m; sourceTree = "<group>"; };
+		5827C5A61AA5E62E00680747 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		5827C5A71AA5E62E00680747 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 		5860EB751AA4980700D81E5F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5860EB781AA498A100D81E5F /* WPTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPTabBarViewController.h; sourceTree = "<group>"; };
 		5860EB791AA498A100D81E5F /* WPTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPTabBarViewController.m; sourceTree = "<group>"; };
@@ -129,6 +144,12 @@
 		588EDD101AA3E04F003A146F /* passwordCadenas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = passwordCadenas.png; sourceTree = "<group>"; };
 		588EDD111AA3E04F003A146F /* passwordCadenas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "passwordCadenas@2x.png"; sourceTree = "<group>"; };
 		588EDD161AA3E161003A146F /* WPTheme.nss */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WPTheme.nss; sourceTree = "<group>"; };
+		58BE5D991AA5EB8200BE2DB3 /* WPAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPAddFriendsViewController.h; sourceTree = "<group>"; };
+		58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPAddFriendsViewController.m; sourceTree = "<group>"; };
+		58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusFriend.png; sourceTree = "<group>"; };
+		58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plusFriend@2x.png"; sourceTree = "<group>"; };
+		58BE5D9E1AA5EFBD00BE2DB3 /* validFriend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = validFriend.png; sourceTree = "<group>"; };
+		58BE5D9F1AA5EFBD00BE2DB3 /* validFriend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "validFriend@2x.png"; sourceTree = "<group>"; };
 		58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFormViewController.h; sourceTree = "<group>"; };
 		58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFormViewController.m; sourceTree = "<group>"; };
 		58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPLoginViewController.h; sourceTree = "<group>"; };
@@ -226,6 +247,10 @@
 				5860EB791AA498A100D81E5F /* WPTabBarViewController.m */,
 				5860EB7B1AA498D000D81E5F /* WPAddEventViewController.h */,
 				5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */,
+				5827C5A01AA5CC3E00680747 /* WPSelectFriendsViewController.h */,
+				5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */,
+				58BE5D991AA5EB8200BE2DB3 /* WPAddFriendsViewController.h */,
+				58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */,
 			);
 			name = Tabbar;
 			sourceTree = "<group>";
@@ -321,6 +346,8 @@
 				5827C5991AA4DE9200680747 /* GoogleData */,
 				5860EB941AA4A9BE00D81E5F /* WPHelperConstant.h */,
 				5860EB951AA4A9BE00D81E5F /* WPHelperConstant.m */,
+				5827C5A31AA5D27200680747 /* ManagedParseUser.h */,
+				5827C5A41AA5D27200680747 /* ManagedParseUser.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -363,6 +390,12 @@
 		58D7A9ED1AA36F2B00E8E788 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */,
+				58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */,
+				58BE5D9E1AA5EFBD00BE2DB3 /* validFriend.png */,
+				58BE5D9F1AA5EFBD00BE2DB3 /* validFriend@2x.png */,
+				5827C5A61AA5E62E00680747 /* plus.png */,
+				5827C5A71AA5E62E00680747 /* plus@2x.png */,
 				5860EB971AA4AD3800D81E5F /* destPin.png */,
 				5860EB981AA4AD3800D81E5F /* destPin@2x.png */,
 				5860EB991AA4AD3800D81E5F /* startPin.png */,
@@ -460,6 +493,11 @@
 					587F56111AA27D750083638A = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = PHAN4JE4T7;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					587F562D1AA27D750083638A = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -492,9 +530,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5860EB9D1AA4AD3800D81E5F /* startPin.png in Resources */,
+				58BE5DA01AA5EFBD00BE2DB3 /* plusFriend.png in Resources */,
 				588EDD141AA3E04F003A146F /* passwordCadenas.png in Resources */,
 				5860EB9B1AA4AD3800D81E5F /* destPin.png in Resources */,
 				5860EB831AA4A90200D81E5F /* GoogleMaps.bundle in Resources */,
+				58BE5DA31AA5EFBD00BE2DB3 /* validFriend@2x.png in Resources */,
 				588EDD171AA3E161003A146F /* WPTheme.nss in Resources */,
 				587F56241AA27D750083638A /* Main.storyboard in Resources */,
 				588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */,
@@ -503,9 +543,13 @@
 				588EDD121AA3E04F003A146F /* accountLogin.png in Resources */,
 				58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */,
 				58D7A9F11AA36F8E00E8E788 /* backgroundImage@2x.png in Resources */,
+				5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */,
+				58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */,
+				58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */,
 				5860EB9E1AA4AD3800D81E5F /* startPin@2x.png in Resources */,
 				587F56291AA27D750083638A /* LaunchScreen.xib in Resources */,
 				587F56261AA27D750083638A /* Images.xcassets in Resources */,
+				5827C5A81AA5E62E00680747 /* plus.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,14 +601,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				588EDD0A1AA3DF13003A146F /* Animations.m in Sources */,
+				58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */,
 				5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */,
 				5860EB961AA4A9BE00D81E5F /* WPHelperConstant.m in Sources */,
 				58D7A9F41AA3722800E8E788 /* NSString+FormValidation.m in Sources */,
+				5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */,
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
 				58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */,
 				587F561B1AA27D750083638A /* AppDelegate.m in Sources */,
 				5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */,
 				5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */,
+				5827C5A21AA5CC3E00680747 /* WPSelectFriendsViewController.m in Sources */,
 				587F56181AA27D750083638A /* main.m in Sources */,
 				587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */,
 				588EDD0B1AA3DF13003A146F /* CircleAnimation.m in Sources */,

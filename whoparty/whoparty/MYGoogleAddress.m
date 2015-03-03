@@ -10,9 +10,15 @@
 
 @implementation MYGoogleAddress
 
-@synthesize longitude;
-@synthesize latitude;
-@synthesize name;
-@synthesize address;
+@dynamic  longitude;
+@dynamic  latitude;
+@dynamic  name;
+@dynamic address;
+
+
++ (NSString *)parseClassName
+{
+    return @"MYGoogleAddress";
+}
 
 @end

@@ -9,28 +9,30 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "ManagedParseUser.h"
 #import "WPAddEventViewController.h"
 #import "GooglePlaceDataProvider.h"
 #import "MYGoogleAddress.h"
-#import <MBProgressHUD/MBProgressHUD.h>
-
+#import "WPSelectFriendsViewController.h"
 
 @interface WPAddEventCell : UITableViewCell<UISearchBarDelegate, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 
 
-@property (strong, nonatomic) IBOutlet GMSMapView *gmView;
-@property (strong, nonatomic) IBOutlet UIImageView *mapCenterPinImage;
-@property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) NSMutableDictionary   *datas;
+@property (strong, nonatomic) IBOutlet GMSMapView             *gmView;
+@property (strong, nonatomic) IBOutlet UIImageView            *mapCenterPinImage;
+@property (strong, nonatomic) CLLocationManager      *locationManager;
+@property (strong, nonatomic) IBOutlet UISearchBar            *searchBar;
+@property (strong, nonatomic) NSMutableDictionary    *datas;
 @property (strong, nonatomic) NSMutableArray         *foundPlaces;
-@property (strong, nonatomic) IBOutlet UITableView *tableViewAddress;
-@property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) MYGoogleAddress       *currentAddr;
-@property (weak, nonatomic)   UITableView                               *tableView;
-@property (strong, nonatomic) UIView            *activeField;
-@property (strong, nonatomic) IBOutlet UITextView *textViewComment;
+@property (strong, nonatomic) IBOutlet UITableView            *tableViewAddress;
+@property (strong, nonatomic) MBProgressHUD          *hud;
+@property (strong, nonatomic) MYGoogleAddress        *currentAddr;
+@property (weak, nonatomic  ) UITableView            *tableView;
+@property (weak, nonatomic  ) id                <WPAddEventCellProtocol> delegate;
+@property (strong, nonatomic) UIView                 *activeField;
+@property (strong, nonatomic) IBOutlet UITextView             *textViewComment;
 
 - (void) initMap;
 -(void)addDoneToolBarToKeyboard:(UITextView *)textView;
@@ -40,13 +42,12 @@
 @implementation WPAddEventCell
 
 @synthesize tableView;
-
+@synthesize delegate;
 
 - (void) initAddEventCell
 {
     self.searchBar.delegate = self;
     self.datas = [[NSMutableDictionary alloc] init];
-    [self.datas setObject:@"bar" forKey:@"types"];
     [self initMap];
     self.hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
     self.hud.labelText = @"Loading";
@@ -87,6 +88,13 @@
         [self.textViewComment resignFirstResponder];
 }
 
+- (IBAction)validateEvent:(id)sender
+{
+    NSDictionary *dataToPass =  [NSDictionary dictionaryWithObjectsAndKeys:self.currentAddr, @"currentAddress", self.textViewComment.text, @"comment", nil];
+        
+    [self.delegate didClickOnCellButton:self datas:dataToPass];
+}
+
 #pragma mark ->CLLocation Delegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
@@ -104,7 +112,7 @@
         [self.datas setObject:[NSNumber numberWithDouble:location.coordinate.latitude] forKey:@"latitude"];
         [self.datas setObject:[NSNumber numberWithDouble:location.coordinate.longitude] forKey:@"longitude"];
         
-        
+        //Attention indiquer au user que l'on a pas encore toute les infos
         [GooglePlaceDataProvider getCityNameFromLocation:location success:successGeoReverse];
 
         self.gmView.camera = [GMSCameraPosition cameraWithTarget:location.coordinate zoom:15 bearing:0 viewingAngle:0];
@@ -199,8 +207,13 @@
 @end
 
 
+#pragma mark ->ViewController
+
 @interface WPAddEventViewController ()
+
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSDictionary           *comment_mapDatas;
+
 
 @end
 
@@ -235,17 +248,33 @@
         cell = [[WPAddEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"WPAddEventCell"];
     [cell initAddEventCell];
     cell.tableView = self.tableView;
+    cell.delegate = self;
     return cell;
 }
 
-/*
+#pragma mark ->WPAddEventProtocol
+
+- (void) didClickOnCellButton:(id)sender datas:(NSDictionary *)datas
+{
+    self.comment_mapDatas = datas;
+    [self performSegueWithIdentifier:@"selectFriends" sender:self];
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"selectFriends"])
+    {
+        UINavigationController *navC = [segue destinationViewController];
+        WPSelectFriendsViewController   *destVC = [[navC viewControllers] objectAtIndex:0];
+        
+        destVC.currentAddress = [self.comment_mapDatas objectForKey:@"currentAddress"];
+        destVC.comment = [self.comment_mapDatas objectForKey:@"comment"];
+    }
 }
-*/
+
 
 @end
