@@ -77,17 +77,16 @@
 
 - (void) sendNotificationPush:(PFUser*) user
 {
-    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:@"toto", @"name", nil];
-    
     NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
     // Create our Installation query
     PFQuery *pushQuery = [PFInstallation query];
     [pushQuery whereKey:@"channels" equalTo:channel]; // Set channel
     
-    // Send push notification to query
     PFPush *push = [[PFPush alloc] init];
     [push setQuery:pushQuery];
-    [push setMessage:@"Giants scored against the A's! It's now 2-2."];
+    [push setMessage:[NSString stringWithFormat:@"%@ just sent you an event !", user.username]];
+    //TODO: set data with geopoint of the place to go + add the comment associated + handle la notification
+    //[push setData:]];
     [push sendPushInBackground];
 }
 
