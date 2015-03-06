@@ -14,7 +14,12 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
-
+//TODO
+//Accept decline send pushnotif to the other user in order to confirm or decline
+//IF accept proposer de démarer la navigation avec yes please or no iknow the way if no laisser les options lors de l'affichage de l'event
+//create vue with received notif like snapchat
+//end friend view
+//publish on test flight
 @implementation WPReceiveEventViewController
 
 - (void)viewDidLoad {
