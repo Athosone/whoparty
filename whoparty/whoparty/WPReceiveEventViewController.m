@@ -1,0 +1,65 @@
+//
+//  WPReceiveEventViewController.m
+//  whoparty
+//
+//  Created by Werck Ayrton on 06/03/2015.
+//  Copyright (c) 2015 Nyu Web Developpement. All rights reserved.
+//
+
+#import "WPReceiveEventViewController.h"
+#import "ReceiveEventCell.h"
+
+@interface WPReceiveEventViewController ()
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+@end
+
+@implementation WPReceiveEventViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
+    // Do any additional setup after loading the view.
+}
+
+
+#pragma mark ->TableView delegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSInteger lRet = 1;
+    
+    return lRet;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)mtableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ReceiveEventCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"ReceiveEventCell"];
+    
+    if (!cell)
+    {
+        [mtableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
+        cell = [mtableView dequeueReusableCellWithIdentifier:@"ReceiveEventCell"];
+    }
+    [cell initReceiveEventCell];
+    return cell;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

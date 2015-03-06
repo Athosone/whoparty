@@ -10,6 +10,7 @@
 #import "WPSelectFriendsViewController.h"
 #import "ManagedParseUser.h"
 #import "WPHelperConstant.h"
+#import "Event.h"
 
 @interface WPSelectFriendsViewController ()
 
@@ -17,6 +18,7 @@
 
 @property (strong, nonatomic) NSArray                       *friendsName;
 @property (strong, nonatomic) PFUser                        *user;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *barButtonAddFriend;
 
 @end
 
@@ -27,8 +29,14 @@
     self.friendsName = nil;
     self.user = [PFUser currentUser];
     self.friendsName = [self.user objectForKey:@"friendsId"];
-    // [ManagedParseUser fetchFriendsListForUser:self.user target:self selector:@selector(setFriendsList:)];
-    // Do any additional setup after loading the view.
+    self.barButtonAddFriend.tintColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    self.friendsName = [self.user objectForKey:@"friensId"];
+    [self.tableView reloadData];
 }
 
 - (void) setFriendsList:(NSArray*)friendsList
@@ -37,9 +45,9 @@
     [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)addFriends:(id)sender
@@ -77,17 +85,36 @@
 
 - (void) sendNotificationPush:(PFUser*) user
 {
-    NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
-    // Create our Installation query
-    PFQuery *pushQuery = [PFInstallation query];
-    [pushQuery whereKey:@"channels" equalTo:channel]; // Set channel
-    
-    PFPush *push = [[PFPush alloc] init];
-    [push setQuery:pushQuery];
-    [push setMessage:[NSString stringWithFormat:@"%@ just sent you an event !", user.username]];
-    //TODO: set data with geopoint of the place to go + add the comment associated + handle la notification
-    //[push setData:]];
-    [push sendPushInBackground];
+    Event   *event = [[Event alloc] initWithClassName:@"Event"];
+    [self.currentAddress saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded)
+        {
+            event.mygoogleaddress = self.currentAddress;
+            event.comment = self.comment;
+            event.receivinguser = user;
+            event.sendinguser = [PFUser currentUser];
+            [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+               // NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:self.comment, @"comment", self.currentAddress, @"address", nil];
+                
+                if (succeeded)
+                {
+                NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !", user.username];
+                
+                [data setObject:alert forKey:@"alert"];
+                [data setObject:@"cheering.caf" forKey:@"sounds"];
+                [data setObject:event.objectId forKey:@"eventId"];
+                
+                [ManagedParseUser sendNotificationPush:user data:data];
+                }
+                else
+                    NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+ 
+            }];
+        }
+        else
+            NSLog(@"Error saving address in SelectFriends-sendNotificationPush, error: %@", error);
+    }];
 }
 
 /*

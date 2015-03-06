@@ -11,6 +11,8 @@
 
 @navigationBarFontName: HoeflerText-BlackItalic;
 
+@backgroundcolor: #2C3E50;
+@backgrounduielements: #2980B9;
 
 
 LoginViewButton
@@ -29,6 +31,10 @@ border-width: @textFieldBorderWidth;
 corner-radius: @textFieldCornerRadius;
 }
 
+TableView
+{
+background-color: @backgroundcolor;
+}
 
 AddCommentView
 {

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddEventCell" rowHeight="473" id="ZQW-7c-QDu" customClass="AddEventCell">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="473"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZQW-7c-QDu" id="Q4k-t2-yAM">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Whs-jV-1In" customClass="GMSMapView">
+                        <rect key="frame" x="8" y="44" width="587" height="300"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="300" id="Z83-eC-xcU"/>
+                        </constraints>
+                    </view>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gX3-tA-ApG">
+                        <rect key="frame" x="8" y="352" width="584" height="60"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="TN6-HV-o9s"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Rn6-32-4wj">
+                        <rect key="frame" x="8" y="44" width="584" height="120"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="120" id="coy-v4-UjK"/>
+                        </constraints>
+                    </tableView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-tV-xE0" customClass="FUIButton">
+                        <rect key="frame" x="8" y="420" width="584" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="yje-81-5Zz"/>
+                        </constraints>
+                        <state key="normal" title="Validate">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="validateEvent:" destination="ZQW-7c-QDu" eventType="touchUpInside" id="P9o-YX-SAt"/>
+                        </connections>
+                    </button>
+                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="PE3-eq-xuU">
+                        <rect key="frame" x="8" y="8" width="587" height="44"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </searchBar>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="gX3-tA-ApG" firstAttribute="top" secondItem="Whs-jV-1In" secondAttribute="bottom" constant="8" id="06Q-IG-8cX"/>
+                    <constraint firstAttribute="trailing" secondItem="gX3-tA-ApG" secondAttribute="trailing" constant="8" id="1sc-Hu-4kO"/>
+                    <constraint firstAttribute="trailing" secondItem="PE3-eq-xuU" secondAttribute="trailing" constant="5" id="J2P-kc-8Nc"/>
+                    <constraint firstAttribute="trailing" secondItem="Whs-jV-1In" secondAttribute="trailing" constant="5" id="K37-5m-9J3"/>
+                    <constraint firstItem="Rn6-32-4wj" firstAttribute="leading" secondItem="Q4k-t2-yAM" secondAttribute="leading" constant="8" id="bVk-ub-7ik"/>
+                    <constraint firstAttribute="trailing" secondItem="Rn6-32-4wj" secondAttribute="trailing" constant="8" id="cpJ-jf-tG5"/>
+                    <constraint firstItem="PE3-eq-xuU" firstAttribute="leading" secondItem="Q4k-t2-yAM" secondAttribute="leading" constant="8" id="eon-gb-O7g"/>
+                    <constraint firstItem="gX3-tA-ApG" firstAttribute="leading" secondItem="Q4k-t2-yAM" secondAttribute="leading" constant="8" id="fLa-z6-AOD"/>
+                    <constraint firstItem="Whs-jV-1In" firstAttribute="leading" secondItem="Q4k-t2-yAM" secondAttribute="leading" constant="8" id="fd7-95-quf"/>
+                    <constraint firstItem="wBr-tV-xE0" firstAttribute="top" secondItem="gX3-tA-ApG" secondAttribute="bottom" constant="8" id="gMe-nj-owP"/>
+                    <constraint firstItem="Rn6-32-4wj" firstAttribute="top" secondItem="PE3-eq-xuU" secondAttribute="bottom" constant="-8" id="qKJ-dF-xMV"/>
+                    <constraint firstItem="PE3-eq-xuU" firstAttribute="top" secondItem="Q4k-t2-yAM" secondAttribute="top" constant="8" id="rKa-WZ-nyw"/>
+                    <constraint firstItem="wBr-tV-xE0" firstAttribute="leading" secondItem="Q4k-t2-yAM" secondAttribute="leadingMargin" id="wfE-GP-la9"/>
+                    <constraint firstItem="wBr-tV-xE0" firstAttribute="trailing" secondItem="Q4k-t2-yAM" secondAttribute="trailingMargin" id="xST-P3-PmB"/>
+                    <constraint firstItem="Whs-jV-1In" firstAttribute="top" secondItem="PE3-eq-xuU" secondAttribute="bottom" constant="-8" id="zbi-pl-ZVP"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="gmView" destination="Whs-jV-1In" id="5sT-I8-nce"/>
+                <outlet property="searchBar" destination="PE3-eq-xuU" id="0Ln-1C-rEF"/>
+                <outlet property="tableViewAddress" destination="Rn6-32-4wj" id="b29-Ot-6mG"/>
+                <outlet property="textViewComment" destination="gX3-tA-ApG" id="vhJ-UB-R8E"/>
+                <outlet property="validateButton" destination="wBr-tV-xE0" id="2SR-P6-ePc"/>
+            </connections>
+            <point key="canvasLocation" x="384" y="132.5"/>
+        </tableViewCell>
+    </objects>
+</document>

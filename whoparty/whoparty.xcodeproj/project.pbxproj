@@ -12,6 +12,10 @@
 		5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A41AA5D27200680747 /* ManagedParseUser.m */; };
 		5827C5A81AA5E62E00680747 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 5827C5A61AA5E62E00680747 /* plus.png */; };
 		5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5827C5A71AA5E62E00680747 /* plus@2x.png */; };
+		5846D45B1AA90A0D00259C09 /* ReceiveEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5846D45A1AA90A0D00259C09 /* ReceiveEventCell.xib */; };
+		5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */; };
+		5846D4611AA9107500259C09 /* WPReceiveEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */; };
+		5846D4641AA9242E00259C09 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D4631AA9242E00259C09 /* Event.m */; };
 		5860EB761AA4980700D81E5F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB751AA4980700D81E5F /* MapKit.framework */; };
 		5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB791AA498A100D81E5F /* WPTabBarViewController.m */; };
 		5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */; };
@@ -54,6 +58,8 @@
 		58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */; };
 		58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9E1AA5EFBD00BE2DB3 /* validFriend.png */; };
 		58BE5DA31AA5EFBD00BE2DB3 /* validFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9F1AA5EFBD00BE2DB3 /* validFriend@2x.png */; };
+		58BE5DAA1AA6466000BE2DB3 /* AddEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BE5DA91AA6466000BE2DB3 /* AddEventCell.m */; };
+		58BE5DAC1AA65B5D00BE2DB3 /* MapForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5DAB1AA65B5D00BE2DB3 /* MapForm.xib */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
 		58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */; };
 		58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7A9EE1AA36F8E00E8E788 /* backgroundImage.png */; };
@@ -95,6 +101,13 @@
 		5827C5A41AA5D27200680747 /* ManagedParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedParseUser.m; sourceTree = "<group>"; };
 		5827C5A61AA5E62E00680747 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		5827C5A71AA5E62E00680747 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
+		5846D45A1AA90A0D00259C09 /* ReceiveEventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReceiveEventCell.xib; sourceTree = "<group>"; };
+		5846D45C1AA90BF000259C09 /* ReceiveEventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveEventCell.h; sourceTree = "<group>"; };
+		5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveEventCell.m; sourceTree = "<group>"; };
+		5846D45F1AA9107500259C09 /* WPReceiveEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPReceiveEventViewController.h; sourceTree = "<group>"; };
+		5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPReceiveEventViewController.m; sourceTree = "<group>"; };
+		5846D4621AA9242E00259C09 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		5846D4631AA9242E00259C09 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		5860EB751AA4980700D81E5F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5860EB781AA498A100D81E5F /* WPTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPTabBarViewController.h; sourceTree = "<group>"; };
 		5860EB791AA498A100D81E5F /* WPTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPTabBarViewController.m; sourceTree = "<group>"; };
@@ -150,6 +163,9 @@
 		58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plusFriend@2x.png"; sourceTree = "<group>"; };
 		58BE5D9E1AA5EFBD00BE2DB3 /* validFriend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = validFriend.png; sourceTree = "<group>"; };
 		58BE5D9F1AA5EFBD00BE2DB3 /* validFriend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "validFriend@2x.png"; sourceTree = "<group>"; };
+		58BE5DA81AA6466000BE2DB3 /* AddEventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEventCell.h; sourceTree = "<group>"; };
+		58BE5DA91AA6466000BE2DB3 /* AddEventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEventCell.m; sourceTree = "<group>"; };
+		58BE5DAB1AA65B5D00BE2DB3 /* MapForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapForm.xib; sourceTree = "<group>"; };
 		58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFormViewController.h; sourceTree = "<group>"; };
 		58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFormViewController.m; sourceTree = "<group>"; };
 		58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPLoginViewController.h; sourceTree = "<group>"; };
@@ -251,6 +267,8 @@
 				5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */,
 				58BE5D991AA5EB8200BE2DB3 /* WPAddFriendsViewController.h */,
 				58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */,
+				5846D45F1AA9107500259C09 /* WPReceiveEventViewController.h */,
+				5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */,
 			);
 			name = Tabbar;
 			sourceTree = "<group>";
@@ -284,7 +302,6 @@
 			children = (
 				58D7A9E41AA3687E00E8E788 /* ViewController */,
 				58D7A9E31AA3687900E8E788 /* View */,
-				58D7A9E21AA3687300E8E788 /* Model */,
 				587F56191AA27D750083638A /* AppDelegate.h */,
 				587F561A1AA27D750083638A /* AppDelegate.m */,
 				587F561C1AA27D750083638A /* whoparty.xcdatamodeld */,
@@ -340,6 +357,19 @@
 			name = NUINSS;
 			sourceTree = "<group>";
 		};
+		58BE5DA71AA6462B00BE2DB3 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				58BE5DA81AA6466000BE2DB3 /* AddEventCell.h */,
+				58BE5DA91AA6466000BE2DB3 /* AddEventCell.m */,
+				58BE5DAB1AA65B5D00BE2DB3 /* MapForm.xib */,
+				5846D45A1AA90A0D00259C09 /* ReceiveEventCell.xib */,
+				5846D45C1AA90BF000259C09 /* ReceiveEventCell.h */,
+				5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */,
+			);
+			name = MapView;
+			sourceTree = "<group>";
+		};
 		58D7A9E21AA3687300E8E788 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +378,8 @@
 				5860EB951AA4A9BE00D81E5F /* WPHelperConstant.m */,
 				5827C5A31AA5D27200680747 /* ManagedParseUser.h */,
 				5827C5A41AA5D27200680747 /* ManagedParseUser.m */,
+				5846D4621AA9242E00259C09 /* Event.h */,
+				5846D4631AA9242E00259C09 /* Event.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -355,6 +387,7 @@
 		58D7A9E31AA3687900E8E788 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				58BE5DA71AA6462B00BE2DB3 /* MapView */,
 				588EDD0D1AA3DF6E003A146F /* NUINSS */,
 				588EDCF11AA3DE18003A146F /* Animations */,
 				58D7A9ED1AA36F2B00E8E788 /* Images */,
@@ -368,6 +401,7 @@
 		58D7A9E41AA3687E00E8E788 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				58D7A9E21AA3687300E8E788 /* Model */,
 				5860EB771AA4988000D81E5F /* Tabbar */,
 				58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */,
 				58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */,
@@ -545,6 +579,8 @@
 				58D7A9F11AA36F8E00E8E788 /* backgroundImage@2x.png in Resources */,
 				5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */,
 				58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */,
+				58BE5DAC1AA65B5D00BE2DB3 /* MapForm.xib in Resources */,
+				5846D45B1AA90A0D00259C09 /* ReceiveEventCell.xib in Resources */,
 				58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */,
 				5860EB9E1AA4AD3800D81E5F /* startPin@2x.png in Resources */,
 				587F56291AA27D750083638A /* LaunchScreen.xib in Resources */,
@@ -602,8 +638,11 @@
 			files = (
 				588EDD0A1AA3DF13003A146F /* Animations.m in Sources */,
 				58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */,
+				58BE5DAA1AA6466000BE2DB3 /* AddEventCell.m in Sources */,
 				5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */,
+				5846D4611AA9107500259C09 /* WPReceiveEventViewController.m in Sources */,
 				5860EB961AA4A9BE00D81E5F /* WPHelperConstant.m in Sources */,
+				5846D4641AA9242E00259C09 /* Event.m in Sources */,
 				58D7A9F41AA3722800E8E788 /* NSString+FormValidation.m in Sources */,
 				5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */,
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
@@ -616,6 +655,7 @@
 				587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */,
 				588EDD0B1AA3DF13003A146F /* CircleAnimation.m in Sources */,
 				588EDD0C1AA3DF13003A146F /* CustomModalAnimation.m in Sources */,
+				5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */,
 				587F561E1AA27D750083638A /* whoparty.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

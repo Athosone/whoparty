@@ -14,5 +14,6 @@
 + (void)fetchFriendsListForUser:(PFUser*) user target:(id)target selector:(SEL)selector;
 
 + (void)fetchFriendUserByUsername:(NSString*)username target:(id)target selector:(SEL)selector;
++ (void) sendNotificationPush:(PFUser*)user data:(NSDictionary*)data;
 
 @end

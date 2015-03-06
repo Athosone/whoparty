@@ -11,18 +11,57 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
 #import "WPHelperConstant.h"
+#import "Event.h"
+#import "WPLoginViewController.h"
 
 @interface AppDelegate ()
+
+- (void) handleMyPushNotification:(NSDictionary*)notificationPayload;
 
 @end
 
 @implementation AppDelegate
 
 
+- (void) handleMyPushNotification:(NSDictionary*)notificationPayload
+{
+    NSString *eventId = [notificationPayload objectForKey:@"eventId"];
+    
+    Event *event = [Event objectWithoutDataWithClassName:@"Event" objectId:eventId];
+    
+    [event fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (error)
+            NSLog(@"Error receing notfication in didFinishLaunchingWithOptions, erorr: %@", error);
+        else
+        {
+            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:object, @"event", nil];
+            NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:event];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+    }];
+
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+   
+    //Receiving push when open from notfication
+    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    if (notificationPayload)
+    {
+        [self handleMyPushNotification:notificationPayload];
+    }
+    
+    
     [NUISettings initWithStylesheet:@"WPTheme"];
-
+   
+    NSDictionary *attrs = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [[UIBarItem appearance] setTitleTextAttributes:attrs
+                                          forState:UIControlStateNormal];
+    [UIBarButtonItem configureFlatButtonsWithColor:DEFAULTNAVBARITEMBGCOLOR
+                                  highlightedColor:DEFAULTNAVBARITEMBGCOLOR
+                                      cornerRadius:3];
     [Parse enableLocalDatastore];
     
     // Initialize Parse.
@@ -64,7 +103,10 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
-    NSLog(@"Notification received");
+    
+    
+    NSLog(@"Notification received userinfo:%@", userInfo);
+    [self handleMyPushNotification:userInfo];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -83,6 +125,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

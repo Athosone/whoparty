@@ -24,10 +24,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivePushNotification:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     //TO DELETE
     self.textFieldPassword1.text = @"12345";
     self.textFieldEmail.text = @"toto@gmail.com";
     // Do any additional setup after loading the view.
+}
+
+#pragma mark ->Receive Notification Push
+
+- (void) receivePushNotification:(NSDictionary*) userInfo
+{
+    NSLog(@"Login-ViewController-userinfo receive push notification: %@", userInfo);
 }
 
 #pragma mark ->Design
