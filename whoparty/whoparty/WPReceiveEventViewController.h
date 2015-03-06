@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Event.h"
 
 @interface WPReceiveEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) Event         *event;
 
 @end

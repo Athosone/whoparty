@@ -8,8 +8,11 @@
 
 #import "WPReceiveEventViewController.h"
 #import "ReceiveEventCell.h"
+#import "ManagedParseUser.h"
 
 @interface WPReceiveEventViewController ()
+
+@property (readwrite, nonatomic) BOOL isReady;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
@@ -24,10 +27,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isReady = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
+    if (self.event && self.event.objectId)
+    {
+        [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
+    }
     // Do any additional setup after loading the view.
 }
 
+- (void) updateMyGoogleAddress:(PFObject*)googleAddress
+{
+    if (googleAddress)
+    {
+        [self.event setObject:googleAddress forKey:@"mygoogleaddress"];
+        self.isReady = YES;
+        [self.tableView reloadData];
+    }
+}
 
 #pragma mark ->TableView delegate
 
@@ -47,7 +64,8 @@
         [mtableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
         cell = [mtableView dequeueReusableCellWithIdentifier:@"ReceiveEventCell"];
     }
-    [cell initReceiveEventCell];
+    if (self.event && self.isReady)
+       [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
     return cell;
 }
 

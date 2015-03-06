@@ -34,9 +34,33 @@
             NSLog(@"Error receing notfication in didFinishLaunchingWithOptions, erorr: %@", error);
         else
         {
-            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:object, @"event", nil];
-            NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:event];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            PFObject *sendinguser = [object objectForKey:@"sendinguser"];
+            [sendinguser fetchIfNeededInBackgroundWithBlock:^(PFObject *sendingUserObject, NSError *error) {
+                
+                if (!error)
+                {
+                    
+                   [event setObject:sendingUserObject forKey:@"sendinguser"];
+                    [sendingUserObject pinInBackground];
+                    [object pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                     {
+                        if (succeeded)
+                        {
+                            
+                            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:object, @"event", nil];
+                            NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:event];
+                            [[NSNotificationCenter defaultCenter] postNotification:notification];
+                        }
+                        else
+                        {
+                            NSLog(@"AppDelegate-HandlePushNotification-Error pinning Event object\nerror: %@", error);
+                        }
+                    }];
+                }
+                else
+                    NSLog(@"AppDelegate-HandlePushNotification-Error fetchIfNeeded sendinguser object\nerror: %@", error);
+
+            }];
         }
     }];
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "MYGoogleAddress.h"
 
 @interface ManagedParseUser : NSObject
 
@@ -15,5 +16,7 @@
 
 + (void)fetchFriendUserByUsername:(NSString*)username target:(id)target selector:(SEL)selector;
 + (void) sendNotificationPush:(PFUser*)user data:(NSDictionary*)data;
++ (void) fetchLocalEvents:(id)target selector:(SEL)selector;
++ (void) fetchGoogleAddress:(MYGoogleAddress*)googleAddressToFetch target:(id)target selector:(SEL)selector;
 
 @end

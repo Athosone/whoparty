@@ -9,7 +9,6 @@
 #import <AFNetworking/AFNetworking.h>
 #import "GooglePlaceDataProvider.h"
 #import "WPHelperConstant.h"
-#import "MYGoogleAddress.h"
 
 #define GOOGLEBASEURL @"https://maps.googleapis.com/maps/api/place/textsearch/json?"
 #define RADIUS        50000
@@ -110,5 +109,24 @@
     }];
 }
 
++ (void) setCameraPositionForView:(GMSMapView*)destView mygoogleAddress:(MYGoogleAddress*)destLoc
+{
+    CLLocationCoordinate2D dest2D = CLLocationCoordinate2DMake([destLoc[@"latitude"] doubleValue], [destLoc[@"longitude"] doubleValue]);
+    destView.camera = [GMSCameraPosition cameraWithTarget:dest2D zoom:15.0f];
+}
+
++ (void) setPointForView:(GMSMapView*)destView mygoogleAddress:(MYGoogleAddress*)destLoc
+{
+    CLLocationCoordinate2D dest2D = CLLocationCoordinate2DMake([destLoc[@"latitude"] doubleValue], [destLoc[@"longitude"] doubleValue]);
+
+    
+    GMSMarker *destPoint = [GMSMarker markerWithPosition:dest2D];
+    destPoint.map = destView;
+    if (destLoc[@"name"])
+        destPoint.title = destLoc[@"name"];
+    else
+        destPoint.title = destLoc[@"address"];
+   
+}
 
 @end

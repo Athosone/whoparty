@@ -14,8 +14,9 @@
 @interface AddEventCell ()
 
 @property (strong, nonatomic) IBOutlet GMSMapView               *gmView;
-@property (strong, nonatomic) IBOutlet UIImageView              *mapCenterPinImage;
 @property (strong, nonatomic) CLLocationManager                 *locationManager;
+
+@property (strong, nonatomic) IBOutlet UIImageView              *mapCenterPinImage;
 @property (strong, nonatomic) IBOutlet UISearchBar              *searchBar;
 @property (strong, nonatomic) NSMutableDictionary               *datas;
 @property (strong, nonatomic) NSMutableArray                    *foundPlaces;

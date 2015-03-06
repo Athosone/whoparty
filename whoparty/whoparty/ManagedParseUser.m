@@ -8,6 +8,7 @@
 
 #import "ManagedParseUser.h"
 #import "WPHelperConstant.h"
+#import "Event.h"
 
 @implementation ManagedParseUser
 
@@ -28,6 +29,38 @@
             [target performSelectorOnMainThread:selector withObject:friendsId waitUntilDone:YES];
         else
             NSLog(@"Error selector non declared in the target passed as parameters");
+    }];
+}
+
++ (void) fetchGoogleAddress:(MYGoogleAddress*)googleAddressTofetch target:(id)target selector:(SEL)selector
+{
+    [googleAddressTofetch fetchFromLocalDatastoreInBackgroundWithBlock:^(PFObject *object, NSError *error)
+    {
+        if (error)
+        {
+            NSLog(@"WPReceiveEventViewController-viewdidload-Error fetchinglocaldatastore trying server mygoogleaddress, error: %@", error);
+            [googleAddressTofetch fetchInBackgroundWithBlock:^(PFObject *object, NSError *error)
+             {
+                 if (error)
+                     NSLog(@"WPReceiveEventViewController-viewdidload-Error fetching online mygoogleaddress, error: %@", error);
+                 else
+                     [object pinInBackground];
+                 if ([target respondsToSelector:selector])
+                     [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
+                 else
+                     NSLog(@"Error selector non declared in the target passed as parameters");
+             }];
+        }
+        else
+        {
+            if (object)
+            {
+                if ([target respondsToSelector:selector])
+                    [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
+                else
+                    NSLog(@"Error selector non declared in the target passed as parameters");
+            }
+        }
     }];
 }
 
@@ -74,6 +107,40 @@
         else
             NSLog(@"Fail sending notification, error: %@", error);
     }];
+}
+
++ (void) fetchLocalEvents:(id)target selector:(SEL)selector
+{
+    PFQuery      *query = [[PFQuery alloc] initWithClassName:@"Event"];
+    
+    [query fromLocalDatastore];
+    [query whereKey:@"isReceived" equalTo:[NSNumber numberWithBool:NO]];
+    [query orderByDescending:@"createdDate"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        
+        if (!error)
+        {
+            Event *event = [results objectAtIndex:0];
+            
+            __block PFUser *sendinguser = [event objectForKey:@"sendinguser"];
+            
+            PFQuery *querySendingUser = [[PFQuery alloc] initWithClassName:@"_User"];
+            [querySendingUser fromLocalDatastore];
+            [querySendingUser whereKey:@"objectId" equalTo:sendinguser.objectId];
+
+            [querySendingUser getFirstObjectInBackgroundWithBlock:^(PFObject *sendinguser, NSError *error) {
+                [event setObject:sendinguser forKey:@"sendinguser"];
+                
+                if ([target respondsToSelector:selector])
+                    [target performSelectorOnMainThread:selector withObject:results waitUntilDone:YES];
+                else
+                    NSLog(@"Error selector non declared in the target passed as parameters");
+            }];
+        }
+        else
+            NSLog(@"Error fetching local events: %@", error);
+    }];
+
 }
 
 @end

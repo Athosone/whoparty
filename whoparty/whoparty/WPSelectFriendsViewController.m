@@ -91,20 +91,22 @@
         {
             event.mygoogleaddress = self.currentAddress;
             event.comment = self.comment;
-            event.receivinguser = user;
+            event.userReceived = user.username;
             event.sendinguser = [PFUser currentUser];
+            event.isReceived = NO;
+            event.isAccepted = NO;
             [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                // NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:self.comment, @"comment", self.currentAddress, @"address", nil];
                 
                 if (succeeded)
                 {
+                    [event pinInBackground];
                 NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !", user.username];
+                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
                 
                 [data setObject:alert forKey:@"alert"];
                 [data setObject:@"cheering.caf" forKey:@"sounds"];
                 [data setObject:event.objectId forKey:@"eventId"];
-                
                 [ManagedParseUser sendNotificationPush:user data:data];
                 }
                 else

@@ -17,5 +17,8 @@
 @property (strong, nonatomic) PFUser          *sendinguser;
 @property (strong, nonatomic) PFUser          *receivinguser;
 @property (strong, nonatomic) NSString        *comment;
+@property (readwrite, nonatomic) BOOL         isReceived;
+@property (readwrite, nonatomic) BOOL         isAccepted;
+@property (strong, nonatomic) NSString        *userReceived;
 
 @end

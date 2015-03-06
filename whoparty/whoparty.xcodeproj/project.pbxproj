@@ -16,6 +16,7 @@
 		5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */; };
 		5846D4611AA9107500259C09 /* WPReceiveEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */; };
 		5846D4641AA9242E00259C09 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D4631AA9242E00259C09 /* Event.m */; };
+		5846D46A1AA9C24E00259C09 /* WPListEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D4691AA9C24E00259C09 /* WPListEventViewController.m */; };
 		5860EB761AA4980700D81E5F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5860EB751AA4980700D81E5F /* MapKit.framework */; };
 		5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB791AA498A100D81E5F /* WPTabBarViewController.m */; };
 		5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */; };
@@ -108,6 +109,8 @@
 		5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPReceiveEventViewController.m; sourceTree = "<group>"; };
 		5846D4621AA9242E00259C09 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		5846D4631AA9242E00259C09 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		5846D4681AA9C24E00259C09 /* WPListEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPListEventViewController.h; sourceTree = "<group>"; };
+		5846D4691AA9C24E00259C09 /* WPListEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPListEventViewController.m; sourceTree = "<group>"; };
 		5860EB751AA4980700D81E5F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5860EB781AA498A100D81E5F /* WPTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPTabBarViewController.h; sourceTree = "<group>"; };
 		5860EB791AA498A100D81E5F /* WPTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPTabBarViewController.m; sourceTree = "<group>"; };
@@ -256,19 +259,37 @@
 			name = GoogleData;
 			sourceTree = "<group>";
 		};
+		5846D4651AA9C1F800259C09 /* AddEvent */ = {
+			isa = PBXGroup;
+			children = (
+				5827C5A01AA5CC3E00680747 /* WPSelectFriendsViewController.h */,
+				5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */,
+				5860EB7B1AA498D000D81E5F /* WPAddEventViewController.h */,
+				5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */,
+			);
+			name = AddEvent;
+			sourceTree = "<group>";
+		};
+		5846D4661AA9C20900259C09 /* ReceiveEvent */ = {
+			isa = PBXGroup;
+			children = (
+				5846D45F1AA9107500259C09 /* WPReceiveEventViewController.h */,
+				5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */,
+				5846D4681AA9C24E00259C09 /* WPListEventViewController.h */,
+				5846D4691AA9C24E00259C09 /* WPListEventViewController.m */,
+			);
+			name = ReceiveEvent;
+			sourceTree = "<group>";
+		};
 		5860EB771AA4988000D81E5F /* Tabbar */ = {
 			isa = PBXGroup;
 			children = (
+				5846D4661AA9C20900259C09 /* ReceiveEvent */,
+				5846D4651AA9C1F800259C09 /* AddEvent */,
 				5860EB781AA498A100D81E5F /* WPTabBarViewController.h */,
 				5860EB791AA498A100D81E5F /* WPTabBarViewController.m */,
-				5860EB7B1AA498D000D81E5F /* WPAddEventViewController.h */,
-				5860EB7C1AA498D000D81E5F /* WPAddEventViewController.m */,
-				5827C5A01AA5CC3E00680747 /* WPSelectFriendsViewController.h */,
-				5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */,
 				58BE5D991AA5EB8200BE2DB3 /* WPAddFriendsViewController.h */,
 				58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */,
-				5846D45F1AA9107500259C09 /* WPReceiveEventViewController.h */,
-				5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */,
 			);
 			name = Tabbar;
 			sourceTree = "<group>";
@@ -648,6 +669,7 @@
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
 				58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */,
 				587F561B1AA27D750083638A /* AppDelegate.m in Sources */,
+				5846D46A1AA9C24E00259C09 /* WPListEventViewController.m in Sources */,
 				5860EB7A1AA498A100D81E5F /* WPTabBarViewController.m in Sources */,
 				5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */,
 				5827C5A21AA5CC3E00680747 /* WPSelectFriendsViewController.m in Sources */,

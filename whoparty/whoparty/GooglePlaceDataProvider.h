@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import "MYGoogleAddress.h"
 
 @interface GooglePlaceDataProvider : NSObject
 
@@ -15,5 +16,7 @@
 + (void) fetchPlaceByName:(NSDictionary*)data success:(void (^)(NSMutableArray *result))connectionSuccess;
 + (void) getCityNameFromLocation:(CLLocation*)location success:(void (^)(NSString *cityName))success;
 + (void) fetchPlaceByName:(NSDictionary*)data success:(SEL)selector target:(id)target;
++ (void) setPointForView:(GMSMapView*)destView mygoogleAddress:(MYGoogleAddress*)destLoc;
++ (void) setCameraPositionForView:(GMSMapView*)destView mygoogleAddress:(MYGoogleAddress*)destLoc;
 
 @end

@@ -36,4 +36,9 @@
     destButton = button;
 }
 
++ (void) configureCellImageView:(UITableViewCell*)cell
+{
+    cell.imageView.layer.cornerRadius = 6.0f;
+}
+
 @end

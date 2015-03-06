@@ -16,6 +16,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Iv-Dq-H8g">
                         <rect key="frame" x="8" y="8" width="359" height="576.5"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RbI-yM-KoG" customClass="GMSMapView">
+                                <rect key="frame" x="8" y="8" width="343" height="326.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="326.5" id="xF6-39-UIU"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUa-7z-llR" customClass="FUIButton">
                                 <rect key="frame" x="8" y="472" width="130" height="30"/>
                                 <constraints>
@@ -42,22 +49,25 @@
                                     <action selector="declineButtonOnClick:" destination="y8O-rn-Qru" eventType="touchUpInside" id="sv5-R9-tja"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RbI-yM-KoG" customClass="GMSMapView">
-                                <rect key="frame" x="8" y="8" width="343" height="326.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="326.5" id="xF6-39-UIU"/>
-                                </constraints>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="udp-eq-GMm">
+                                <rect key="frame" x="8" y="342" width="343" height="83.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="udp-eq-GMm" secondAttribute="trailing" constant="8" id="0CK-gh-FjZ"/>
                             <constraint firstItem="RbI-yM-KoG" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leadingMargin" id="6yw-rc-vFo"/>
+                            <constraint firstItem="bUa-7z-llR" firstAttribute="top" secondItem="udp-eq-GMm" secondAttribute="bottom" constant="46" id="72u-ln-evw"/>
                             <constraint firstItem="bUa-7z-llR" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leading" constant="8" id="E46-kL-JAG"/>
                             <constraint firstAttribute="bottomMargin" secondItem="6ut-cq-7Ka" secondAttribute="bottom" constant="66.5" id="Huu-ui-mGO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6ut-cq-7Ka" secondAttribute="trailing" id="Kuf-5c-Wyu"/>
+                            <constraint firstItem="udp-eq-GMm" firstAttribute="top" secondItem="RbI-yM-KoG" secondAttribute="bottom" constant="8" id="Mlr-Wy-PSz"/>
                             <constraint firstAttribute="bottom" secondItem="bUa-7z-llR" secondAttribute="bottom" constant="74.5" id="WHX-tA-2YT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RbI-yM-KoG" secondAttribute="trailing" id="XK3-4p-vCk"/>
+                            <constraint firstItem="udp-eq-GMm" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leading" constant="8" id="iIq-aC-u8T"/>
                             <constraint firstItem="RbI-yM-KoG" firstAttribute="top" secondItem="8Iv-Dq-H8g" secondAttribute="topMargin" id="t9a-oR-4ZT"/>
                         </constraints>
                     </view>
@@ -73,6 +83,7 @@
                 <outlet property="buttonAccept" destination="bUa-7z-llR" id="85L-eM-slI"/>
                 <outlet property="buttonCancel" destination="6ut-cq-7Ka" id="9ih-KT-HSe"/>
                 <outlet property="containerView" destination="8Iv-Dq-H8g" id="VdN-8w-Wer"/>
+                <outlet property="labelComment" destination="udp-eq-GMm" id="bXH-eV-0N9"/>
                 <outlet property="mapView" destination="RbI-yM-KoG" id="mq6-bC-AAj"/>
             </connections>
             <point key="canvasLocation" x="428.5" y="349.5"/>

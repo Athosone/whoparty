@@ -25,6 +25,9 @@
 #define DEFAULTNAVBARBGCOLOR UIColorFromRGB(0xC0392B, 1)
 #define DEFAULTNAVBARITEMBGCOLOR UIColorFromRGB(0x2C3E50, 1)
 
+#define DEFAULTACCEPTCOLOR UIColorFromRGB(0x2ECC71,1)
+#define DEFAULTDECLINECOLOR UIColorFromRGB(0xE74C3C,1)
+
 @interface WPHelperConstant : NSObject
 
 + (void) setBGColorForView:(UIView*)view color:(UIColor*)color;

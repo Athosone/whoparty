@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MYGoogleAddress.h"
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface ReceiveEventCell : UITableViewCell
+@interface ReceiveEventCell : UITableViewCell<CLLocationManagerDelegate>
 
-- (void) initReceiveEventCell;
+- (void) initReceiveEventCell:(MYGoogleAddress*)gA comment:(NSString*)comment;
 
 @end
