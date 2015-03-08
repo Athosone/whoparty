@@ -11,6 +11,7 @@
 #import "ManagedParseUser.h"
 #import "Event.h"
 #import "WPReceiveEventViewController.h"
+#import "Animations.h"
 
 @interface WPListEventViewController ()
 
@@ -47,6 +48,7 @@
 
 - (IBAction)segmentedControlValueChange:(id)sender
 {
+    [Animations addFadeOutFadeInTransitionToView:self.tableView duration:1.0f];
     [self.tableView reloadData];
 }
 

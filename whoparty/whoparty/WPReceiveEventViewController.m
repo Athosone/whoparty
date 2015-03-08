@@ -6,15 +6,18 @@
 //  Copyright (c) 2015 Nyu Web Developpement. All rights reserved.
 //
 
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "WPReceiveEventViewController.h"
 #import "ManagedParseUser.h"
 #import "WPHelperConstant.h"
+#import "Animations.h"
 
 @interface WPReceiveEventViewController ()
 
 @property (readwrite, nonatomic) BOOL isReady;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) MBProgressHUD        *hud;
 
 @end
 //TODO
@@ -32,6 +35,10 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
     if (self.event && self.event.objectId)
     {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        self.hud.labelText = @"Loading map";
+        self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
+        self.hud.hidden = false;
         [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
     }
     // Do any additional setup after loading the view.
@@ -43,6 +50,7 @@
     {
         [self.event setObject:googleAddress forKey:@"mygoogleaddress"];
         self.isReady = YES;
+        self.hud.hidden = true;
         [self.tableView reloadData];
     }
 }
@@ -66,7 +74,7 @@
         cell = [mtableView dequeueReusableCellWithIdentifier:@"ReceiveEventCell"];
     }
     if (self.event && self.isReady)
-       [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
+        [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
     if (self.event[@"isReceived"] == [NSNumber numberWithBool:YES])
     {
         if (self.event[@"isAccepted"] == [NSNumber numberWithBool:YES])
@@ -77,6 +85,7 @@
     else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
         [cell setSendingUserStyle];
     cell.delegate = self;
+    [Animations addFadeInTransitionToView:cell duration:1.0f];
     return cell;
 }
 
@@ -85,27 +94,27 @@
 {
     self.event[@"isAccepted"] = [NSNumber numberWithBool:YES];
     self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
-
-       [self.event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-    {
-                if (succeeded)
-                {
-                    [self.event pinInBackground];
-                    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-                    NSString *alert = [NSString stringWithFormat:@"%@ just accepted your event !",[PFUser currentUser].username];
-                    
-                    [data setObject:alert forKey:@"alert"];
-                    [data setObject:@"eventIsAccepted" forKey:@"eventType"];
-                    [data setObject:@"default" forKey:@"sound"];
-                    [data setObject:self.event.objectId forKey:@"eventId"];
-                    //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
-                    [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
-                    [self.tableView reloadData];
-
-                }
-                else
-                    NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
-    }];
+    
+    [self.event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+         if (succeeded)
+         {
+             [self.event pinInBackground];
+             NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+             NSString *alert = [NSString stringWithFormat:@"%@ just accepted your event !",[PFUser currentUser].username];
+             
+             [data setObject:alert forKey:@"alert"];
+             [data setObject:@"eventIsAccepted" forKey:@"eventType"];
+             [data setObject:@"default" forKey:@"sound"];
+             [data setObject:self.event.objectId forKey:@"eventId"];
+             //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+             [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+             [self.tableView reloadData];
+             
+         }
+         else
+             NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+     }];
 }
 
 - (void) didClickOnDeclineButton:(id)sender
@@ -139,13 +148,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

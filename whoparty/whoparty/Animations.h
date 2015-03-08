@@ -16,5 +16,6 @@
 + (void) addShakingAnimation:(UIView*)destView;
 + (void) addFadeInTransitionToView:(UIView*)destView duration:(float)duration;
 + (void) addFadeOutTransitionToView:(UIView*) destView duration:(float)duration;
++ (void) addFadeOutFadeInTransitionToView:(UIView*) destView duration:(float)duration;
 
 @end

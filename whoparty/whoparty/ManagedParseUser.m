@@ -150,7 +150,10 @@
             [test setObject:channel forKey:@"channel"];
             [test setObject:data forKey:@"data"];
             [PFCloud callFunction:@"sendPush" withParameters:test error:&error];
-            NSLog(@"Error cloud: %@", error);
+            if (error)
+                NSLog(@"Error cloud: %@", error);
+            else
+                NSLog(@"Successfully sent notification");
         }
         else
             NSLog(@"Error fetching user remotely notif not sent -sendpushnotifmanageparseuser error: %@", error);
@@ -307,17 +310,17 @@
         [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
         remoteResults = [queryOnServer findObjects];
         
-        NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
-        for (int i = 0; i < remoteResults.count; ++i)
-            [resultstmp addObject:[remoteResults objectAtIndex:i]];
+       // NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
+        //for (int i = 0; i < remoteResults.count; ++i)
+         //   [resultstmp addObject:[remoteResults objectAtIndex:i]];
         //[resultstmp addObjectsFromArray:localResults];
         //NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
         //NSArray *results = nil;
         //results = [resultstmp sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
         
-        for (int i = 0; i < resultstmp.count; ++i)
+        for (int i = 0; i < remoteResults.count; ++i)
         {
-            Event  *event = [resultstmp objectAtIndex:i];
+            Event  *event = [remoteResults objectAtIndex:i];
             NSBlockOperation *pinEvent  = [[NSBlockOperation alloc] init];
             
             [pinEvent addExecutionBlock:^{

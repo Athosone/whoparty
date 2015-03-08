@@ -83,6 +83,29 @@
     destView.layer.opacity = 0.0f;
 }
 
++ (void) addFadeOutFadeInTransitionToView:(UIView*) destView duration:(float)duration
+{
+    destView.layer.opacity = 1.0f;
+    CABasicAnimation *fadeout = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [fadeout setFromValue:[NSNumber numberWithFloat:1.0f]];
+    [fadeout setToValue:[NSNumber numberWithFloat:0.0f]];
+    destView.layer.opacity = 0.0f;
+   
+    CABasicAnimation *fadein = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [fadein setFromValue:[NSNumber numberWithFloat:0.0f]];
+    [fadein setToValue:[NSNumber numberWithFloat:1.0f]];
+    destView.layer.opacity = 1.0f;
+    
+    CAAnimationGroup    *animationGroup = [CAAnimationGroup animation];
+    
+    animationGroup.animations = [NSArray arrayWithObjects:fadeout, fadein, nil];
+    animationGroup.duration = duration;
+    animationGroup.fillMode =  kCAFillModeForwards;
+    [destView.layer addAnimation:animationGroup forKey:@"fadeinout"];
+    
+    
+}
+
 #pragma mark Test Animations
 - (void) test:(UIView*)destView
 {
