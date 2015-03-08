@@ -9,6 +9,7 @@
 #import "ReceiveEventCell.h"
 #import "WPHelperConstant.h"
 #import "GooglePlaceDataProvider.h"
+#import "Animations.h"
 
 @interface ReceiveEventCell ()
 
@@ -23,24 +24,14 @@
 @property (strong, nonatomic) MYGoogleAddress                   *myPos;
 @property (strong, nonatomic) MYGoogleAddress                   *destPos;
 @property (strong, nonatomic) IBOutlet UILabel *labelComment;
-
-- (void) placeDestOnMap:(MYGoogleAddress*)gA;
+@property (strong, nonatomic) IBOutlet FUIButton *buttonFinalCall;
+@property (strong, nonatomic) NSString *textFinalCall;
 
 @end
 
 @implementation ReceiveEventCell
 
 - (void)awakeFromNib {
-    // Initialization code
-}
-
-- (NSString *)reuseIdentifier
-{
-    return @"ReceiveEventCell";
-}
-
-- (void) initReceiveEventCell:(MYGoogleAddress*)gA comment:(NSString*)comment
-{
     [WPHelperConstant setButtonToFlat:self.buttonAccept];
     [WPHelperConstant setButtonToFlat:self.buttonCancel];
     
@@ -51,14 +42,29 @@
     
     self.labelComment.font = [UIFont flatFontOfSize:16.0f];
     self.labelComment.textColor = DEFAULTBGCOLOR;
-    self.labelComment.text = comment;
+    self.labelComment.text = @"";
     [self configureFlatCellWithColor:DEFAULTBGCOLOR selectedColor:DEFAULTBGCOLOR];
     [WPHelperConstant setBGColorForView:self.containerView color:[UIColor cloudsColor]];
     self.containerView.layer.cornerRadius = 6.0f;
+    self.mapView.hidden = true;
+    self.mapView.layer.cornerRadius = 6.0f;
+}
+
+
+- (NSString *)reuseIdentifier
+{
+    return @"ReceiveEventCell";
+}
+
+- (void) initReceiveEventCell:(MYGoogleAddress*)gA comment:(NSString*)comment
+{
+      self.labelComment.text = comment;
     if (gA)
     {
         self.destPos = gA;
         [self initMap];
+        if (self.mapView.hidden == TRUE)
+            [self showMap];
     }
 }
 
@@ -101,16 +107,63 @@
     }
 }
 
+- (void) setAcceptedStatus
+{
+    [WPHelperConstant setButtonToFlat:self.buttonFinalCall];
+    self.buttonFinalCall.buttonColor = [UIColor nephritisColor];
+    self.buttonFinalCall.shadowColor = [UIColor emerlandColor];
+    self.buttonCancel.hidden = true;
+    self.buttonAccept.hidden = true;
+    self.buttonFinalCall.hidden = false;
+    [self.buttonFinalCall setTitle:@"Accepted" forState:UIControlStateNormal];
+
+}
+
+- (void) setDeclineStatus
+{
+    [WPHelperConstant setButtonToFlat:self.buttonFinalCall];
+    self.buttonFinalCall.buttonColor = [UIColor pomegranateColor];
+    self.buttonFinalCall.shadowColor = [UIColor alizarinColor];
+    self.buttonCancel.hidden = true;
+    self.buttonAccept.hidden = true;
+    self.buttonFinalCall.hidden = false;
+    [self.buttonFinalCall setTitle:@"Declined" forState:UIControlStateNormal];
+    
+}
+
+- (void) setSendingUserStyle
+{
+    [WPHelperConstant setButtonToFlat:self.buttonFinalCall];
+    self.buttonFinalCall.buttonColor = [UIColor concreteColor];
+    self.buttonFinalCall.shadowColor = [UIColor cloudsColor];
+    self.buttonCancel.hidden = true;
+    self.buttonAccept.hidden = true;
+    self.buttonFinalCall.hidden = false;
+    [self.buttonFinalCall setTitle:@"Pending" forState:UIControlStateNormal];
+
+}
+
 - (IBAction)declineButtonOnClick:(id)sender
 {
+    [self.delegate didClickOnDeclineButton:self];
     
 }
 
 - (IBAction)acceptButtonOnClick:(id)sender
 {
-    
+    [self.delegate didClickOnAcceptButton:self];
 }
 
+- (void) hideMap
+{
+    self.mapView.hidden = true;
+}
+
+- (void) showMap
+{
+    self.mapView.hidden = false;
+    [Animations addMaskExpandleRectAnimation:self.mapView duration:1];
+}
 
 #pragma mark ->Map
 

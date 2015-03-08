@@ -11,8 +11,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
 #import "WPHelperConstant.h"
-#import "Event.h"
 #import "WPLoginViewController.h"
+#import "ManagedParseUser.h"
 
 @interface AppDelegate ()
 
@@ -22,64 +22,59 @@
 
 @implementation AppDelegate
 
-
-- (void) handleMyPushNotification:(NSDictionary*)notificationPayload
+- (void) createEvent:(NSDictionary*) notificationPayload
 {
-    NSString *eventId = [notificationPayload objectForKey:@"eventId"];
+    NSBlockOperation *op = [[NSBlockOperation alloc] init];
+    __block PFObject *lRet = nil;
     
-    Event *event = [Event objectWithoutDataWithClassName:@"Event" objectId:eventId];
-    
-    [event fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    [op addExecutionBlock:^{
+        NSString *eventId = [notificationPayload objectForKey:@"eventId"];
+        NSError  *error;
+        PFObject *event = [PFObject objectWithoutDataWithClassName:@"Event" objectId:eventId];
+        
+        event = [event fetchIfNeeded:&error];
         if (error)
             NSLog(@"Error receing notfication in didFinishLaunchingWithOptions, erorr: %@", error);
         else
         {
-            PFObject *sendinguser = [object objectForKey:@"sendinguser"];
-            [sendinguser fetchIfNeededInBackgroundWithBlock:^(PFObject *sendingUserObject, NSError *error) {
-                
-                if (!error)
-                {
-                    
-                   [event setObject:sendingUserObject forKey:@"sendinguser"];
-                    [sendingUserObject pinInBackground];
-                    [object pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-                     {
-                        if (succeeded)
-                        {
-                            
-                            NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:object, @"event", nil];
-                            NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:event];
-                            [[NSNotificationCenter defaultCenter] postNotification:notification];
-                        }
-                        else
-                        {
-                            NSLog(@"AppDelegate-HandlePushNotification-Error pinning Event object\nerror: %@", error);
-                        }
-                    }];
-                }
-                else
-                    NSLog(@"AppDelegate-HandlePushNotification-Error fetchIfNeeded sendinguser object\nerror: %@", error);
-
-            }];
+            [event pin];
+            lRet = event;
         }
     }];
+    [op setCompletionBlock:^{
+        NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:lRet, @"event", nil];
+        NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:event];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }];
+    [ManagedParseUser addOperationToQueue:op];
+}
 
+- (void) eventIsAccepted:(NSDictionary*)notificationPayload
+{
+    NSString *eventId = [notificationPayload objectForKey:@"eventId"];
+    
+    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:eventId, @"eventId", nil];
+    NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDISACCEPTEDNOTFICATION object:nil userInfo:event];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+- (void) handleMyPushNotification:(NSDictionary*)notificationPayload
+{
+    NSString *eventType = [notificationPayload objectForKey:@"eventType"];
+    
+    if ([eventType isEqualToString:@"createEvent"])
+        [self createEvent:notificationPayload];
+    if ([eventType isEqualToString:@"eventIsAccepted"])
+        [self eventIsAccepted:notificationPayload];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-   
+    
     //Receiving push when open from notfication
-    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    
-    if (notificationPayload)
-    {
-        [self handleMyPushNotification:notificationPayload];
-    }
-    
     
     [NUISettings initWithStylesheet:@"WPTheme"];
-   
+    
     NSDictionary *attrs = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     [[UIBarItem appearance] setTitleTextAttributes:attrs
                                           forState:UIControlStateNormal];
@@ -96,23 +91,22 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [GMSServices provideAPIKey:GOOGLEIOSAPIKEY];
-   
     
-    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    
+    //Right, that is the point
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                    UIUserNotificationTypeBadge |
+                                                    UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                             categories:nil];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
+    
+    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    if (notificationPayload)
     {
-        //Right, that is the point
-        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                        UIUserNotificationTypeBadge |
-                                                        UIUserNotificationTypeSound);
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                                 categories:nil];
-        [application registerUserNotificationSettings:settings];
-        [application registerForRemoteNotifications];
-    }
-    else
-    {
-        [application registerForRemoteNotificationTypes:
-         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+        [self handleMyPushNotification:notificationPayload];
     }
     return YES;
 }

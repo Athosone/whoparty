@@ -10,8 +10,22 @@
 #import "MYGoogleAddress.h"
 #import <GoogleMaps/GoogleMaps.h>
 
+@protocol ReceiveEventCellProtocol <NSObject>
+
+- (void) didClickOnAcceptButton:(id)sender;
+- (void) didClickOnDeclineButton:(id)sender;
+
+@end
+
 @interface ReceiveEventCell : UITableViewCell<CLLocationManagerDelegate>
 
+@property (weak, nonatomic) id<ReceiveEventCellProtocol> delegate;
+
 - (void) initReceiveEventCell:(MYGoogleAddress*)gA comment:(NSString*)comment;
+- (void) setAcceptedStatus;
+- (void) setDeclineStatus;
+- (void) setSendingUserStyle;
+- (void) showMap;
+- (void) hideMap;
 
 @end

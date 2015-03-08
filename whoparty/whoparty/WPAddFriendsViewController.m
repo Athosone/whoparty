@@ -105,6 +105,7 @@
     self.isSeeking = FALSE;
     self.isFriend = NO;
     self.isExist = NO;
+    [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
     // Do any additional setup after loading the view.
 }
 
@@ -122,6 +123,13 @@
     [ManagedParseUser fetchFriendUserByUsername:searchText target:self selector:@selector(isUserExist:)];
     self.isSeeking = TRUE;
     [self.tableView reloadData];
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.searchFriends resignFirstResponder];
+    [ManagedParseUser fetchFriendUserByUsername:searchBar.text target:self selector:@selector(isUserExist:)];
+
 }
 
 - (void) isUserExist:(PFUser*)userFound

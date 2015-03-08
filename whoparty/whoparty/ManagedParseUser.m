@@ -12,6 +12,40 @@
 
 @implementation ManagedParseUser
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        //On peut considérer un operation queue comme un pool de thread
+        self.operationQueue = [[NSOperationQueue alloc] init];
+        //On definit le maximum de thread par pool (par default j'ai mis le max que apple accepte
+        [self.operationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
+    }
+    return self;
+}
+
+
++ (id) sharedInstance
+{
+    static ManagedParseUser    *sharedInstance = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
+}
+
+
++ (void) addOperationToQueue:(NSOperation*) op
+{
+    ManagedParseUser   *client = [ManagedParseUser sharedInstance];
+    
+    [client.operationQueue addOperation:op];
+}
+
+
 + (void)fetchFriendsListForUser:(PFUser*) user target:(id)target selector:(SEL)selector
 {
     PFQuery      *query = [[PFQuery alloc] initWithClassName:@"_User"];
@@ -35,33 +69,33 @@
 + (void) fetchGoogleAddress:(MYGoogleAddress*)googleAddressTofetch target:(id)target selector:(SEL)selector
 {
     [googleAddressTofetch fetchFromLocalDatastoreInBackgroundWithBlock:^(PFObject *object, NSError *error)
-    {
-        if (error)
-        {
-            NSLog(@"WPReceiveEventViewController-viewdidload-Error fetchinglocaldatastore trying server mygoogleaddress, error: %@", error);
-            [googleAddressTofetch fetchInBackgroundWithBlock:^(PFObject *object, NSError *error)
+     {
+         if (error)
+         {
+             NSLog(@"WPReceiveEventViewController-viewdidload-Error fetchinglocaldatastore trying server mygoogleaddress, error: %@", error);
+             [googleAddressTofetch fetchInBackgroundWithBlock:^(PFObject *object, NSError *error)
+              {
+                  if (error)
+                      NSLog(@"WPReceiveEventViewController-viewdidload-Error fetching online mygoogleaddress, error: %@", error);
+                  else
+                      [object pinInBackground];
+                  if ([target respondsToSelector:selector])
+                      [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
+                  else
+                      NSLog(@"Error selector non declared in the target passed as parameters");
+              }];
+         }
+         else
+         {
+             if (object)
              {
-                 if (error)
-                     NSLog(@"WPReceiveEventViewController-viewdidload-Error fetching online mygoogleaddress, error: %@", error);
-                 else
-                     [object pinInBackground];
                  if ([target respondsToSelector:selector])
                      [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
                  else
                      NSLog(@"Error selector non declared in the target passed as parameters");
-             }];
-        }
-        else
-        {
-            if (object)
-            {
-                if ([target respondsToSelector:selector])
-                    [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
-                else
-                    NSLog(@"Error selector non declared in the target passed as parameters");
-            }
-        }
-    }];
+             }
+         }
+     }];
 }
 
 + (void)fetchFriendUserByUsername:(NSString*)username target:(id)target selector:(SEL)selector
@@ -71,76 +105,212 @@
     
     [query selectKeys:@[@"username", @"friendsId"]];
     [query whereKey:@"username" equalTo:username];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        PFUser *user = nil;
-        if (results.count > 0)
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *results, NSError *error) {
+
+        if (results)
         {
-            user = (PFUser*)[results objectAtIndex:0];
-            NSLog(@"user.username: %@", user.username);
+            NSLog(@"user.username: %@", results[@"username"]);
         }
         else
             NSLog(@"No User found");
         if ([target respondsToSelector:selector])
-            [target performSelectorOnMainThread:selector withObject:user waitUntilDone:YES];
+            [target performSelectorOnMainThread:selector withObject:results waitUntilDone:YES];
         else
             NSLog(@"Error selector non declared in the target passed as parameters");
     }];
 }
 
-+ (void) sendNotificationPush:(PFUser*)user data:(NSDictionary*)data
++ (void) sendNotificationPush:(NSString*)usernameDest data:(NSDictionary*)data
 {
     
-    NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
-    // Create our Installation query
-    PFQuery *pushQuery = [PFInstallation query];
-    [pushQuery whereKey:@"channels" equalTo:channel]; // Set channel
+    NSBlockOperation    *op = [[NSBlockOperation alloc] init];
     
-    PFPush *push = [[PFPush alloc] init];
-    [push setQuery:pushQuery];
-    if (data)
-        [push setData:data];
-    
-    NSLog(@"Channel: %@, Data: %@", channel, data);
-    [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded)
-            NSLog(@"Notification sucessfully sent");
+    [op addExecutionBlock:^{
+        NSError     *error;
+        PFQuery *queryUser = [PFQuery queryWithClassName:@"_User"];
+        
+        [queryUser fromLocalDatastore];
+        [queryUser whereKey:@"username" equalTo:usernameDest];
+        PFObject *userDest = [queryUser getFirstObject:&error];
+        if (error)
+        {
+            NSLog(@"error when fetching user fromlocal trying remotely- sendpushnotifmanageparseuser error: %@", error);
+            error = nil;
+            PFQuery *queryUserRemotely = [PFQuery queryWithClassName:@"_User"];
+            [queryUserRemotely whereKey:@"username" equalTo:usernameDest];
+            userDest = [queryUserRemotely getFirstObject:&error];
+            [userDest pinInBackground];
+        }
+        if (!error)
+        {
+            NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:userDest.objectId];
+            
+            error = nil;
+            NSMutableDictionary *test = [[NSMutableDictionary alloc] init];
+            [test setObject:channel forKey:@"channel"];
+            [test setObject:data forKey:@"data"];
+            [PFCloud callFunction:@"sendPush" withParameters:test error:&error];
+            NSLog(@"Error cloud: %@", error);
+        }
         else
-            NSLog(@"Fail sending notification, error: %@", error);
+            NSLog(@"Error fetching user remotely notif not sent -sendpushnotifmanageparseuser error: %@", error);
     }];
+    [ManagedParseUser addOperationToQueue:op];
+}
+
++ (void) updateEvent:(NSString*)eventId target:(id)target selector:(SEL)selector data:(NSDictionary*)data
+{
+    NSBlockOperation *op = [[NSBlockOperation alloc] init];
+    __block  PFObject *lRet;
+    
+    [op addExecutionBlock:^{
+        PFQuery      *query = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query fromLocalDatastore];
+        [query whereKey:@"objectId" equalTo:eventId];
+        PFObject *eventObject = [query getFirstObject];
+        
+        for (NSString *key in [data allKeys])
+            [eventObject setObject:[data objectForKey:key] forKey:key];
+        [eventObject pin];
+        lRet = eventObject;
+    }];
+    
+    [op setCompletionBlock:^{
+        if ([target respondsToSelector:selector])
+            [target performSelectorOnMainThread:selector withObject:lRet waitUntilDone:YES];
+        else
+            NSLog(@"Error selector non declared in the target passed as parameters");
+    }];
+    [ManagedParseUser addOperationToQueue:op];
+    
+}
+
++ (void) fetchNewEvent:(id)target selector:(SEL)selector
+{
+    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
+    __block NSArray          *lRet;
+    
+    [operation setCompletionBlock:^{
+        if ([target respondsToSelector:selector])
+            [target performSelectorOnMainThread:selector withObject:lRet waitUntilDone:YES];
+        else
+            NSLog(@"Error selector non declared in the target passed as parameters");
+        
+    }];
+    //TODO: fetch also on the server if there is new event
+    //[query fromLocalDatastore];
+    
+    NSBlockOperation *fetchEventsOp = [[NSBlockOperation alloc] init];
+    [fetchEventsOp addExecutionBlock:^{
+        
+        NSError *error;
+        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        NSLog(@"Current user:%@", [PFUser currentUser]);
+        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        [query orderByAscending:@"createdDate"];
+        
+        NSArray *results = [query findObjects:&error];
+        if (error)
+            NSLog(@"Error fetching data in fetchLocalEvents: %@", error);
+        else
+        {
+            for (int i = 0; i < results.count; ++i)
+            {
+                Event  *event = [results objectAtIndex:i];
+                
+                [event pin];
+                [event saveEventually];
+            }
+            [query fromLocalDatastore];
+            lRet = [query findObjects];
+        }
+    }];
+    [operation addDependency:fetchEventsOp];
+    [ManagedParseUser addOperationToQueue:fetchEventsOp];
+    [ManagedParseUser addOperationToQueue:operation];
 }
 
 + (void) fetchLocalEvents:(id)target selector:(SEL)selector
 {
-    PFQuery      *query = [[PFQuery alloc] initWithClassName:@"Event"];
     
-    [query fromLocalDatastore];
-    [query whereKey:@"isReceived" equalTo:[NSNumber numberWithBool:NO]];
-    [query orderByDescending:@"createdDate"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        
-        if (!error)
-        {
-            Event *event = [results objectAtIndex:0];
-            
-            __block PFUser *sendinguser = [event objectForKey:@"sendinguser"];
-            
-            PFQuery *querySendingUser = [[PFQuery alloc] initWithClassName:@"_User"];
-            [querySendingUser fromLocalDatastore];
-            [querySendingUser whereKey:@"objectId" equalTo:sendinguser.objectId];
-
-            [querySendingUser getFirstObjectInBackgroundWithBlock:^(PFObject *sendinguser, NSError *error) {
-                [event setObject:sendinguser forKey:@"sendinguser"];
-                
-                if ([target respondsToSelector:selector])
-                    [target performSelectorOnMainThread:selector withObject:results waitUntilDone:YES];
-                else
-                    NSLog(@"Error selector non declared in the target passed as parameters");
-            }];
-        }
+    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
+    __block NSArray          *lRet;
+    
+    [operation setCompletionBlock:^{
+        if ([target respondsToSelector:selector])
+            [target performSelectorOnMainThread:selector withObject:lRet waitUntilDone:YES];
         else
-            NSLog(@"Error fetching local events: %@", error);
+            NSLog(@"Error selector non declared in the target passed as parameters");
+        
     }];
-
+    
+    NSBlockOperation *fetchEventsOp = [[NSBlockOperation alloc] init];
+    [fetchEventsOp addExecutionBlock:^{
+        
+        NSError *error;
+        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        NSLog(@"Current user:%@", [PFUser currentUser]);
+        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        [query orderByDescending:@"createdAt"];
+        
+        [query fromLocalDatastore];
+        NSArray *localResults = [query findObjects:&error];
+       for (PFObject *o in localResults)
+        {
+            if ([o[@"sendinguser"] isEqualToString:[PFUser currentUser].username] && o[@"isReceived"] == [NSNumber numberWithBool:NO])
+            {
+                [o fetch];
+                [o pin];
+            }
+        }
+        if (error)
+            NSLog(@"Error fetching data in fetchLocalEvents: %@", error);
+        else
+        {
+            NSMutableArray *idsToExclude = [[NSMutableArray alloc] init];
+            NSArray *remoteResults = nil;
+            PFQuery *queryOnServer = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+            [queryOnServer orderByDescending:@"createdAt"];
+            
+            for (int i = 0; i < localResults.count; ++i)
+                [idsToExclude addObject:[[localResults objectAtIndex:i] objectId]];
+            
+            [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
+            
+            remoteResults = [queryOnServer findObjects];
+            NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
+            for (int i = 0; i < remoteResults.count; ++i)
+            {
+                [resultstmp addObject:[remoteResults objectAtIndex:i]];
+            }
+            //NSLog(@"Remote: %@", remoteResults);
+           // NSLog(@"Local: %@", localResults);
+            
+            [resultstmp addObjectsFromArray:localResults];
+            NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+            NSArray *results = nil;
+            results = [resultstmp sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+            for (int i = 0; i < results.count; ++i)
+            {
+                Event  *event = [results objectAtIndex:i];
+                [event pin];
+                [event saveEventually];
+            }
+            [query fromLocalDatastore];
+            lRet = [query findObjects];
+        }
+    }];
+    [operation addDependency:fetchEventsOp];
+    [ManagedParseUser addOperationToQueue:fetchEventsOp];
+    [ManagedParseUser addOperationToQueue:operation];
+    
+    
 }
 
 @end

@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Event.h"
+#import "ReceiveEventCell.h"
 
-@interface WPReceiveEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+@class ReceiveEventCell;
+@interface WPReceiveEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ReceiveEventCellProtocol>
 
 @property (strong, nonatomic) Event         *event;
+
+- (void) didClickOnAcceptButton:(id)sender;
+- (void) didClickOnDeclineButton:(id)sender;
 
 @end

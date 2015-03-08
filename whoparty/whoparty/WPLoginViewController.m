@@ -66,8 +66,24 @@
 
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    PFUser *user = [PFUser currentUser];
+    if (user)
+    {
+        self.textFieldEmail.text = user.email;
+        self.textFieldPassword1.text = user.password;
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
+        [currentInstallation saveEventually];
+
+        [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    NSLog(@"memory login");
     // Dispose of any resources that can be recreated.
 }
 
@@ -93,7 +109,7 @@
                 //RegisterChannel for this user
                 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
                 currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
-                [currentInstallation saveInBackground];
+                [currentInstallation saveEventually];
 
                 NSLog(@"User successfully signin");
                 [self performSegueWithIdentifier:@"loginSuccess" sender:self];
@@ -138,6 +154,11 @@
             else
             {
                  NSLog(@"User successfully signup");
+                //RegisterChannel for this user
+                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
+                [currentInstallation saveEventually];
+               // [WPHelperConstant saveUserCredentialsToKeyChain:user.username password:user.password];
                 [self performSegueWithIdentifier:@"loginSuccess" sender:self];
             }
         }];

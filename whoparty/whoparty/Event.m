@@ -12,11 +12,10 @@
 
 @dynamic mygoogleaddress;
 @dynamic sendinguser;
-@dynamic receivinguser;
 @dynamic comment;
 @dynamic isAccepted;
 @dynamic isReceived;
-@dynamic userReceived;
+@dynamic receivinguser;
 
 + (NSString*)parseClassName
 {

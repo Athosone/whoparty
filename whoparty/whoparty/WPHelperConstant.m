@@ -41,4 +41,31 @@
     cell.imageView.layer.cornerRadius = 6.0f;
 }
 
++ (void) saveUserCredentialsToKeyChain:(NSString*)login password:(NSString*)password
+{
+    //KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"YourAppLogin" accessGroup:nil];
+
+}
+
++ (NSDate*)formatDateFromString:(NSString*) dateString
+{
+    NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+    
+    dateFormater.dateFormat = @"yyy-mm-dd";
+    NSString *subString = [[dateString componentsSeparatedByString:@"T"] firstObject];
+    
+    NSDate *lRet = [dateFormater dateFromString:subString];
+    return lRet;
+}
+
++ (NSString*)dateToString:(NSDate*)date
+{
+    NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+    
+    dateFormater.dateFormat = @"dd/MM";
+    NSString *lRet = [dateFormater stringFromDate:date];
+    return lRet;
+}
+
+
 @end

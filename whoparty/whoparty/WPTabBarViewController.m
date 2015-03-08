@@ -8,6 +8,7 @@
 
 #import "WPTabBarViewController.h"
 #import "WPAddEventViewController.h"
+#import "WPHelperConstant.h"
 
 #define FETCHEVENT 0
 #define ADDEVENT 1
@@ -22,12 +23,10 @@
 {
     [super viewDidLoad];
     //Init NavController
-    UINavigationController *navFetchEvent = [self.viewControllers objectAtIndex:FETCHEVENT];
-    UINavigationController *navAddEvent = [self.viewControllers objectAtIndex:ADDEVENT];
-    //navCamera.navigationBar.barTintColor = [WOTHelperConstants getRedColorApp];
+     //navCamera.navigationBar.barTintColor = [WOTHelperConstants getRedColorApp];
     //navWine.navigationBar.barTintColor = [WOTHelperConstants getRedColorApp];
     
-    
+    [self.tabBar configureFlatTabBarWithColor:DEFAULTNAVBARBGCOLOR];
     //Init variables each viewcontroller that compose the tab bar with data needed
    // WPAddEventViewController *addEventVC = (WPAddEventViewController*)[[navAddEvent viewControllers] objectAtIndex:0];
 //    WOTSearchWineViewController *searchWine = (WOTSearchWineViewController*)[[navWine viewControllers] objectAtIndex:0];

@@ -15,7 +15,6 @@
 @interface WPListEventViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray    *eventList;
 @property (strong, nonatomic) NSArray    *eventListReceived;
 @property (strong, nonatomic) NSArray    *eventListSent;
 @property (strong, nonatomic) Event      *currentEvent;
@@ -23,6 +22,7 @@
 
 - (void) receivedPushNotfication:(NSDictionary*) userInfo;
 - (void) updateEventList:(NSArray*)events;
+- (void) updateDone:(PFObject*)object;
 
 @end
 
@@ -33,29 +33,45 @@
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
     [WPHelperConstant setBGColorForView:self.tableView color:nil];
-    [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPushNotfication:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
+
 }
 
-#pragma mark ->Segmented COntrol
-
-- (IBAction)segmentedControlOnClick:(id)sender
+- (void) viewWillAppear:(BOOL)animated
 {
-    if (self.segmentedControl.selectedSegmentIndex == 0)
-        self.eventList = self.eventListReceived;
-    else
-        self.eventList = self.eventListSent;
+    [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
+}
+
+#pragma mark ->Segmented Control value changed
+
+- (IBAction)segmentedControlValueChange:(id)sender
+{
     [self.tableView reloadData];
 }
 
+
 #pragma mark ->Set Event list-Received push Notifcation
 
-- (void) receivedPushNotfication:(NSDictionary*) userInfo
+- (void) receivedPushNotfication:(NSNotification*)notification
 {
-    NSLog(@"Login-ViewController-userinfo receive push notification: %@", userInfo);
+    NSLog(@"Login-ViewController-userinfo receive push notification: %@", [notification userInfo]);
     [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
+}
+
+- (void) receivedisAcceptedPushNotfication:(NSNotification*)notification
+{
+    NSLog(@"Login-ViewController-userinfo receive push notification isAccepted: %@", [notification userInfo]);
+    
+    NSDictionary *fieldsToUpdate = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
+    NSString *eventId = [[notification userInfo] objectForKey:@"eventId"];
+    [ManagedParseUser updateEvent:eventId target:self selector:@selector(updateDone:) data:fieldsToUpdate];
+}
+
+- (void) updateDone:(PFObject*)object
+{
+    if (object)
+        [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
 }
 
 - (void) updateEventList:(NSArray*)events
@@ -68,14 +84,18 @@
     
     for (Event *e in events)
     {
-        PFUser *u = e[@"sendinguser"];
-        
-        if ([u[@"username"] isEqualToString:currentUser.username])
-            [sentEvent addObject:e];
-        else
-            [receiveEvent addObject:e];
+        if ([e isDataAvailable])
+        {
+            NSString *username = e[@"sendinguser"];
+            if (username)
+            {
+                if ([username isEqualToString:currentUser.username])
+                    [sentEvent addObject:e];
+                else
+                    [receiveEvent addObject:e];
+            }
+        }
     }
-    self.eventList  = [NSArray arrayWithArray:receiveEvent];
     self.eventListSent = [NSArray arrayWithArray:sentEvent];
     self.eventListReceived = [NSArray arrayWithArray:receiveEvent];
     [self.tableView reloadData];
@@ -86,43 +106,56 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.currentEvent = [self.eventList objectAtIndex:indexPath.row];
-
+    if (self.segmentedControl.selectedSegmentIndex == 0)
+        self.currentEvent = [self.eventListReceived objectAtIndex:indexPath.row];
+    else
+        self.currentEvent = [self.eventListSent objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"showEvent" sender:self];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger lRet = 1;
-    if (self.eventList)
-        lRet = self.eventList.count;
+    NSInteger lRet = 0;
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0 && self.eventListReceived)
+        lRet = self.eventListReceived.count;
+    else if (self.eventListSent)
+        lRet = self.eventListSent.count;
     return lRet;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)mtableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"Cell"];
+    NSArray         *eventList = nil;
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0)
+        eventList = self.eventListReceived;
+    else
+       eventList = self.eventListSent;
     
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     }
-    if ([self.eventList objectAtIndex:indexPath.row])
+    if ([eventList objectAtIndex:indexPath.row])
     {
-        Event *event = [self.eventList objectAtIndex:indexPath.row];
+        Event *event = [eventList objectAtIndex:indexPath.row];
         
-        cell.imageView.image = [UIImage imageNamed:@"ic_qu_direction_mylocation@3x"];
         cell.imageView.layer.cornerRadius = 6.0f;
-
-       if ([event objectForKey:@"isAccepted"])
+        if ([event objectForKey:@"isReceived"] == [NSNumber numberWithBool:FALSE])
+            cell.imageView.image = [UIImage imageWithColor:[UIColor cloudsColor] cornerRadius:6.0f];
+       else if ([event objectForKey:@"isAccepted"] == [NSNumber numberWithBool:TRUE])
            cell.imageView.image = [UIImage imageWithColor:DEFAULTACCEPTCOLOR cornerRadius:6.0f];
         else
             cell.imageView.image = [UIImage imageWithColor:DEFAULTDECLINECOLOR cornerRadius:6.0f];
-        PFUser *sendinguser = [event objectForKey:@"sendinguser"];
+        NSString *sendingusername = [event objectForKey:@"sendinguser"];
         if (self.segmentedControl.selectedSegmentIndex == 0)
-            cell.textLabel.text = sendinguser.username;
+            cell.textLabel.text = sendingusername;
         else
-            cell.textLabel.text = event[@"userReceived"];
+            cell.textLabel.text = event[@"receivinguser"];
+        NSString *dateString = [WPHelperConstant dateToString:event.createdAt];
+        cell.detailTextLabel.text = dateString;
     }
     return cell;
 }

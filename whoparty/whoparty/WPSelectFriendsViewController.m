@@ -35,6 +35,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     self.friendsName = [self.user objectForKey:@"friensId"];
     [self.tableView reloadData];
 }
@@ -79,25 +80,26 @@
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *message = cell.textLabel.text;
-    [ManagedParseUser fetchFriendUserByUsername:message target:self selector:@selector(sendNotificationPush:)];
+    NSString *userDest = cell.textLabel.text;
+    [ManagedParseUser fetchFriendUserByUsername:userDest target:self selector:@selector(sendNotificationPush:)];
 }
 
 - (void) sendNotificationPush:(PFUser*) user
 {
+    NSString *userDest = user.username;
     Event   *event = [[Event alloc] initWithClassName:@"Event"];
-    [self.currentAddress saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    if (self.currentAddress)
+        [self.currentAddress saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded)
         {
-            event.mygoogleaddress = self.currentAddress;
+            if (self.currentAddress)
+                event.mygoogleaddress = self.currentAddress;
             event.comment = self.comment;
-            event.userReceived = user.username;
-            event.sendinguser = [PFUser currentUser];
+            event.receivinguser = userDest;
+            event.sendinguser = [PFUser currentUser].username;
             event.isReceived = NO;
             event.isAccepted = NO;
             [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-               // NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:self.comment, @"comment", self.currentAddress, @"address", nil];
-                
                 if (succeeded)
                 {
                     [event pinInBackground];
@@ -105,9 +107,11 @@
                 NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
                 
                 [data setObject:alert forKey:@"alert"];
-                [data setObject:@"cheering.caf" forKey:@"sounds"];
+                [data setObject:@"createEvent" forKey:@"eventType"];
+                [data setObject:@"default" forKey:@"sounds"];
                 [data setObject:event.objectId forKey:@"eventId"];
-                [ManagedParseUser sendNotificationPush:user data:data];
+                [ManagedParseUser sendNotificationPush:userDest
+                                                  data:data];
                 }
                 else
                     NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
@@ -117,6 +121,31 @@
         else
             NSLog(@"Error saving address in SelectFriends-sendNotificationPush, error: %@", error);
     }];
+    else
+    {
+        event.comment = self.comment;
+        event.receivinguser = userDest;
+        event.sendinguser = [PFUser currentUser].username;
+        event.isReceived = NO;
+        event.isAccepted = NO;
+        [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded)
+            {
+                [event pinInBackground];
+                NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
+                
+                [data setObject:alert forKey:@"alert"];
+                [data setObject:@"createEvent" forKey:@"eventType"];
+                [data setObject:@"default" forKey:@"sounds"];
+                [data setObject:event.objectId forKey:@"eventId"];
+                [ManagedParseUser sendNotificationPush:userDest
+                                                  data:data];
+            }
+            else
+                NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+        }];
+    }
 }
 
 /*

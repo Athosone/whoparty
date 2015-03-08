@@ -7,8 +7,8 @@
 //
 
 #import "WPReceiveEventViewController.h"
-#import "ReceiveEventCell.h"
 #import "ManagedParseUser.h"
+#import "WPHelperConstant.h"
 
 @interface WPReceiveEventViewController ()
 
@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isReady = NO;
+    [WPHelperConstant setBGColorForView:self.tableView color:DEFAULTBGCOLOR];
     [self.tableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
     if (self.event && self.event.objectId)
     {
@@ -66,9 +67,71 @@
     }
     if (self.event && self.isReady)
        [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
+    if (self.event[@"isReceived"] == [NSNumber numberWithBool:YES])
+    {
+        if (self.event[@"isAccepted"] == [NSNumber numberWithBool:YES])
+            [cell setAcceptedStatus];
+        else
+            [cell setDeclineStatus];
+    }
+    else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
+        [cell setSendingUserStyle];
+    cell.delegate = self;
     return cell;
 }
 
+
+- (void) didClickOnAcceptButton:(id)sender
+{
+    self.event[@"isAccepted"] = [NSNumber numberWithBool:YES];
+    self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+
+       [self.event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+    {
+                if (succeeded)
+                {
+                    [self.event pinInBackground];
+                    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                    NSString *alert = [NSString stringWithFormat:@"%@ just accepted your event !",[PFUser currentUser].username];
+                    
+                    [data setObject:alert forKey:@"alert"];
+                    [data setObject:@"eventIsAccepted" forKey:@"eventType"];
+                    [data setObject:@"default" forKey:@"sounds"];
+                    [data setObject:self.event.objectId forKey:@"eventId"];
+                    //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+                    [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+                    [self.tableView reloadData];
+
+                }
+                else
+                    NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+    }];
+}
+
+- (void) didClickOnDeclineButton:(id)sender
+{
+    self.event[@"isAccepted"] = [NSNumber numberWithBool:NO];
+    self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+    [self.event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+         if (succeeded)
+         {
+             [self.event pinInBackground];
+             NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+             NSString *alert = [NSString stringWithFormat:@"%@ just accepted your event !",[PFUser currentUser].username];
+             
+             [data setObject:alert forKey:@"alert"];
+             [data setObject:@"eventIsAccepted" forKey:@"eventType"];
+             [data setObject:@"default" forKey:@"sounds"];
+             [data setObject:self.event.objectId forKey:@"eventId"];
+             //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+             [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+             [self.tableView reloadData];
+         }
+         else
+             NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+     }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

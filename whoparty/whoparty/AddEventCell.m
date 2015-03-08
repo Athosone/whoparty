@@ -39,7 +39,7 @@
 @synthesize delegate;
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.textViewComment.layer.cornerRadius = 6.0f;
 }
 
 - (NSString *)reuseIdentifier
@@ -98,9 +98,12 @@
 
 - (IBAction)validateEvent:(id)sender
 {
-    NSDictionary *dataToPass =  [NSDictionary dictionaryWithObjectsAndKeys:self.currentAddr, @"currentAddress", self.textViewComment.text, @"comment", nil];
-    
-    [self.delegate didClickOnCellButton:self datas:dataToPass];
+    NSDictionary *dataPass = nil;
+    if (self.currentAddr)
+        dataPass =  [NSDictionary dictionaryWithObjectsAndKeys:self.currentAddr, @"currentAddress", self.textViewComment.text, @"comment", nil];
+    else
+        dataPass = [NSDictionary dictionaryWithObjectsAndKeys:self.textViewComment.text, @"comment", nil];
+    [self.delegate didClickOnCellButton:self datas:dataPass];
 }
 
 #pragma mark ->CLLocation Delegate

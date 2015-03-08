@@ -11,6 +11,8 @@
 #import <FlatUIKit/FlatUIKit.h>
 
 #define HASRECEIVEDPUSHNOTIFICATION @"hasReceivedPushNotification"
+#define HASRECEIVEDISACCEPTEDNOTFICATION @"hasReceivedAcceptedPushNotification"
+
 
 #define GOOGLEIOSAPIKEY @"AIzaSyCNIJkpFx2qDZ1tjVaFx9o43e6BiMBmRso"
 #define GOOGLESERVERAPIKEY @"AIzaSyCj7kLbvwLb1gj56mxrIiBjPRcwEkd-aLI"
@@ -32,5 +34,7 @@
 
 + (void) setBGColorForView:(UIView*)view color:(UIColor*)color;
 + (void) setButtonToFlat:(FUIButton*)button;
-
++ (void) saveUserCredentialsToKeyChain:(NSString*)login password:(NSString*)password;
++ (NSDate*)formatDateFromString:(NSString*) dateString;
++ (NSString*)dateToString:(NSDate*)date;
 @end
