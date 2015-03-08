@@ -96,7 +96,7 @@
                     
                     [data setObject:alert forKey:@"alert"];
                     [data setObject:@"eventIsAccepted" forKey:@"eventType"];
-                    [data setObject:@"default" forKey:@"sounds"];
+                    [data setObject:@"default" forKey:@"sound"];
                     [data setObject:self.event.objectId forKey:@"eventId"];
                     //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
                     [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
@@ -118,11 +118,11 @@
          {
              [self.event pinInBackground];
              NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-             NSString *alert = [NSString stringWithFormat:@"%@ just accepted your event !",[PFUser currentUser].username];
+             NSString *alert = [NSString stringWithFormat:@"%@ just declined your event !",[PFUser currentUser].username];
              
              [data setObject:alert forKey:@"alert"];
              [data setObject:@"eventIsAccepted" forKey:@"eventType"];
-             [data setObject:@"default" forKey:@"sounds"];
+             [data setObject:@"default" forKey:@"sound"];
              [data setObject:self.event.objectId forKey:@"eventId"];
              //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
              [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];

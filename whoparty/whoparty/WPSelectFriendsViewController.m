@@ -11,6 +11,9 @@
 #import "ManagedParseUser.h"
 #import "WPHelperConstant.h"
 #import "Event.h"
+#import "SendView.h"
+#import "CheckBoxTableViewCell.h"
+
 
 @interface WPSelectFriendsViewController ()
 
@@ -19,7 +22,7 @@
 @property (strong, nonatomic) NSArray                       *friendsName;
 @property (strong, nonatomic) PFUser                        *user;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *barButtonAddFriend;
-
+@property (strong, nonatomic) SendView                      *sendView;
 @end
 
 @implementation WPSelectFriendsViewController
@@ -30,7 +33,8 @@
     self.user = [PFUser currentUser];
     self.friendsName = [self.user objectForKey:@"friendsId"];
     self.barButtonAddFriend.tintColor = [UIColor whiteColor];
-    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+   self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CheckBoxCell" bundle:nil] forCellReuseIdentifier:@"checkBoxCell"];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -38,6 +42,18 @@
     [super viewDidAppear:animated];
     self.friendsName = [self.user objectForKey:@"friensId"];
     [self.tableView reloadData];
+    [self addSendView];
+}
+
+- (void) addSendView
+{
+    self.sendView = [[SendView alloc] init];
+    self.sendView.frame = CGRectMake(0, 0, self.view.frame.size.width, 50.0f);
+    [self.sendView initView];
+    self.tableView.tableFooterView = self.sendView;
+    self.sendView.hidden = true;
+    self.sendView.delegate = self;
+    [self.view layoutIfNeeded];
 }
 
 - (void) setFriendsList:(NSArray*)friendsList
@@ -56,6 +72,8 @@
     [self performSegueWithIdentifier:@"WPAddFriendsViewController" sender:self];
 }
 
+#pragma mark ->TableView delegate/datasource
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger lRet = 0;
@@ -64,13 +82,16 @@
     return lRet;
 }
 
-- (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell*) tableView:(UITableView *)mtableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell"];
+    CheckBoxTableViewCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"checkBoxCell"];
     NSArray *users = (NSArray*)[self.user objectForKey:@"friendsId"];
 
     if (!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"friendCell"];
+    {
+        [mtableView registerNib:[UINib nibWithNibName:@"CheckBoxCell" bundle:nil] forCellReuseIdentifier:@"checkBoxCell"];
+        cell = [mtableView dequeueReusableCellWithIdentifier:@"checkBoxCell"];
+    }
     if (users)
         cell.textLabel.text = [users objectAtIndex:indexPath.row];
     return cell;
@@ -78,11 +99,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *userDest = cell.textLabel.text;
-    [ManagedParseUser fetchFriendUserByUsername:userDest target:self selector:@selector(sendNotificationPush:)];
+    if ([tableView indexPathsForSelectedRows].count == 1)
+        [self.sendView fadeIn];
 }
+
+- (void) tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([tableView indexPathsForSelectedRows].count == 0)
+        [self.sendView fadeOut];
+}
+
+#pragma mark ->Send NotifPush
 
 - (void) sendNotificationPush:(PFUser*) user
 {
@@ -108,7 +135,7 @@
                 
                 [data setObject:alert forKey:@"alert"];
                 [data setObject:@"createEvent" forKey:@"eventType"];
-                [data setObject:@"default" forKey:@"sounds"];
+                [data setObject:@"default" forKey:@"sound"];
                 [data setObject:event.objectId forKey:@"eventId"];
                 [ManagedParseUser sendNotificationPush:userDest
                                                   data:data];
@@ -137,7 +164,7 @@
                 
                 [data setObject:alert forKey:@"alert"];
                 [data setObject:@"createEvent" forKey:@"eventType"];
-                [data setObject:@"default" forKey:@"sounds"];
+                [data setObject:@"default" forKey:@"sound"];
                 [data setObject:event.objectId forKey:@"eventId"];
                 [ManagedParseUser sendNotificationPush:userDest
                                                   data:data];
@@ -145,6 +172,21 @@
             else
                 NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
         }];
+    }
+}
+
+#pragma mark ->SendView Delegate
+
+- (void) didClickOnSendViewButton:(id)sender
+{
+    NSArray *indexesPath = [self.tableView indexPathsForSelectedRows];
+
+    [self.sendView startAi];
+    for (NSIndexPath *i in indexesPath)
+    {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:i];
+        NSString *userDest = cell.textLabel.text;
+        [ManagedParseUser fetchFriendUserByUsername:userDest target:self selector:@selector(sendNotificationPush:)];
     }
 }
 

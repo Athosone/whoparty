@@ -106,7 +106,7 @@
     [query selectKeys:@[@"username", @"friendsId"]];
     [query whereKey:@"username" equalTo:username];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *results, NSError *error) {
-
+        
         if (results)
         {
             NSLog(@"user.username: %@", results[@"username"]);
@@ -247,63 +247,85 @@
         
     }];
     
+    [operation addExecutionBlock:^{
+        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+        
+        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        
+        NSLog(@"Current user:%@", [PFUser currentUser]);
+        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        [query orderByDescending:@"createdAt"];
+        
+        [query fromLocalDatastore];
+        lRet = [query findObjects];
+        NSLog(@"Lret: %@", lRet);
+    }];
+    
     NSBlockOperation *fetchEventsOp = [[NSBlockOperation alloc] init];
     [fetchEventsOp addExecutionBlock:^{
         
         NSError *error;
         PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
         [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+        
         PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
         [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        
         NSLog(@"Current user:%@", [PFUser currentUser]);
         PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
         [query orderByDescending:@"createdAt"];
         
         [query fromLocalDatastore];
         NSArray *localResults = [query findObjects:&error];
-       for (PFObject *o in localResults)
+        for (PFObject *o in localResults)
         {
             if ([o[@"sendinguser"] isEqualToString:[PFUser currentUser].username] && o[@"isReceived"] == [NSNumber numberWithBool:NO])
             {
-                [o fetch];
-                [o pin];
+                NSBlockOperation *fetchToServer = [[NSBlockOperation alloc] init];
+                
+                [fetchToServer addExecutionBlock:^{
+                    [o fetchIfNeeded];
+                    [o pin];
+                }];
+                [ManagedParseUser addOperationToQueue:fetchToServer];
+                [operation addDependency:fetchToServer];
             }
         }
         if (error)
             NSLog(@"Error fetching data in fetchLocalEvents: %@", error);
-        else
+        
+        NSMutableArray *idsToExclude = [[NSMutableArray alloc] init];
+        NSArray *remoteResults = nil;
+        PFQuery *queryOnServer = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        [queryOnServer orderByDescending:@"createdAt"];
+        
+        for (int i = 0; i < localResults.count; ++i)
+            [idsToExclude addObject:[[localResults objectAtIndex:i] objectId]];
+        
+        [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
+        remoteResults = [queryOnServer findObjects];
+        
+        NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
+        for (int i = 0; i < remoteResults.count; ++i)
+            [resultstmp addObject:[remoteResults objectAtIndex:i]];
+        //[resultstmp addObjectsFromArray:localResults];
+        //NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+        //NSArray *results = nil;
+        //results = [resultstmp sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+        
+        for (int i = 0; i < resultstmp.count; ++i)
         {
-            NSMutableArray *idsToExclude = [[NSMutableArray alloc] init];
-            NSArray *remoteResults = nil;
-            PFQuery *queryOnServer = [PFQuery orQueryWithSubqueries:@[query1,query2]];
-            [queryOnServer orderByDescending:@"createdAt"];
+            Event  *event = [resultstmp objectAtIndex:i];
+            NSBlockOperation *pinEvent  = [[NSBlockOperation alloc] init];
             
-            for (int i = 0; i < localResults.count; ++i)
-                [idsToExclude addObject:[[localResults objectAtIndex:i] objectId]];
-            
-            [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
-            
-            remoteResults = [queryOnServer findObjects];
-            NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
-            for (int i = 0; i < remoteResults.count; ++i)
-            {
-                [resultstmp addObject:[remoteResults objectAtIndex:i]];
-            }
-            //NSLog(@"Remote: %@", remoteResults);
-           // NSLog(@"Local: %@", localResults);
-            
-            [resultstmp addObjectsFromArray:localResults];
-            NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
-            NSArray *results = nil;
-            results = [resultstmp sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-            for (int i = 0; i < results.count; ++i)
-            {
-                Event  *event = [results objectAtIndex:i];
+            [pinEvent addExecutionBlock:^{
                 [event pin];
                 [event saveEventually];
-            }
-            [query fromLocalDatastore];
-            lRet = [query findObjects];
+            }];
+            [ManagedParseUser addOperationToQueue:pinEvent];
+            [operation addDependency:pinEvent];
         }
     }];
     [operation addDependency:fetchEventsOp];

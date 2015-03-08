@@ -74,8 +74,9 @@
         self.textFieldEmail.text = user.email;
         self.textFieldPassword1.text = user.password;
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-        currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
-        [currentInstallation saveEventually];
+        NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
+        [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
+        [currentInstallation saveInBackground];
 
         [self performSegueWithIdentifier:@"loginSuccess" sender:self];
     }
@@ -108,9 +109,9 @@
             {
                 //RegisterChannel for this user
                 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
-                [currentInstallation saveEventually];
-
+                NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
+                [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
+                [currentInstallation saveInBackground];
                 NSLog(@"User successfully signin");
                 [self performSegueWithIdentifier:@"loginSuccess" sender:self];
             }

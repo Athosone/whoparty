@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "MYGoogleAddress.h"
+#import "SendView.h"
 
-@interface WPSelectFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@class SendView;
+@interface WPSelectFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SendViewProtocol>
 
 @property (strong, nonatomic) MYGoogleAddress   *currentAddress;
 @property (strong, nonatomic) NSString          *comment;

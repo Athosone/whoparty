@@ -61,6 +61,10 @@
 		58BE5DA31AA5EFBD00BE2DB3 /* validFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9F1AA5EFBD00BE2DB3 /* validFriend@2x.png */; };
 		58BE5DAA1AA6466000BE2DB3 /* AddEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BE5DA91AA6466000BE2DB3 /* AddEventCell.m */; };
 		58BE5DAC1AA65B5D00BE2DB3 /* MapForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5DAB1AA65B5D00BE2DB3 /* MapForm.xib */; };
+		58C477EF1AACB6D700612E2B /* SendView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C477EE1AACB6D700612E2B /* SendView.xib */; };
+		58C477F21AACB9B800612E2B /* SendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C477F11AACB9B800612E2B /* SendView.m */; };
+		58C477F41AACC97900612E2B /* CheckBoxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C477F31AACC97900612E2B /* CheckBoxCell.xib */; };
+		58C477F71AACCA6D00612E2B /* CheckBoxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
 		58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */; };
 		58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7A9EE1AA36F8E00E8E788 /* backgroundImage.png */; };
@@ -169,6 +173,12 @@
 		58BE5DA81AA6466000BE2DB3 /* AddEventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEventCell.h; sourceTree = "<group>"; };
 		58BE5DA91AA6466000BE2DB3 /* AddEventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEventCell.m; sourceTree = "<group>"; };
 		58BE5DAB1AA65B5D00BE2DB3 /* MapForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapForm.xib; sourceTree = "<group>"; };
+		58C477EE1AACB6D700612E2B /* SendView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendView.xib; sourceTree = "<group>"; };
+		58C477F01AACB9B800612E2B /* SendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendView.h; sourceTree = "<group>"; };
+		58C477F11AACB9B800612E2B /* SendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendView.m; sourceTree = "<group>"; };
+		58C477F31AACC97900612E2B /* CheckBoxCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckBoxCell.xib; sourceTree = "<group>"; };
+		58C477F51AACCA6D00612E2B /* CheckBoxTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBoxTableViewCell.h; sourceTree = "<group>"; };
+		58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckBoxTableViewCell.m; sourceTree = "<group>"; };
 		58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFormViewController.h; sourceTree = "<group>"; };
 		58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFormViewController.m; sourceTree = "<group>"; };
 		58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPLoginViewController.h; sourceTree = "<group>"; };
@@ -408,6 +418,12 @@
 		58D7A9E31AA3687900E8E788 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				58C477F31AACC97900612E2B /* CheckBoxCell.xib */,
+				58C477F51AACCA6D00612E2B /* CheckBoxTableViewCell.h */,
+				58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */,
+				58C477EE1AACB6D700612E2B /* SendView.xib */,
+				58C477F01AACB9B800612E2B /* SendView.h */,
+				58C477F11AACB9B800612E2B /* SendView.m */,
 				58BE5DA71AA6462B00BE2DB3 /* MapView */,
 				588EDD0D1AA3DF6E003A146F /* NUINSS */,
 				588EDCF11AA3DE18003A146F /* Animations */,
@@ -590,11 +606,13 @@
 				588EDD141AA3E04F003A146F /* passwordCadenas.png in Resources */,
 				5860EB9B1AA4AD3800D81E5F /* destPin.png in Resources */,
 				5860EB831AA4A90200D81E5F /* GoogleMaps.bundle in Resources */,
+				58C477F41AACC97900612E2B /* CheckBoxCell.xib in Resources */,
 				58BE5DA31AA5EFBD00BE2DB3 /* validFriend@2x.png in Resources */,
 				588EDD171AA3E161003A146F /* WPTheme.nss in Resources */,
 				587F56241AA27D750083638A /* Main.storyboard in Resources */,
 				588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */,
 				588EDD131AA3E04F003A146F /* accountLogin@2x.png in Resources */,
+				58C477EF1AACB6D700612E2B /* SendView.xib in Resources */,
 				5860EB9C1AA4AD3800D81E5F /* destPin@2x.png in Resources */,
 				588EDD121AA3E04F003A146F /* accountLogin.png in Resources */,
 				58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */,
@@ -658,6 +676,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58C477F21AACB9B800612E2B /* SendView.m in Sources */,
 				588EDD0A1AA3DF13003A146F /* Animations.m in Sources */,
 				58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */,
 				58BE5DAA1AA6466000BE2DB3 /* AddEventCell.m in Sources */,
@@ -677,6 +696,7 @@
 				587F56181AA27D750083638A /* main.m in Sources */,
 				587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */,
 				588EDD0B1AA3DF13003A146F /* CircleAnimation.m in Sources */,
+				58C477F71AACCA6D00612E2B /* CheckBoxTableViewCell.m in Sources */,
 				588EDD0C1AA3DF13003A146F /* CustomModalAnimation.m in Sources */,
 				5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */,
 				587F561E1AA27D750083638A /* whoparty.xcdatamodeld in Sources */,
@@ -738,6 +758,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -758,7 +779,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d88ae26d-71eb-4be5-be8d-a06ec6bcf885";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -780,6 +801,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -793,7 +815,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d88ae26d-71eb-4be5-be8d-a06ec6bcf885";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -805,7 +827,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
@@ -824,7 +846,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
