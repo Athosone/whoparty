@@ -34,7 +34,7 @@
         
         event = [event fetchIfNeeded:&error];
         if (error)
-            NSLog(@"Error receing notfication in didFinishLaunchingWithOptions, erorr: %@", error);
+            NSLog(@"Error receiving notfication in didFinishLaunchingWithOptions, erorr: %@", error);
         else
         {
             [event pin];
@@ -54,8 +54,26 @@
     NSString *eventId = [notificationPayload objectForKey:@"eventId"];
     
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:eventId, @"eventId", nil];
-    NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDISACCEPTEDNOTFICATION object:nil userInfo:event];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    NSBlockOperation *op = [[NSBlockOperation alloc] init];
+    
+    [op addExecutionBlock:^{
+       
+        NSString *eventId = [notificationPayload objectForKey:@"eventId"];
+        NSError  *error;
+        PFObject *event = [PFObject objectWithoutDataWithClassName:@"Event" objectId:eventId];
+        
+        [event fetch:&error];
+        if (error)
+            NSLog(@"Error receiving notfication in didFinishLaunchingWithOptions, erorr: %@", error);
+        else
+           [event pin];
+    }];
+    
+    [op setCompletionBlock:^{
+        NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDISACCEPTEDNOTFICATION object:nil userInfo:event];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }];
 }
 
 - (void) handleMyPushNotification:(NSDictionary*)notificationPayload

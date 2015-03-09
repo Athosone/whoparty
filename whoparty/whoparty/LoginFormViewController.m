@@ -21,6 +21,7 @@
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.hidden = TRUE;
     
+    self.textFieldEmail.hidden = true;
     self.textFieldPassword2.hidden = true;
 
     // Do any additional setup after loading the view.
@@ -32,7 +33,7 @@
 {
     NSString *errorMessage = nil;
     
-    if (![self.textFieldEmail.text isValidEmail])
+    if (![self.textFieldLogin.text isValidName])
         errorMessage = @"Please enter a valid email";
     else if (![self.textFieldPassword1.text isValidPassword])
         errorMessage = @"Please enter a valid password";
@@ -45,8 +46,10 @@
     
     if (![self.textFieldEmail.text isValidEmail])
         errorMessage = @"Please enter a valid email";
+    if (![self.textFieldLogin.text isValidName])
+        errorMessage = @"Your username must contains at least 5 characters";
     else if (![self.textFieldPassword1.text isValidPassword])
-        errorMessage = @"Please enter a valid password";
+        errorMessage = @"Your password must contains at least 5 characters";
     else if (![self.textFieldPassword1.text isEqualToString:self.textFieldPassword2.text])
         errorMessage = @"Both password must match";
     return errorMessage;

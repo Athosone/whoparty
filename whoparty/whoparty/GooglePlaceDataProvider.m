@@ -124,9 +124,8 @@
     destPoint.map = destView;
     if (destLoc[@"name"])
         destPoint.title = destLoc[@"name"];
-    else
-        destPoint.title = destLoc[@"address"];
-   
+    if (destLoc[@"address"])
+        destPoint.snippet = destLoc[@"address"];   
 }
 
 @end

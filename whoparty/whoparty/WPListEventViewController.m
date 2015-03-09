@@ -41,7 +41,9 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
+    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
 #pragma mark ->Segmented Control value changed
@@ -58,7 +60,7 @@
 - (void) receivedPushNotfication:(NSNotification*)notification
 {
     NSLog(@"Login-ViewController-userinfo receive push notification: %@", [notification userInfo]);
-    [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
+    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
 - (void) receivedisAcceptedPushNotfication:(NSNotification*)notification

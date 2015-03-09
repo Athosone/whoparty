@@ -68,6 +68,13 @@
 
 + (void) fetchGoogleAddress:(MYGoogleAddress*)googleAddressTofetch target:(id)target selector:(SEL)selector
 {
+    if (!googleAddressTofetch)
+    {
+        if ([target respondsToSelector:selector])
+            [target performSelectorOnMainThread:selector withObject:nil waitUntilDone:YES];
+        else
+            NSLog(@"Error selector non declared in the target passed as parameters");
+    }
     [googleAddressTofetch fetchFromLocalDatastoreInBackgroundWithBlock:^(PFObject *object, NSError *error)
      {
          if (error)
@@ -120,9 +127,8 @@
     }];
 }
 
-+ (void) sendNotificationPush:(NSString*)usernameDest data:(NSDictionary*)data
++ (void) sendNotificationPush:(NSString*)usernameDest data:(NSDictionary*)data completionBlock:(void(^)())success
 {
-    
     NSBlockOperation    *op = [[NSBlockOperation alloc] init];
     
     [op addExecutionBlock:^{
@@ -157,6 +163,72 @@
         }
         else
             NSLog(@"Error fetching user remotely notif not sent -sendpushnotifmanageparseuser error: %@", error);
+    }];
+    
+    [op setCompletionBlock:^{
+        success();
+    }];
+    [ManagedParseUser addOperationToQueue:op];
+}
+
++ (void) sendNotificationPushSync:(NSString*)usernameDest data:(NSDictionary*)data
+{
+        NSError     *error;
+        PFQuery *queryUser = [PFQuery queryWithClassName:@"_User"];
+        
+        [queryUser fromLocalDatastore];
+        [queryUser whereKey:@"username" equalTo:usernameDest];
+        PFObject *userDest = [queryUser getFirstObject:&error];
+        if (error)
+        {
+            NSLog(@"error when fetching user fromlocal trying remotely- sendpushnotifmanageparseuser error: %@", error);
+            error = nil;
+            PFQuery *queryUserRemotely = [PFQuery queryWithClassName:@"_User"];
+            [queryUserRemotely whereKey:@"username" equalTo:usernameDest];
+            userDest = [queryUserRemotely getFirstObject:&error];
+            [userDest pinInBackground];
+        }
+        if (!error)
+        {
+            NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:userDest.objectId];
+            
+            error = nil;
+            NSMutableDictionary *test = [[NSMutableDictionary alloc] init];
+            [test setObject:channel forKey:@"channel"];
+            [test setObject:data forKey:@"data"];
+            [PFCloud callFunction:@"sendPush" withParameters:test error:&error];
+            if (error)
+                NSLog(@"Error cloud: %@", error);
+            else
+                NSLog(@"Successfully sent notification");
+        }
+        else
+            NSLog(@"Error fetching user remotely notif not sent -sendpushnotifmanageparseuser error: %@", error);
+}
+
+
+
+#pragma mark ->Event
+
++ (void) updateEventWithCompletionBlock:(NSString*)eventId success:(void(^)(PFObject *event))success data:(NSDictionary*)data
+{
+    NSBlockOperation *op = [[NSBlockOperation alloc] init];
+    __block  PFObject *lRet;
+    
+    [op addExecutionBlock:^{
+        PFQuery      *query = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query fromLocalDatastore];
+        [query whereKey:@"objectId" equalTo:eventId];
+        PFObject *eventObject = [query getFirstObject];
+        
+        for (NSString *key in [data allKeys])
+            [eventObject setObject:[data objectForKey:key] forKey:key];
+        [eventObject pin];
+        lRet = eventObject;
+    }];
+    
+    [op setCompletionBlock:^{
+        success(lRet);
     }];
     [ManagedParseUser addOperationToQueue:op];
 }
@@ -236,9 +308,8 @@
     [ManagedParseUser addOperationToQueue:operation];
 }
 
-+ (void) fetchLocalEvents:(id)target selector:(SEL)selector
++ (void) fetchAllEvents:(id)target selector:(SEL)selector
 {
-    
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
     __block NSArray          *lRet;
     
@@ -263,7 +334,7 @@
         
         [query fromLocalDatastore];
         lRet = [query findObjects];
-        NSLog(@"Lret: %@", lRet);
+        //NSLog(@"Lret: %@", lRet);
     }];
     
     NSBlockOperation *fetchEventsOp = [[NSBlockOperation alloc] init];
@@ -289,7 +360,7 @@
                 NSBlockOperation *fetchToServer = [[NSBlockOperation alloc] init];
                 
                 [fetchToServer addExecutionBlock:^{
-                    [o fetchIfNeeded];
+                    [o fetch];
                     [o pin];
                 }];
                 [ManagedParseUser addOperationToQueue:fetchToServer];
@@ -310,9 +381,9 @@
         [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
         remoteResults = [queryOnServer findObjects];
         
-       // NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
+        // NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
         //for (int i = 0; i < remoteResults.count; ++i)
-         //   [resultstmp addObject:[remoteResults objectAtIndex:i]];
+        //   [resultstmp addObject:[remoteResults objectAtIndex:i]];
         //[resultstmp addObjectsFromArray:localResults];
         //NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
         //NSArray *results = nil;
@@ -334,8 +405,84 @@
     [operation addDependency:fetchEventsOp];
     [ManagedParseUser addOperationToQueue:fetchEventsOp];
     [ManagedParseUser addOperationToQueue:operation];
+}
+
+
++ (void) fetchLocalEvents:(id)target selector:(SEL)selector
+{
+    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
+    __block NSArray          *lRet;
     
+    [operation setCompletionBlock:^{
+        if ([target respondsToSelector:selector])
+            [target performSelectorOnMainThread:selector withObject:lRet waitUntilDone:YES];
+        else
+            NSLog(@"Error selector non declared in the target passed as parameters");
+    }];
     
+    [operation addExecutionBlock:^{
+        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+        
+        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        
+        NSLog(@"Current user:%@", [PFUser currentUser]);
+        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        [query orderByDescending:@"createdAt"];
+        
+        [query fromLocalDatastore];
+        lRet = [query findObjects];
+        //NSLog(@"Lret: %@", lRet);
+    }];
+    [ManagedParseUser addOperationToQueue:operation];
+}
+
++ (void) createEvent:(NSString*)userDest comment:(NSString*)comment address:(MYGoogleAddress*)address success:(void(^)())success
+{
+    NSBlockOperation *mainOp = [[NSBlockOperation alloc] init];
+    
+    [mainOp setCompletionBlock:^{
+        success();
+    }];
+    Event   *event = [[Event alloc] initWithClassName:@"Event"];
+
+    [mainOp addExecutionBlock:^{
+       
+        NSError *error;
+        
+        if (address)
+        {
+            [address save:&error];
+            if (error)
+                NSLog(@"error saving address: %@", error);
+            else
+            {
+                event.mygoogleaddress = address;
+                [address saveEventually];
+            }
+        }
+        event.comment = comment;
+        event.receivinguser = userDest;
+        event.sendinguser = [PFUser currentUser].username;
+        event.isReceived = NO;
+        event.isAccepted = NO;
+        error = nil;
+        [event save:&error];
+        if (error)
+            NSLog(@"Error saving event: %@", error);
+        else
+            [event pin];
+        NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+        NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
+        [data setObject:alert forKey:@"alert"];
+        [data setObject:@"createEvent" forKey:@"eventType"];
+        [data setObject:@"default" forKey:@"sound"];
+        [data setObject:event.objectId forKey:@"eventId"];
+        [ManagedParseUser sendNotificationPushSync:userDest
+                                          data:data];
+    }];
+    [ManagedParseUser addOperationToQueue:mainOp];
 }
 
 @end

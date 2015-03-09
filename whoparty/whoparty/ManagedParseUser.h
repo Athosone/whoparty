@@ -21,9 +21,12 @@
 + (void)fetchFriendsListForUser:(PFUser*) user target:(id)target selector:(SEL)selector;
 
 + (void)fetchFriendUserByUsername:(NSString*)username target:(id)target selector:(SEL)selector;
-+ (void) sendNotificationPush:(NSString*)usernameDest data:(NSDictionary*)data;
 + (void) fetchLocalEvents:(id)target selector:(SEL)selector;
 + (void) fetchGoogleAddress:(MYGoogleAddress*)googleAddressToFetch target:(id)target selector:(SEL)selector;
 + (void) updateEvent:(NSString*)eventId target:(id)target selector:(SEL)selector data:(NSDictionary*)data;
++ (void) createEvent:(NSString*)userDest comment:(NSString*)comment address:(MYGoogleAddress*)address success:(void(^)())success;
++ (void) updateEventWithCompletionBlock:(NSString*)eventId success:(void(^)(PFObject *event))success data:(NSDictionary*)data;
++ (void) sendNotificationPush:(NSString*)usernameDest data:(NSDictionary*)data completionBlock:(void(^)())success;
++ (void) fetchAllEvents:(id)target selector:(SEL)selector;
 
 @end

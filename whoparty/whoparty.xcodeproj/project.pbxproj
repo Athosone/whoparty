@@ -65,6 +65,16 @@
 		58C477F21AACB9B800612E2B /* SendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C477F11AACB9B800612E2B /* SendView.m */; };
 		58C477F41AACC97900612E2B /* CheckBoxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C477F31AACC97900612E2B /* CheckBoxCell.xib */; };
 		58C477F71AACCA6D00612E2B /* CheckBoxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */; };
+		58C477FA1AADB33900612E2B /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C477F91AADB33900612E2B /* AlertView.m */; };
+		58C478021AADD65600612E2B /* loginLeftView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478001AADD65600612E2B /* loginLeftView@2x.png */; };
+		58C478071AADD65F00612E2B /* addEventIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478031AADD65F00612E2B /* addEventIcon.png */; };
+		58C478081AADD65F00612E2B /* addEventIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478041AADD65F00612E2B /* addEventIcon@2x.png */; };
+		58C478091AADD65F00612E2B /* addFriendIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478051AADD65F00612E2B /* addFriendIcon.png */; };
+		58C4780A1AADD65F00612E2B /* addFriendIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478061AADD65F00612E2B /* addFriendIcon@2x.png */; };
+		58C4780D1AADD88800612E2B /* backgroundParis.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780B1AADD88800612E2B /* backgroundParis.png */; };
+		58C4780E1AADD88800612E2B /* backgroundParis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780C1AADD88800612E2B /* backgroundParis@2x.png */; };
+		58C478101AADDD6100612E2B /* loginLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780F1AADDD6100612E2B /* loginLeftView.png */; };
+		58C478121AADDD6700612E2B /* emailLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478111AADDD6700612E2B /* emailLeftView.png */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
 		58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */; };
 		58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7A9EE1AA36F8E00E8E788 /* backgroundImage.png */; };
@@ -179,6 +189,17 @@
 		58C477F31AACC97900612E2B /* CheckBoxCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckBoxCell.xib; sourceTree = "<group>"; };
 		58C477F51AACCA6D00612E2B /* CheckBoxTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBoxTableViewCell.h; sourceTree = "<group>"; };
 		58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckBoxTableViewCell.m; sourceTree = "<group>"; };
+		58C477F81AADB33900612E2B /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
+		58C477F91AADB33900612E2B /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
+		58C478001AADD65600612E2B /* loginLeftView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginLeftView@2x.png"; sourceTree = "<group>"; };
+		58C478031AADD65F00612E2B /* addEventIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addEventIcon.png; sourceTree = "<group>"; };
+		58C478041AADD65F00612E2B /* addEventIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addEventIcon@2x.png"; sourceTree = "<group>"; };
+		58C478051AADD65F00612E2B /* addFriendIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFriendIcon.png; sourceTree = "<group>"; };
+		58C478061AADD65F00612E2B /* addFriendIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addFriendIcon@2x.png"; sourceTree = "<group>"; };
+		58C4780B1AADD88800612E2B /* backgroundParis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundParis.png; sourceTree = "<group>"; };
+		58C4780C1AADD88800612E2B /* backgroundParis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundParis@2x.png"; sourceTree = "<group>"; };
+		58C4780F1AADDD6100612E2B /* loginLeftView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginLeftView.png; sourceTree = "<group>"; };
+		58C478111AADDD6700612E2B /* emailLeftView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emailLeftView.png; sourceTree = "<group>"; };
 		58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFormViewController.h; sourceTree = "<group>"; };
 		58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFormViewController.m; sourceTree = "<group>"; };
 		58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPLoginViewController.h; sourceTree = "<group>"; };
@@ -431,6 +452,8 @@
 				587F56221AA27D750083638A /* Main.storyboard */,
 				587F56251AA27D750083638A /* Images.xcassets */,
 				587F56271AA27D750083638A /* LaunchScreen.xib */,
+				58C477F81AADB33900612E2B /* AlertView.h */,
+				58C477F91AADB33900612E2B /* AlertView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -461,6 +484,15 @@
 		58D7A9ED1AA36F2B00E8E788 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58C478111AADDD6700612E2B /* emailLeftView.png */,
+				58C478031AADD65F00612E2B /* addEventIcon.png */,
+				58C478041AADD65F00612E2B /* addEventIcon@2x.png */,
+				58C478051AADD65F00612E2B /* addFriendIcon.png */,
+				58C478061AADD65F00612E2B /* addFriendIcon@2x.png */,
+				58C4780F1AADDD6100612E2B /* loginLeftView.png */,
+				58C4780B1AADD88800612E2B /* backgroundParis.png */,
+				58C4780C1AADD88800612E2B /* backgroundParis@2x.png */,
+				58C478001AADD65600612E2B /* loginLeftView@2x.png */,
 				58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */,
 				58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */,
 				58BE5D9E1AA5EFBD00BE2DB3 /* validFriend.png */,
@@ -601,6 +633,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58C4780E1AADD88800612E2B /* backgroundParis@2x.png in Resources */,
 				5860EB9D1AA4AD3800D81E5F /* startPin.png in Resources */,
 				58BE5DA01AA5EFBD00BE2DB3 /* plusFriend.png in Resources */,
 				588EDD141AA3E04F003A146F /* passwordCadenas.png in Resources */,
@@ -611,17 +644,25 @@
 				588EDD171AA3E161003A146F /* WPTheme.nss in Resources */,
 				587F56241AA27D750083638A /* Main.storyboard in Resources */,
 				588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */,
+				58C478021AADD65600612E2B /* loginLeftView@2x.png in Resources */,
+				58C4780D1AADD88800612E2B /* backgroundParis.png in Resources */,
 				588EDD131AA3E04F003A146F /* accountLogin@2x.png in Resources */,
+				58C478091AADD65F00612E2B /* addFriendIcon.png in Resources */,
 				58C477EF1AACB6D700612E2B /* SendView.xib in Resources */,
 				5860EB9C1AA4AD3800D81E5F /* destPin@2x.png in Resources */,
 				588EDD121AA3E04F003A146F /* accountLogin.png in Resources */,
 				58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */,
 				58D7A9F11AA36F8E00E8E788 /* backgroundImage@2x.png in Resources */,
+				58C478081AADD65F00612E2B /* addEventIcon@2x.png in Resources */,
+				58C4780A1AADD65F00612E2B /* addFriendIcon@2x.png in Resources */,
 				5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */,
 				58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */,
+				58C478121AADDD6700612E2B /* emailLeftView.png in Resources */,
 				58BE5DAC1AA65B5D00BE2DB3 /* MapForm.xib in Resources */,
+				58C478071AADD65F00612E2B /* addEventIcon.png in Resources */,
 				5846D45B1AA90A0D00259C09 /* ReceiveEventCell.xib in Resources */,
 				58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */,
+				58C478101AADDD6100612E2B /* loginLeftView.png in Resources */,
 				5860EB9E1AA4AD3800D81E5F /* startPin@2x.png in Resources */,
 				587F56291AA27D750083638A /* LaunchScreen.xib in Resources */,
 				587F56261AA27D750083638A /* Images.xcassets in Resources */,
@@ -696,6 +737,7 @@
 				587F56181AA27D750083638A /* main.m in Sources */,
 				587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */,
 				588EDD0B1AA3DF13003A146F /* CircleAnimation.m in Sources */,
+				58C477FA1AADB33900612E2B /* AlertView.m in Sources */,
 				58C477F71AACCA6D00612E2B /* CheckBoxTableViewCell.m in Sources */,
 				588EDD0C1AA3DF13003A146F /* CustomModalAnimation.m in Sources */,
 				5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */,

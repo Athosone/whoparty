@@ -39,6 +39,7 @@
 @synthesize delegate;
 
 - (void)awakeFromNib {
+    self.currentAddr = nil;
     self.textViewComment.layer.cornerRadius = 6.0f;
 }
 
@@ -53,13 +54,15 @@
     self.tableViewAddress.dataSource = self;
     self.searchBar.delegate = self;
     self.datas = [[NSMutableDictionary alloc] init];
+    
     [self initMap];
+    
     self.hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
     self.hud.labelText = @"Loading";
     self.hud.hidden = TRUE;
+    
     self.activeField = self.textViewComment;
     [self addDoneToolBarToKeyboard:self.textViewComment];
-  //  [WPHelperConstant setBGColorForView:self color:nil];
     [self configureFlatCellWithColor:DEFAULTBGCOLOR selectedColor:DEFAULTBGCOLOR];
     [WPHelperConstant setButtonToFlat:self.validateButton];
 }
@@ -69,9 +72,12 @@
     self.tableViewAddress.delegate = self;
     self.tableViewAddress.dataSource = self;
     self.tableViewAddress.hidden = TRUE;
+    
     self.mapCenterPinImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
     self.mapCenterPinImage.image = [UIImage imageNamed:@"startPin"];
+    
     self.gmView.mapType = kGMSTypeNormal;
+    
     //Location
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -96,13 +102,17 @@
         [self.textViewComment resignFirstResponder];
 }
 
+#pragma mark ->ValidateEvent
+
 - (IBAction)validateEvent:(id)sender
 {
     NSDictionary *dataPass = nil;
-    if (self.currentAddr)
+    if (self.currentAddr && self.textViewComment.text.length > 0)
         dataPass =  [NSDictionary dictionaryWithObjectsAndKeys:self.currentAddr, @"currentAddress", self.textViewComment.text, @"comment", nil];
+    else if (self.textViewComment.text.length > 0 && !self.currentAddr)
+        dataPass = [NSDictionary dictionaryWithObjectsAndKeys:@"Error address is nil", @"error", nil];
     else
-        dataPass = [NSDictionary dictionaryWithObjectsAndKeys:self.textViewComment.text, @"comment", nil];
+        dataPass = [NSDictionary dictionaryWithObject:@"Put at least one comment to send an event" forKey:@"error"];
     [self.delegate didClickOnCellButton:self datas:dataPass];
 }
 
@@ -125,7 +135,13 @@
         
         //Attention indiquer au user que l'on a pas encore toute les infos
         [GooglePlaceDataProvider getCityNameFromLocation:location success:successGeoReverse];
-        
+        if (!self.currentAddr)
+        {
+            self.currentAddr = [[MYGoogleAddress alloc] init];
+            self.currentAddr.name = [PFUser currentUser].username;
+        }
+        self.currentAddr.latitude = location.coordinate.latitude;
+        self.currentAddr.longitude = location.coordinate.longitude;
         self.gmView.camera = [GMSCameraPosition cameraWithTarget:location.coordinate zoom:15 bearing:0 viewingAngle:0];
         //Call if no longer intrested in user location updates
         [self.locationManager stopUpdatingLocation];
@@ -187,7 +203,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MYGoogleAddress *gA = [self.foundPlaces objectAtIndex:indexPath.row];
+    MYGoogleAddress *gA = nil;
+    
+    if (self.foundPlaces.count > 0)
+        gA = [self.foundPlaces objectAtIndex:indexPath.row];
+    else
+        gA = self.currentAddr;
     
     CLLocation *dest = [[CLLocation alloc] initWithLatitude:gA.latitude longitude:gA.longitude];
     
@@ -195,6 +216,7 @@
     GMSMarker *destPoint = [GMSMarker markerWithPosition:dest.coordinate];
     destPoint.map = self.gmView;
     destPoint.title = gA.name;
+    destPoint.snippet = gA.address;
     self.gmView.camera = [GMSCameraPosition cameraWithLatitude:dest.coordinate.latitude longitude:dest.coordinate.longitude zoom:15.0];
     self.tableViewAddress.hidden = true;
     self.foundPlaces = nil;

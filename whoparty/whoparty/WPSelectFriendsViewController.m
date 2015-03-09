@@ -33,6 +33,7 @@
     self.user = [PFUser currentUser];
     self.friendsName = [self.user objectForKey:@"friendsId"];
     self.barButtonAddFriend.tintColor = [UIColor whiteColor];
+    [self.navigationItem.backBarButtonItem setTitle:@"OYO"];
    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.tableView registerNib:[UINib nibWithNibName:@"CheckBoxCell" bundle:nil] forCellReuseIdentifier:@"checkBoxCell"];
 }
@@ -111,72 +112,18 @@
 
 #pragma mark ->Send NotifPush
 
-- (void) sendNotificationPush:(PFUser*) user
+- (void) sendNotificationPush:(NSString*) userDest
 {
-    NSString *userDest = user.username;
-    Event   *event = [[Event alloc] initWithClassName:@"Event"];
-    if (self.currentAddress)
-        [self.currentAddress saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded)
-        {
-            if (self.currentAddress)
-                event.mygoogleaddress = self.currentAddress;
-            event.comment = self.comment;
-            event.receivinguser = userDest;
-            event.sendinguser = [PFUser currentUser].username;
-            event.isReceived = NO;
-            event.isAccepted = NO;
-            [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded)
-                {
-                    [event pinInBackground];
-                NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
-                
-                [data setObject:alert forKey:@"alert"];
-                [data setObject:@"createEvent" forKey:@"eventType"];
-                [data setObject:@"default" forKey:@"sound"];
-                [data setObject:event.objectId forKey:@"eventId"];
-                [ManagedParseUser sendNotificationPush:userDest
-                                                  data:data];
-                }
-                else
-                    NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
- 
-            }];
-        }
-        else
-            NSLog(@"Error saving address in SelectFriends-sendNotificationPush, error: %@", error);
-    }];
-    else
-    {
-        event.comment = self.comment;
-        event.receivinguser = userDest;
-        event.sendinguser = [PFUser currentUser].username;
-        event.isReceived = NO;
-        event.isAccepted = NO;
-        [event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded)
-            {
-                [event pinInBackground];
-                NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
-                
-                [data setObject:alert forKey:@"alert"];
-                [data setObject:@"createEvent" forKey:@"eventType"];
-                [data setObject:@"default" forKey:@"sound"];
-                [data setObject:event.objectId forKey:@"eventId"];
-                [ManagedParseUser sendNotificationPush:userDest
-                                                  data:data];
-            }
-            else
-                NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+    [ManagedParseUser createEvent:userDest comment:self.comment address:self.currentAddress success:^{
+        NSLog(@"Event created");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        });
         }];
-    }
 }
 
 #pragma mark ->SendView Delegate
-
+//Create method for grouped event
 - (void) didClickOnSendViewButton:(id)sender
 {
     NSArray *indexesPath = [self.tableView indexPathsForSelectedRows];
@@ -186,7 +133,7 @@
     {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:i];
         NSString *userDest = cell.textLabel.text;
-        [ManagedParseUser fetchFriendUserByUsername:userDest target:self selector:@selector(sendNotificationPush:)];
+        [self sendNotificationPush:userDest];
     }
 }
 

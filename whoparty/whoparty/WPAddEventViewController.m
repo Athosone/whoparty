@@ -9,7 +9,7 @@
 #import "WPSelectFriendsViewController.h"
 #import "WPAddEventViewController.h"
 #import "WPHelperConstant.h"
-
+#import "AlertView.h"
 
 #pragma mark ->ViewController
 
@@ -69,8 +69,25 @@
 
 - (void) didClickOnCellButton:(id)sender datas:(NSDictionary *)datas
 {
-    self.comment_mapDatas = datas;
-    [self performSegueWithIdentifier:@"selectFriends" sender:self];
+    if ([datas objectForKey:@"error"])
+    {
+        FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:[datas objectForKey:@"error"]];
+        
+        [alertView show];
+    }
+    else
+    {
+        self.comment_mapDatas = datas;
+        
+        WPSelectFriendsViewController *s = nil;
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        s = [story instantiateViewControllerWithIdentifier:@"selectFriend"];
+        s.currentAddress = [self.comment_mapDatas objectForKey:@"currentAddress"];
+        s.comment = [self.comment_mapDatas objectForKey:@"comment"];
+
+        [self.navigationController showViewController:s sender:self];
+    }
 }
 
 
@@ -86,6 +103,14 @@
         
         destVC.currentAddress = [self.comment_mapDatas objectForKey:@"currentAddress"];
         destVC.comment = [self.comment_mapDatas objectForKey:@"comment"];
+    }
+    else if ([[segue identifier] isEqualToString:@"selectFriendsModally"])
+    {
+        WPSelectFriendsViewController   *destVC = [segue destinationViewController];
+        
+        destVC.currentAddress = [self.comment_mapDatas objectForKey:@"currentAddress"];
+        destVC.comment = [self.comment_mapDatas objectForKey:@"comment"];
+
     }
 }
 

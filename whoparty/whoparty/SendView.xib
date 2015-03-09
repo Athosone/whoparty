@@ -12,6 +12,7 @@
             <subviews>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="XEL-3b-AVy">
                     <rect key="frame" x="386" y="15" width="20" height="20"/>
+                    <color key="color" red="0.6479837437" green="0.003644477352" blue="0.03283879328" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmG-N5-xtX" customClass="FUIButton">
                     <rect key="frame" x="8" y="10" width="398" height="30"/>

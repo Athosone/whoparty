@@ -48,6 +48,13 @@
     self.containerView.layer.cornerRadius = 6.0f;
     self.mapView.hidden = true;
     self.mapView.layer.cornerRadius = 6.0f;
+    
+    self.mapView.mapType = kGMSTypeNormal;
+    //Location
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    [self.locationManager requestWhenInUseAuthorization];
+    
 }
 
 
@@ -70,11 +77,6 @@
 
 - (void) initMap
 {
-    self.mapView.mapType = kGMSTypeNormal;
-    //Location
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    [self.locationManager requestWhenInUseAuthorization];
     
     [GooglePlaceDataProvider setPointForView:self.mapView mygoogleAddress:self.destPos];
     [GooglePlaceDataProvider setCameraPositionForView:self.mapView mygoogleAddress:self.destPos];
@@ -145,8 +147,7 @@
 
 - (IBAction)declineButtonOnClick:(id)sender
 {
-    [self.delegate didClickOnDeclineButton:self];
-    
+    [self.delegate didClickOnDeclineButton:self];    
 }
 
 - (IBAction)acceptButtonOnClick:(id)sender

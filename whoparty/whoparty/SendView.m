@@ -33,18 +33,19 @@
     self.buttonSend.buttonColor = [UIColor orangeColor];
     self.buttonSend.shadowColor = [UIColor sunflowerColor];
     self.layer.cornerRadius = 6.0f;
+    [self bringSubviewToFront:self.activityIndicator];
    // self.hidden = true;
 }
 
 - (void) fadeIn
 {
     self.hidden = false;
-    [Animations addFadeInTransitionToView:self duration:1.5f];
+    [Animations addFadeInTransitionToView:self duration:0.8f];
 }
 
 - (void) fadeOut
 {
-    [Animations addFadeOutTransitionToView:self duration:1.5f];
+    [Animations addFadeOutTransitionToView:self duration:0.8f];
     //self.hidden = true;
 }
 

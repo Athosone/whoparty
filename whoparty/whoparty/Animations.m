@@ -58,6 +58,14 @@
     [destView.layer  pop_addAnimation:shake forKey:@"shakeView"];
 }
 
++ (void) addVerticalShaking:(UIView*) destView
+{
+    POPSpringAnimation *shake = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+    
+    shake.springBounciness = 20;
+    shake.velocity = @(1500);
+    [destView.layer  pop_addAnimation:shake forKey:@"shakeViewVertically"];
+}
 
 + (void) addFadeInTransitionToView:(UIView*)destView duration:(float)duration
 {

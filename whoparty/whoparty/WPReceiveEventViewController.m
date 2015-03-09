@@ -44,15 +44,28 @@
     // Do any additional setup after loading the view.
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.event && self.event.objectId)
+    {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        self.hud.labelText = @"Loading map";
+        self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
+        self.hud.hidden = false;
+        [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
+    }
+}
+
 - (void) updateMyGoogleAddress:(PFObject*)googleAddress
 {
     if (googleAddress)
     {
         [self.event setObject:googleAddress forKey:@"mygoogleaddress"];
         self.isReady = YES;
-        self.hud.hidden = true;
-        [self.tableView reloadData];
     }
+    self.hud.hidden = true;
+    [self.tableView reloadData];
 }
 
 #pragma mark ->TableView delegate
@@ -85,7 +98,7 @@
     else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
         [cell setSendingUserStyle];
     cell.delegate = self;
-    [Animations addFadeInTransitionToView:cell duration:1.0f];
+    [Animations addFadeInTransitionToView:cell duration:0.8f];
     return cell;
 }
 
@@ -99,7 +112,7 @@
      {
          if (succeeded)
          {
-             [self.event pinInBackground];
+             [self.event pin];
              NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
              NSString *alert = [NSString stringWithFormat:@"%@ just accepted your event !",[PFUser currentUser].username];
              
@@ -108,12 +121,16 @@
              [data setObject:@"default" forKey:@"sound"];
              [data setObject:self.event.objectId forKey:@"eventId"];
              //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
-             [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+             [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data completionBlock:^{
+                 NSLog(@"Event Accepted");
+             }];
              [self.tableView reloadData];
-             
          }
          else
+         {
              NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+             [self.event saveEventually];
+         }
      }];
 }
 
@@ -125,7 +142,7 @@
      {
          if (succeeded)
          {
-             [self.event pinInBackground];
+             [self.event pin];
              NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
              NSString *alert = [NSString stringWithFormat:@"%@ just declined your event !",[PFUser currentUser].username];
              
@@ -134,11 +151,16 @@
              [data setObject:@"default" forKey:@"sound"];
              [data setObject:self.event.objectId forKey:@"eventId"];
              //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
-             [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
+             [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data completionBlock:^{
+                 NSLog(@"Event declined");
+             }];
              [self.tableView reloadData];
          }
          else
+         {
              NSLog(@"Error saving event in SelectFriends-sendNotificationPush, error: %@", error);
+             [self.event saveEventually];
+         }
      }];
 }
 

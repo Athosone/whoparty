@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "WPLoginViewController.h"
 #import "WPHelperConstant.h"
+#import "AlertView.h"
 
 #define LEFTVIEWWIDTH 25
 
@@ -27,7 +28,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivePushNotification:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     //TO DELETE
     self.textFieldPassword1.text = @"12345";
-    self.textFieldEmail.text = @"toto@gmail.com";
+    self.textFieldLogin.text = @"toto@gmail.com";
     // Do any additional setup after loading the view.
 }
 
@@ -47,19 +48,24 @@
     CGRect frame1 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
     CGRect frame2 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
     CGRect frame3 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-
+    CGRect frame4 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+    
     UIImageView *field1 = [[UIImageView alloc] initWithFrame:frame1];
     UIImageView *field2 = [[UIImageView alloc] initWithFrame:frame2];
     UIImageView *field3 = [[UIImageView alloc] initWithFrame:frame3];
+    UIImageView *field4 = [[UIImageView alloc] initWithFrame:frame4];
     
-    field1.image = [UIImage imageNamed:@"accountLogin"];
+    field1.image = [UIImage imageNamed:@"emailLeftView"];
     field2.image = [UIImage imageNamed:@"passwordCadenas"];
     field3.image = [UIImage imageNamed:@"passwordCadenas"];
+    field4.image = [UIImage imageNamed:@"accountLogin"];
     
     self.textFieldEmail.leftView = field1;
+    self.textFieldLogin.leftView = field4;
     self.textFieldPassword1.leftView = field2;
     self.textFieldPassword2.leftView = field3;
-
+    
+    self.textFieldLogin.leftViewMode = UITextFieldViewModeAlways;
     self.textFieldEmail.leftViewMode = UITextFieldViewModeAlways;
     self.textFieldPassword1.leftViewMode = UITextFieldViewModeAlways;
     self.textFieldPassword2.leftViewMode = UITextFieldViewModeAlways;
@@ -68,10 +74,11 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     PFUser *user = [PFUser currentUser];
     if (user)
     {
-        self.textFieldEmail.text = user.email;
+        self.textFieldLogin.text = user.username;
         self.textFieldPassword1.text = user.password;
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
@@ -95,7 +102,9 @@
     self.hud.labelText = @"Connecting";
     if ((error = [super validateFormLogin]))
     {
-        [[[UIAlertView alloc] initWithTitle:nil message:error delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
+        FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
+        
+        [alertView show];
         return;
     }
     else
@@ -127,6 +136,7 @@
     {
         [self.buttonOutletRegister setTitle:@"Register !" forState:UIControlStateNormal];
         self.textFieldPassword2.hidden = FALSE;
+        self.textFieldEmail.hidden = FALSE;
         i = 1;
         return;
     }
@@ -136,7 +146,9 @@
     
     if ((error = [super validateFormRegister]))
     {
-        [[[UIAlertView alloc] initWithTitle:nil message:error delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
+        FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
+        
+        [alertView show];
         return;
     }
     else
@@ -145,7 +157,7 @@
         PFUser *user = [[PFUser alloc] init];
 
         user.email = self.textFieldEmail.text;
-        user.username = user.email;
+        user.username = self.textFieldLogin.text;
         user.password = self.textFieldPassword1.text;
         [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
         {

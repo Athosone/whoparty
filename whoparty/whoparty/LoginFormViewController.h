@@ -12,6 +12,7 @@
 
 @interface LoginFormViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UITextField *textFieldLogin;
 @property (strong, nonatomic) IBOutlet UITextField *textFieldEmail;
 @property (strong, nonatomic) IBOutlet UITextField *textFieldPassword1;
 @property (strong, nonatomic) IBOutlet UITextField *textFieldPassword2;
