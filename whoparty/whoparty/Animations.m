@@ -98,7 +98,7 @@
     [fadeout setFromValue:[NSNumber numberWithFloat:1.0f]];
     [fadeout setToValue:[NSNumber numberWithFloat:0.0f]];
     destView.layer.opacity = 0.0f;
-   
+    
     CABasicAnimation *fadein = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [fadein setFromValue:[NSNumber numberWithFloat:0.0f]];
     [fadein setToValue:[NSNumber numberWithFloat:1.0f]];
@@ -114,9 +114,69 @@
     
 }
 
+#pragma mark ->RubberbandAnimation
+
++ (CABasicAnimation*) slideAnimationOnX:(CGPoint)start end:(CGPoint)end
+{
+    CABasicAnimation *slideAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
+    
+    [slideAnimation setFromValue:[NSNumber numberWithFloat:start.x]];
+    [slideAnimation setToValue:[NSNumber numberWithFloat:end.x]];
+    return slideAnimation;
+}
+
++ (void) addRubberBandAnimation:(UIView*)leftView rightView:(UIView*)rightView receivingView:(UIView*)mainView completed:(void(^)(BOOL completed))completed
+{
+    CGPoint leftViewCenter = leftView.layer.position;
+    CGPoint rightViewCenter = rightView.layer.position;
+    
+    CGPoint slideRightView = rightViewCenter;
+    CGPoint slideLeftView = leftViewCenter;
+    
+    slideRightView.x += mainView.frame.size.height;
+    slideLeftView.x -= mainView.frame.size.height;
+    
+    
+    
+    POPBasicAnimation *popAnimLeft = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    
+    popAnimLeft.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    popAnimLeft.fromValue = [NSNumber numberWithFloat:leftView.center.x];
+    popAnimLeft.toValue = [NSNumber numberWithFloat:slideLeftView.x];
+    [leftView pop_addAnimation:popAnimLeft forKey:@"test"];
+
+    POPBasicAnimation *popAnimRight = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    
+    popAnimRight.fromValue = [NSNumber numberWithFloat:rightView.center.x];
+    popAnimRight.toValue = [NSNumber numberWithFloat:rightView.center.x + 100];
+    popAnimRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [rightView pop_addAnimation:popAnimRight forKey:@"test2"];
+    NSLog(@"Rightview pos :%f %f", rightView.layer.position.x, slideRightView.x);
+    NSLog(@"Rightview pos :%f %f", leftView.center.x, slideLeftView.x);
+    
+    completed(YES);
+}
+
 #pragma mark Test Animations
 - (void) test:(UIView*)destView
 {
+   /* CAKeyframeAnimation *keyAnimToRight = [CAKeyframeAnimation animation];
+    
+    keyAnimToRight.values = @[[NSNumber numberWithFloat:rightViewCenter.x], [NSNumber numberWithFloat:slideRightView.x], [NSNumber numberWithFloat:rightViewCenter.x]];
+    keyAnimToRight.keyPath = @"position.x";
+    keyAnimToRight.duration = 2.0f;
+    
+    //  [rightView.layer addAnimation:keyAnimToRight forKey:@"test"];
+    
+    
+    CAKeyframeAnimation *keyAnim = [CAKeyframeAnimation animation];
+    
+    keyAnim.values = @[[NSNumber numberWithFloat:leftViewCenter.x], [NSNumber numberWithFloat:slideLeftView.x], [NSNumber numberWithFloat:leftViewCenter.x]];
+    keyAnim.keyPath = @"position.x";
+    keyAnim.duration = 2.0f;
+    //[leftView.layer addAnimation:keyAnim forKey:@"test"];
+    //To the right
+    */
     int radius = 100;
     CAShapeLayer *circle = [CAShapeLayer layer];
     

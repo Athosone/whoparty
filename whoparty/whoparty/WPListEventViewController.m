@@ -12,6 +12,8 @@
 #import "Event.h"
 #import "WPReceiveEventViewController.h"
 #import "Animations.h"
+#import "MenuViewController.h"
+
 
 @interface WPListEventViewController ()
 
@@ -31,12 +33,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
     [WPHelperConstant setBGColorForView:self.tableView color:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPushNotfication:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
-
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -147,6 +149,7 @@
         Event *event = [eventList objectAtIndex:indexPath.row];
         
         cell.imageView.layer.cornerRadius = 6.0f;
+        
         if ([event objectForKey:@"isReceived"] == [NSNumber numberWithBool:FALSE])
             cell.imageView.image = [UIImage imageWithColor:[UIColor cloudsColor] cornerRadius:6.0f];
        else if ([event objectForKey:@"isAccepted"] == [NSNumber numberWithBool:TRUE])
@@ -154,10 +157,18 @@
         else
             cell.imageView.image = [UIImage imageWithColor:DEFAULTDECLINECOLOR cornerRadius:6.0f];
         NSString *sendingusername = [event objectForKey:@"sendinguser"];
-        if (self.segmentedControl.selectedSegmentIndex == 0)
-            cell.textLabel.text = sendingusername;
+        
+        NSArray *users = event[@"usersConcerned"];
+        NSString *cellText = @"";
+        if (users.count > 1)
+            cell.textLabel.text = event[@"groupName"];
         else
-            cell.textLabel.text = event[@"receivinguser"];
+        {
+            if (self.segmentedControl.selectedSegmentIndex == 0)
+                cell.textLabel.text = [cellText stringByAppendingString:sendingusername];
+            else
+                cell.textLabel.text = event[@"receivinguser"];
+        }
         NSString *dateString = [WPHelperConstant dateToString:event.createdAt];
         cell.detailTextLabel.text = dateString;
     }
@@ -171,6 +182,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)menuShow:(id)sender
+{
+   MenuViewController  *menu = [[MenuViewController alloc] init];
+
+    menu.view.frame = self.view.frame;
+    menu.definesPresentationContext = YES;
+    menu.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [self presentViewController:menu animated:YES completion:nil];
+}
 
 #pragma mark - Navigation
 

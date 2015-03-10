@@ -54,6 +54,8 @@
 		588EDD141AA3E04F003A146F /* passwordCadenas.png in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD101AA3E04F003A146F /* passwordCadenas.png */; };
 		588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD111AA3E04F003A146F /* passwordCadenas@2x.png */; };
 		588EDD171AA3E161003A146F /* WPTheme.nss in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD161AA3E161003A146F /* WPTheme.nss */; };
+		589A61A71AAEFC7C006FB5A2 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 589A61A61AAEFC7C006FB5A2 /* ParseCrashReporting.framework */; };
+		589A61A91AAEFCCA006FB5A2 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 589A61A81AAEFCCA006FB5A2 /* libstdc++.6.dylib */; };
 		58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */; };
 		58BE5DA01AA5EFBD00BE2DB3 /* plusFriend.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */; };
 		58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */; };
@@ -75,6 +77,9 @@
 		58C4780E1AADD88800612E2B /* backgroundParis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780C1AADD88800612E2B /* backgroundParis@2x.png */; };
 		58C478101AADDD6100612E2B /* loginLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780F1AADDD6100612E2B /* loginLeftView.png */; };
 		58C478121AADDD6700612E2B /* emailLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478111AADDD6700612E2B /* emailLeftView.png */; };
+		58C4781D1AAE083900612E2B /* MenuSubView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C4781C1AAE083900612E2B /* MenuSubView.xib */; };
+		58C478201AAE0D4800612E2B /* MenuSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C4781F1AAE0D4800612E2B /* MenuSubView.m */; };
+		58C478231AAE136100612E2B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C478221AAE136100612E2B /* MenuViewController.m */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
 		58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */; };
 		58D7A9F01AA36F8E00E8E788 /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7A9EE1AA36F8E00E8E788 /* backgroundImage.png */; };
@@ -174,6 +179,9 @@
 		588EDD101AA3E04F003A146F /* passwordCadenas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = passwordCadenas.png; sourceTree = "<group>"; };
 		588EDD111AA3E04F003A146F /* passwordCadenas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "passwordCadenas@2x.png"; sourceTree = "<group>"; };
 		588EDD161AA3E161003A146F /* WPTheme.nss */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WPTheme.nss; sourceTree = "<group>"; };
+		589A61A21AAEFB79006FB5A2 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = "../../../../../Downloads/parse-library-1.6.3/ParseCrashReporting.framework"; sourceTree = "<group>"; };
+		589A61A61AAEFC7C006FB5A2 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
+		589A61A81AAEFCCA006FB5A2 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		58BE5D991AA5EB8200BE2DB3 /* WPAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPAddFriendsViewController.h; sourceTree = "<group>"; };
 		58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPAddFriendsViewController.m; sourceTree = "<group>"; };
 		58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusFriend.png; sourceTree = "<group>"; };
@@ -200,6 +208,11 @@
 		58C4780C1AADD88800612E2B /* backgroundParis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundParis@2x.png"; sourceTree = "<group>"; };
 		58C4780F1AADDD6100612E2B /* loginLeftView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginLeftView.png; sourceTree = "<group>"; };
 		58C478111AADDD6700612E2B /* emailLeftView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emailLeftView.png; sourceTree = "<group>"; };
+		58C4781C1AAE083900612E2B /* MenuSubView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuSubView.xib; sourceTree = "<group>"; };
+		58C4781E1AAE0D4800612E2B /* MenuSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSubView.h; sourceTree = "<group>"; };
+		58C4781F1AAE0D4800612E2B /* MenuSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSubView.m; sourceTree = "<group>"; };
+		58C478211AAE136100612E2B /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		58C478221AAE136100612E2B /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFormViewController.h; sourceTree = "<group>"; };
 		58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFormViewController.m; sourceTree = "<group>"; };
 		58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPLoginViewController.h; sourceTree = "<group>"; };
@@ -230,6 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				589A61A91AAEFCCA006FB5A2 /* libstdc++.6.dylib in Frameworks */,
 				5860EB931AA4A98800D81E5F /* OpenGLES.framework in Frameworks */,
 				5860EB911AA4A97700D81E5F /* libicucore.dylib in Frameworks */,
 				5860EB8F1AA4A96000D81E5F /* libc++.dylib in Frameworks */,
@@ -249,6 +263,7 @@
 				58D7AA191AA37ADE00E8E788 /* StoreKit.framework in Frameworks */,
 				58D7AA171AA37AD400E8E788 /* Security.framework in Frameworks */,
 				58D7AA151AA37AC600E8E788 /* QuartzCore.framework in Frameworks */,
+				589A61A71AAEFC7C006FB5A2 /* ParseCrashReporting.framework in Frameworks */,
 				58D7AA131AA37A6500E8E788 /* MobileCoreServices.framework in Frameworks */,
 				58D7AA111AA37A5A00E8E788 /* CoreLocation.framework in Frameworks */,
 				58D7AA0F1AA37A5300E8E788 /* CoreGraphics.framework in Frameworks */,
@@ -328,6 +343,7 @@
 		587F56091AA27D750083638A = {
 			isa = PBXGroup;
 			children = (
+				589A61A61AAEFC7C006FB5A2 /* ParseCrashReporting.framework */,
 				5860EB821AA4A90200D81E5F /* GoogleMaps.bundle */,
 				5860EB7E1AA4A88000D81E5F /* GoogleMaps.framework */,
 				58D7AA001AA37A2700E8E788 /* Bolts.framework */,
@@ -352,6 +368,7 @@
 		587F56141AA27D750083638A /* whoparty */ = {
 			isa = PBXGroup;
 			children = (
+				58D7A9E21AA3687300E8E788 /* Model */,
 				58D7A9E41AA3687E00E8E788 /* ViewController */,
 				58D7A9E31AA3687900E8E788 /* View */,
 				587F56191AA27D750083638A /* AppDelegate.h */,
@@ -409,6 +426,15 @@
 			name = NUINSS;
 			sourceTree = "<group>";
 		};
+		589A61C11AAF89C7006FB5A2 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				58C478211AAE136100612E2B /* MenuViewController.h */,
+				58C478221AAE136100612E2B /* MenuViewController.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
 		58BE5DA71AA6462B00BE2DB3 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +446,29 @@
 				5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */,
 			);
 			name = MapView;
+			sourceTree = "<group>";
+		};
+		58C478131AADF1A100612E2B /* SmallView */ = {
+			isa = PBXGroup;
+			children = (
+				58C477F31AACC97900612E2B /* CheckBoxCell.xib */,
+				58C477F51AACCA6D00612E2B /* CheckBoxTableViewCell.h */,
+				58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */,
+				58C477EE1AACB6D700612E2B /* SendView.xib */,
+				58C477F01AACB9B800612E2B /* SendView.h */,
+				58C477F11AACB9B800612E2B /* SendView.m */,
+			);
+			name = SmallView;
+			sourceTree = "<group>";
+		};
+		58C478141AADF1B700612E2B /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				58C4781C1AAE083900612E2B /* MenuSubView.xib */,
+				58C4781E1AAE0D4800612E2B /* MenuSubView.h */,
+				58C4781F1AAE0D4800612E2B /* MenuSubView.m */,
+			);
+			name = Menu;
 			sourceTree = "<group>";
 		};
 		58D7A9E21AA3687300E8E788 /* Model */ = {
@@ -439,12 +488,8 @@
 		58D7A9E31AA3687900E8E788 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				58C477F31AACC97900612E2B /* CheckBoxCell.xib */,
-				58C477F51AACCA6D00612E2B /* CheckBoxTableViewCell.h */,
-				58C477F61AACCA6D00612E2B /* CheckBoxTableViewCell.m */,
-				58C477EE1AACB6D700612E2B /* SendView.xib */,
-				58C477F01AACB9B800612E2B /* SendView.h */,
-				58C477F11AACB9B800612E2B /* SendView.m */,
+				58C478141AADF1B700612E2B /* Menu */,
+				58C478131AADF1A100612E2B /* SmallView */,
 				58BE5DA71AA6462B00BE2DB3 /* MapView */,
 				588EDD0D1AA3DF6E003A146F /* NUINSS */,
 				588EDCF11AA3DE18003A146F /* Animations */,
@@ -461,7 +506,7 @@
 		58D7A9E41AA3687E00E8E788 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				58D7A9E21AA3687300E8E788 /* Model */,
+				589A61C11AAF89C7006FB5A2 /* Menu */,
 				5860EB771AA4988000D81E5F /* Tabbar */,
 				58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */,
 				58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */,
@@ -516,6 +561,8 @@
 		F5F0000FCA0955343BD41AC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				589A61A81AAEFCCA006FB5A2 /* libstdc++.6.dylib */,
+				589A61A21AAEFB79006FB5A2 /* ParseCrashReporting.framework */,
 				5860EB921AA4A98800D81E5F /* OpenGLES.framework */,
 				5860EB901AA4A97700D81E5F /* libicucore.dylib */,
 				5860EB8E1AA4A96000D81E5F /* libc++.dylib */,
@@ -556,6 +603,7 @@
 				587F560F1AA27D750083638A /* Frameworks */,
 				587F56101AA27D750083638A /* Resources */,
 				0FC376E5D2444EA62366B1EA /* Copy Pods Resources */,
+				589A61AA1AAEFE79006FB5A2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -646,6 +694,7 @@
 				588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */,
 				58C478021AADD65600612E2B /* loginLeftView@2x.png in Resources */,
 				58C4780D1AADD88800612E2B /* backgroundParis.png in Resources */,
+				58C4781D1AAE083900612E2B /* MenuSubView.xib in Resources */,
 				588EDD131AA3E04F003A146F /* accountLogin@2x.png in Resources */,
 				58C478091AADD65F00612E2B /* addFriendIcon.png in Resources */,
 				58C477EF1AACB6D700612E2B /* SendView.xib in Resources */,
@@ -695,6 +744,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-whoparty/Pods-whoparty-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		589A61AA1AAEFE79006FB5A2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=/usr/local/bin:$PATH\ncd /Users/Athos/Documents/Prog/IOS-Dev/whoparty/whoparty/parse/cloud\n\nparse symbols \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+		};
 		E7C9D5C0CEB4C6BED2F1B44D /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -721,12 +783,14 @@
 				588EDD0A1AA3DF13003A146F /* Animations.m in Sources */,
 				58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */,
 				58BE5DAA1AA6466000BE2DB3 /* AddEventCell.m in Sources */,
+				58C478201AAE0D4800612E2B /* MenuSubView.m in Sources */,
 				5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */,
 				5846D4611AA9107500259C09 /* WPReceiveEventViewController.m in Sources */,
 				5860EB961AA4A9BE00D81E5F /* WPHelperConstant.m in Sources */,
 				5846D4641AA9242E00259C09 /* Event.m in Sources */,
 				58D7A9F41AA3722800E8E788 /* NSString+FormValidation.m in Sources */,
 				5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */,
+				58C478231AAE136100612E2B /* MenuViewController.m in Sources */,
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
 				58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */,
 				587F561B1AA27D750083638A /* AppDelegate.m in Sources */,
@@ -874,6 +938,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
 					"$(PROJECT_DIR)",
+					"/Users/Athos/Downloads/parse-library-1.6.3",
 				);
 				INFOPLIST_FILE = whoparty/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -893,6 +958,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
 					"$(PROJECT_DIR)",
+					"/Users/Athos/Downloads/parse-library-1.6.3",
 				);
 				INFOPLIST_FILE = whoparty/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -27,8 +27,16 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivePushNotification:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     //TO DELETE
-    self.textFieldPassword1.text = @"12345";
-    self.textFieldLogin.text = @"toto@gmail.com";
+    PFUser *user = [PFUser currentUser];
+    if (user)
+    {
+        self.textFieldLogin.text = user.username;
+    }
+    else
+    {
+        self.textFieldPassword1.text = @"";
+        self.textFieldLogin.text = @"";
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -110,7 +118,7 @@
     else
     {
         self.hud.hidden = FALSE;
-        [PFUser logInWithUsernameInBackground:self.textFieldEmail.text password:self.textFieldPassword1.text block:^(PFUser *user, NSError *error) {
+        [PFUser logInWithUsernameInBackground:self.textFieldLogin.text password:self.textFieldPassword1.text block:^(PFUser *user, NSError *error) {
             self.hud.hidden = TRUE;
             if (error)
                 [super connectionFailed:[error localizedDescription]];

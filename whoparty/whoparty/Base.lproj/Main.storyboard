@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
+        <!--Menu-->
+        <scene sceneID="lw4-af-Upv">
+            <objects>
+                <viewController storyboardIdentifier="MenuViewController" title="Menu" definesPresentationContext="YES" modalPresentationStyle="overCurrentContext" id="k6x-py-ja5" customClass="MenuViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VgY-iV-yZd"/>
+                        <viewControllerLayoutGuide type="bottom" id="oJ4-pe-YZA"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" alpha="0.69999999999999973" contentMode="scaleToFill" id="xCZ-cc-ibq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView opaque="NO" clipsSubviews="YES" alpha="0.79999999999999982" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Wah-x4-dKa">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MenuSubView" id="Uus-Az-AXY" customClass="MenuSubView">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uus-Az-AXY" id="MfP-vH-q7p">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="k6x-py-ja5" id="kvz-4G-aVG"/>
+                                    <outlet property="delegate" destination="k6x-py-ja5" id="Zp7-cl-qcd"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Wah-x4-dKa" secondAttribute="trailing" id="CmZ-OD-I3L"/>
+                            <constraint firstItem="Wah-x4-dKa" firstAttribute="top" secondItem="VgY-iV-yZd" secondAttribute="bottom" id="Rzj-oH-M0K"/>
+                            <constraint firstAttribute="bottom" secondItem="Wah-x4-dKa" secondAttribute="bottom" id="aCk-8j-p4P"/>
+                            <constraint firstItem="Wah-x4-dKa" firstAttribute="leading" secondItem="xCZ-cc-ibq" secondAttribute="leading" id="qkq-9V-Tcd"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Wah-x4-dKa" id="q4y-ab-Hj4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mBa-Qa-plX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="84" y="-339"/>
+        </scene>
         <!--Login View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -19,7 +64,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundParis.png" translatesAutoresizingMaskIntoConstraints="NO" id="i1Z-MB-83B">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3jA-q8-hRd">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Email" borderStyle="line" placeholder="email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3jA-q8-hRd">
                                 <rect key="frame" x="132" y="70" width="150" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="XyR-Pg-SID"/>
@@ -47,7 +92,7 @@
                                     <action selector="login:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ILc-1P-oDr"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1g4-Wx-Mlg">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="line" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1g4-Wx-Mlg">
                                 <rect key="frame" x="132" y="244" width="150" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="W4M-ve-PLN"/>
@@ -55,7 +100,7 @@
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="nuiClass" value="LoginViewTextField"/>
                                 </userDefinedRuntimeAttributes>
@@ -75,7 +120,7 @@
                                     <action selector="registerUser:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FDN-6d-wIg"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wSS-9a-U8e">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wSS-9a-U8e">
                                 <rect key="frame" x="132" y="128" width="150" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="YKG-du-3Jc"/>
@@ -88,7 +133,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="nuiClass" value="LoginViewTextField"/>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uk8-is-rF5">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="line" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uk8-is-rF5">
                                 <rect key="frame" x="132" y="186" width="150" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="6jK-f1-Nd6"/>
@@ -96,7 +141,7 @@
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="nuiClass" value="LoginViewTextField"/>
                                 </userDefinedRuntimeAttributes>
@@ -489,6 +534,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="fLB-AJ-LIZ">
                         <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="tkH-NU-jRc">
+                            <connections>
+                                <action selector="menuShow:" destination="LH5-gI-0Xf" id="lWm-WF-ssq"/>
+                            </connections>
+                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="88o-GZ-CTy">
                             <rect key="frame" x="112.5" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

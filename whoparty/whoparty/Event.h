@@ -19,5 +19,7 @@
 @property (readwrite, nonatomic) BOOL         isReceived;
 @property (readwrite, nonatomic) BOOL         isAccepted;
 @property (strong, nonatomic) NSString        *receivinguser;
+@property (strong, nonatomic) NSArray         *usersConcerned;
+@property (strong, nonatomic) NSString        *groupName;
 
 @end

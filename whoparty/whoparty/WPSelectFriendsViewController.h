@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MYGoogleAddress.h"
 #import "SendView.h"
+#import "AlertView.h"
 
 @class SendView;
 @interface WPSelectFriendsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SendViewProtocol>

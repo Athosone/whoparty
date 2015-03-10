@@ -35,13 +35,10 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
     if (self.event && self.event.objectId)
     {
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-        self.hud.labelText = @"Loading map";
-        self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
-        self.hud.hidden = false;
-        [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
+       self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+       self.hud.labelText = @"Loading map";
+       self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
     }
-    // Do any additional setup after loading the view.
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -49,9 +46,6 @@
     [super viewWillAppear:animated];
     if (self.event && self.event.objectId)
     {
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-        self.hud.labelText = @"Loading map";
-        self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
         self.hud.hidden = false;
         [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
     }
@@ -59,13 +53,15 @@
 
 - (void) updateMyGoogleAddress:(PFObject*)googleAddress
 {
-    if (googleAddress)
-    {
-        [self.event setObject:googleAddress forKey:@"mygoogleaddress"];
-        self.isReady = YES;
-    }
-    self.hud.hidden = true;
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (googleAddress)
+        {
+            [self.event setObject:googleAddress forKey:@"mygoogleaddress"];
+            self.isReady = YES;
+        }
+        self.hud.hidden = true;
+        [self.tableView reloadData];
+    });
 }
 
 #pragma mark ->TableView delegate

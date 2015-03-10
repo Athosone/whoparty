@@ -14,7 +14,6 @@
 #import "SendView.h"
 #import "CheckBoxTableViewCell.h"
 
-
 @interface WPSelectFriendsViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -112,9 +111,9 @@
 
 #pragma mark ->Send NotifPush
 
-- (void) sendNotificationPush:(NSString*) userDest
+- (void) sendNotificationPush:(NSArray*) userDest groupName:(NSString*)groupName
 {
-    [ManagedParseUser createEvent:userDest comment:self.comment address:self.currentAddress success:^{
+    [ManagedParseUser createEvent:userDest comment:self.comment groupName:groupName address:self.currentAddress success:^{
         NSLog(@"Event created");
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController popToRootViewControllerAnimated:YES];
@@ -124,18 +123,64 @@
 
 #pragma mark ->SendView Delegate
 //Create method for grouped event
-- (void) didClickOnSendViewButton:(id)sender
-{
-    NSArray *indexesPath = [self.tableView indexPathsForSelectedRows];
 
+- (void) preparePushNotification:(NSArray*)indexesPath groupName:(NSString*)groupName
+{
+    NSMutableArray  *userConcerned = [[NSMutableArray alloc] init];;
+    
     [self.sendView startAi];
     for (NSIndexPath *i in indexesPath)
     {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:i];
-        NSString *userDest = cell.textLabel.text;
-        [self sendNotificationPush:userDest];
+        [userConcerned addObject:cell.textLabel.text];
     }
+    [self sendNotificationPush:userConcerned groupName:groupName];
 }
+
+- (void) didClickOnSendViewButton:(id)sender
+{
+    NSArray *indexesPath = [self.tableView indexPathsForSelectedRows];
+    __block NSString *groupName = nil;
+   
+    if (indexesPath.count > 10)
+    {
+        FUIAlertView *alert = [AlertView getDefaultAlertVIew:@"Oops !" message:@"You can send an event to ten people maximum"];
+        [alert show];
+        return;
+    }
+    else if (indexesPath.count > 1)
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"One last information ^^" message:@"Provide a name for your grouped invitation" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 UITextField *tF = (UITextField*)[alert.textFields objectAtIndex:0];
+                                 groupName = tF.text;
+                                    if (groupName)
+                                     [self preparePushNotification:indexesPath groupName:groupName];
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                  }];
+        [alert addAction:cancel];
+        [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = @"Enter your group name";
+        }];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else
+        [self preparePushNotification:indexesPath groupName:nil];
+}
+
 
 /*
 #pragma mark - Navigation

@@ -171,8 +171,12 @@
     [ManagedParseUser addOperationToQueue:op];
 }
 
-+ (void) sendNotificationPushSync:(NSString*)usernameDest data:(NSDictionary*)data
++ (void) sendNotificationPushSync:(NSArray*)userConcerned data:(NSDictionary*)data
 {
+    
+    
+    for (NSString *usernameDest in userConcerned)
+    {
         NSError     *error;
         PFQuery *queryUser = [PFQuery queryWithClassName:@"_User"];
         
@@ -204,6 +208,7 @@
         }
         else
             NSLog(@"Error fetching user remotely notif not sent -sendpushnotifmanageparseuser error: %@", error);
+    }
 }
 
 
@@ -438,7 +443,7 @@
     [ManagedParseUser addOperationToQueue:operation];
 }
 
-+ (void) createEvent:(NSString*)userDest comment:(NSString*)comment address:(MYGoogleAddress*)address success:(void(^)())success
++ (void) createEvent:(NSArray*)userConcerned comment:(NSString*)comment groupName:(NSString*)groupName address:(MYGoogleAddress*)address success:(void(^)())success
 {
     NSBlockOperation *mainOp = [[NSBlockOperation alloc] init];
     
@@ -446,9 +451,15 @@
         success();
     }];
     Event   *event = [[Event alloc] initWithClassName:@"Event"];
-
+    if (userConcerned.count > 1)
+    {
+        event.usersConcerned = userConcerned;
+        event.groupName = groupName;
+    }
+    else
+        event.receivinguser = [userConcerned objectAtIndex:0];
     [mainOp addExecutionBlock:^{
-       
+        
         NSError *error;
         
         if (address)
@@ -463,7 +474,6 @@
             }
         }
         event.comment = comment;
-        event.receivinguser = userDest;
         event.sendinguser = [PFUser currentUser].username;
         event.isReceived = NO;
         event.isAccepted = NO;
@@ -479,10 +489,19 @@
         [data setObject:@"createEvent" forKey:@"eventType"];
         [data setObject:@"default" forKey:@"sound"];
         [data setObject:event.objectId forKey:@"eventId"];
-        [ManagedParseUser sendNotificationPushSync:userDest
-                                          data:data];
+        [ManagedParseUser sendNotificationPushSync:userConcerned
+                                              data:data];
     }];
     [ManagedParseUser addOperationToQueue:mainOp];
+}
+
++ (void) sendErrorReport:(NSError*)error
+{
+    if (error)
+    {
+        NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+        [PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+    }
 }
 
 @end

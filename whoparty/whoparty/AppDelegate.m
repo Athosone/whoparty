@@ -7,6 +7,7 @@
 //
 
 #import <Parse/Parse.h>
+#import <ParseCrashReporting/ParseCrashReporting.h>
 #import <NUI/NUIAppearance.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
@@ -58,7 +59,7 @@
     NSBlockOperation *op = [[NSBlockOperation alloc] init];
     
     [op addExecutionBlock:^{
-       
+        
         NSString *eventId = [notificationPayload objectForKey:@"eventId"];
         NSError  *error;
         PFObject *event = [PFObject objectWithoutDataWithClassName:@"Event" objectId:eventId];
@@ -67,7 +68,7 @@
         if (error)
             NSLog(@"Error receiving notfication in didFinishLaunchingWithOptions, erorr: %@", error);
         else
-           [event pin];
+            [event pin];
     }];
     
     [op setCompletionBlock:^{
@@ -86,6 +87,13 @@
         [self eventIsAccepted:notificationPayload];
 }
 
+#pragma mark ->didFinishLaunchingWithOptions
+
+- (void) initParse
+{
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
@@ -100,6 +108,7 @@
                                   highlightedColor:DEFAULTNAVBARITEMBGCOLOR
                                       cornerRadius:3];
     [Parse enableLocalDatastore];
+    [ParseCrashReporting enable];
     
     // Initialize Parse.
     [Parse setApplicationId:@"I2MSBxXHEXCm3uULbcYF5Io7tH1xu8bZVMx0Eryw"
@@ -107,6 +116,8 @@
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    
     
     [GMSServices provideAPIKey:GOOGLEIOSAPIKEY];
     

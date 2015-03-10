@@ -1,0 +1,11 @@
+{
+    "applications": {
+        "_default": {
+            "link": "whoparty"
+        }, 
+        "whoparty": {
+            "applicationId": "I2MSBxXHEXCm3uULbcYF5Io7tH1xu8bZVMx0Eryw", 
+            "masterKey": "IOs3WuoAOaeymHXI6bhss0aaypJnMtsw4piqsrt9"
+        }
+    }
+}
