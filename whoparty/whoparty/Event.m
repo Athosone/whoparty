@@ -18,6 +18,8 @@
 @dynamic receivinguser;
 @dynamic usersConcerned;
 @dynamic groupName;
+@dynamic usersAccepted;
+@dynamic usersDeclined;
 
 + (NSString*)parseClassName
 {

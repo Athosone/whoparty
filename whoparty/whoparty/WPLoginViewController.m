@@ -14,6 +14,7 @@
 #define LEFTVIEWWIDTH 25
 
 @interface WPLoginViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *bgImage;
 
 - (IBAction)login:(id)sender;
 - (IBAction)registerUser:(id)sender;

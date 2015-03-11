@@ -36,6 +36,8 @@
 		5860EB9D1AA4AD3800D81E5F /* startPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB991AA4AD3800D81E5F /* startPin.png */; };
 		5860EB9E1AA4AD3800D81E5F /* startPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5860EB9A1AA4AD3800D81E5F /* startPin@2x.png */; };
 		587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */; };
+		587F435A1AB0615100726D67 /* MarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F43591AB0615100726D67 /* MarkerView.m */; };
+		587F435C1AB06C8900726D67 /* MarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 587F435B1AB06C8900726D67 /* MarkerView.xib */; };
 		587F56181AA27D750083638A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F56171AA27D750083638A /* main.m */; };
 		587F561B1AA27D750083638A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F561A1AA27D750083638A /* AppDelegate.m */; };
 		587F561E1AA27D750083638A /* whoparty.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 587F561C1AA27D750083638A /* whoparty.xcdatamodeld */; };
@@ -153,6 +155,9 @@
 		5860EB9A1AA4AD3800D81E5F /* startPin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startPin@2x.png"; sourceTree = "<group>"; };
 		587CAF1D1AA4BEAD004129F9 /* GooglePlaceDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GooglePlaceDataProvider.h; sourceTree = "<group>"; };
 		587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GooglePlaceDataProvider.m; sourceTree = "<group>"; };
+		587F43581AB0615100726D67 /* MarkerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkerView.h; sourceTree = "<group>"; };
+		587F43591AB0615100726D67 /* MarkerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkerView.m; sourceTree = "<group>"; };
+		587F435B1AB06C8900726D67 /* MarkerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerView.xib; sourceTree = "<group>"; };
 		587F56121AA27D750083638A /* whoparty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = whoparty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		587F56161AA27D750083638A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587F56171AA27D750083638A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -444,6 +449,9 @@
 				5846D45A1AA90A0D00259C09 /* ReceiveEventCell.xib */,
 				5846D45C1AA90BF000259C09 /* ReceiveEventCell.h */,
 				5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */,
+				587F43581AB0615100726D67 /* MarkerView.h */,
+				587F43591AB0615100726D67 /* MarkerView.m */,
+				587F435B1AB06C8900726D67 /* MarkerView.xib */,
 			);
 			name = MapView;
 			sourceTree = "<group>";
@@ -705,6 +713,7 @@
 				58C478081AADD65F00612E2B /* addEventIcon@2x.png in Resources */,
 				58C4780A1AADD65F00612E2B /* addFriendIcon@2x.png in Resources */,
 				5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */,
+				587F435C1AB06C8900726D67 /* MarkerView.xib in Resources */,
 				58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */,
 				58C478121AADDD6700612E2B /* emailLeftView.png in Resources */,
 				58BE5DAC1AA65B5D00BE2DB3 /* MapForm.xib in Resources */,
@@ -803,6 +812,7 @@
 				588EDD0B1AA3DF13003A146F /* CircleAnimation.m in Sources */,
 				58C477FA1AADB33900612E2B /* AlertView.m in Sources */,
 				58C477F71AACCA6D00612E2B /* CheckBoxTableViewCell.m in Sources */,
+				587F435A1AB0615100726D67 /* MarkerView.m in Sources */,
 				588EDD0C1AA3DF13003A146F /* CustomModalAnimation.m in Sources */,
 				5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */,
 				587F561E1AA27D750083638A /* whoparty.xcdatamodeld in Sources */,

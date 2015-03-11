@@ -16,7 +16,7 @@
 
 @interface WPSelectFriendsViewController ()
 
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSArray                       *friendsName;
 @property (strong, nonatomic) PFUser                        *user;

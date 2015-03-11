@@ -16,7 +16,7 @@
 
 @property (readwrite, nonatomic) BOOL isReady;
 
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) MBProgressHUD        *hud;
 
 @end
@@ -35,9 +35,9 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"ReceiveEventCell" bundle:nil] forCellReuseIdentifier:@"ReceiveEventCell"];
     if (self.event && self.event.objectId)
     {
-       self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-       self.hud.labelText = @"Loading map";
-       self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        self.hud.labelText = @"Loading map";
+        self.hud.backgroundColor = DEFAULTPROGRESSHUDCOLOR;
     }
 }
 
@@ -83,27 +83,87 @@
         cell = [mtableView dequeueReusableCellWithIdentifier:@"ReceiveEventCell"];
     }
     if (self.event && self.isReady)
-        [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
-    if (self.event[@"isReceived"] == [NSNumber numberWithBool:YES])
     {
-        if (self.event[@"isAccepted"] == [NSNumber numberWithBool:YES])
-            [cell setAcceptedStatus];
+        [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
+        
+        if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
+        {
+            if (self.event[@"groupName"])
+            {
+                [cell initReceiveEventCellWithEvent:self.event];
+            }
+            [self setCellStyleForSendingUser:cell];
+        }
+        else if (self.event[@"usersConcerned"])
+        {
+            cell.eventType = kEventGroup;
+            [cell initReceiveEventCellWithEvent:self.event];
+            NSArray *usersAccetped = self.event[@"usersAccepted"];
+            NSArray *usersDeclined = self.event[@"usersDeclined"];
+            
+            if ([usersAccetped containsObject:[PFUser currentUser].username])
+                [cell setAcceptedStatus];
+            else if ([usersDeclined containsObject:[PFUser currentUser].username])
+                [cell setDeclineStatus];
+        }
         else
-            [cell setDeclineStatus];
+        {
+            if (self.event[@"isReceived"] == [NSNumber numberWithBool:YES])
+            {
+                if (self.event[@"isAccepted"] == [NSNumber numberWithBool:YES])
+                    [cell setAcceptedStatus];
+                else
+                    [cell setDeclineStatus];
+            }
+            else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
+               [cell setSendingUserStyle];
+        }
     }
-    else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
-        [cell setSendingUserStyle];
     cell.delegate = self;
     [Animations addFadeInTransitionToView:cell duration:0.8f];
     return cell;
 }
 
+- (void) setCellStyleForSendingUser:(ReceiveEventCell*)cell
+{
+    NSArray *usersAccetped = self.event[@"usersAccepted"];
+    NSArray *usersDeclined = self.event[@"usersDeclined"];
+    NSArray *usersConcerned = self.event[@"usersConcerned"];
+    
+    if ((usersAccetped.count - 1) == usersConcerned.count)
+    {
+        [cell setAcceptedStatus];
+    }
+    else if ((usersDeclined.count - 1) == usersConcerned.count)
+    {
+        [cell setDeclineStatus];
+    }
+    else if ((usersAccetped.count + usersDeclined.count - 2) == usersConcerned.count)
+    {
+        [cell setMixedStatus];
+    }
+    else
+    {
+        [cell setSendingUserStyle];
+    }
+}
 
 - (void) didClickOnAcceptButton:(id)sender
 {
-    self.event[@"isAccepted"] = [NSNumber numberWithBool:YES];
-    self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
-    
+    if (self.event[@"groupName"])
+    {
+        [self.event[@"usersAccepted"] addObject:[PFUser currentUser].username];
+        NSArray *usersDeclined = self.event[@"usersDeclined"];
+        NSArray *usersAccepted = self.event[@"usersAccepted"];
+        NSArray *usersConcerned = self.event[@"usersConcerned"];
+        if ((usersDeclined.count + usersAccepted.count) == usersConcerned.count)
+            self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+    }
+    else
+    {
+        self.event[@"isAccepted"] = [NSNumber numberWithBool:YES];
+        self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+    }
     [self.event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
      {
          if (succeeded)
@@ -116,7 +176,6 @@
              [data setObject:@"eventIsAccepted" forKey:@"eventType"];
              [data setObject:@"default" forKey:@"sound"];
              [data setObject:self.event.objectId forKey:@"eventId"];
-             //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
              [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data completionBlock:^{
                  NSLog(@"Event Accepted");
              }];
@@ -132,8 +191,20 @@
 
 - (void) didClickOnDeclineButton:(id)sender
 {
-    self.event[@"isAccepted"] = [NSNumber numberWithBool:NO];
-    self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+    if (self.event[@"groupName"])
+    {
+        [self.event addUniqueObject:[PFUser currentUser].username forKey:@"usersDeclined"];
+        NSArray *usersDeclined = self.event[@"usersDeclined"];
+        NSArray *usersAccepted = self.event[@"usersAccepted"];
+        NSArray *usersConcerned = self.event[@"usersConcerned"];
+        if ((usersDeclined.count + usersAccepted.count) == usersConcerned.count)
+            self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+    }
+    else
+    {
+        self.event[@"isAccepted"] = [NSNumber numberWithBool:NO];
+        self.event[@"isReceived"] = [NSNumber numberWithBool:YES];
+    }
     [self.event saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
      {
          if (succeeded)
@@ -146,7 +217,6 @@
              [data setObject:@"eventIsAccepted" forKey:@"eventType"];
              [data setObject:@"default" forKey:@"sound"];
              [data setObject:self.event.objectId forKey:@"eventId"];
-             //[ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data];
              [ManagedParseUser sendNotificationPush:self.event[@"sendinguser"] data:data completionBlock:^{
                  NSLog(@"Event declined");
              }];

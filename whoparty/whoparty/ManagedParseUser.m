@@ -265,6 +265,23 @@
     
 }
 
++ (PFQuery*) getPFQueryForEvent
+{
+    PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
+    [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+    
+    PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
+    [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+    
+    PFQuery     *query3 = [[PFQuery alloc] initWithClassName:@"Event"];
+    [query3 whereKey:@"usersConcerned" equalTo:[PFUser currentUser].username];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2, query3]];
+
+    
+    return query;
+}
+
 + (void) fetchNewEvent:(id)target selector:(SEL)selector
 {
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
@@ -313,6 +330,8 @@
     [ManagedParseUser addOperationToQueue:operation];
 }
 
+
+
 + (void) fetchAllEvents:(id)target selector:(SEL)selector
 {
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
@@ -326,41 +345,33 @@
         
     }];
     
-    [operation addExecutionBlock:^{
-        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
-        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
-        
-        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
-        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
-        
-        NSLog(@"Current user:%@", [PFUser currentUser]);
-        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
-        [query orderByDescending:@"createdAt"];
-        
-        [query fromLocalDatastore];
-        lRet = [query findObjects];
-        //NSLog(@"Lret: %@", lRet);
-    }];
-    
     NSBlockOperation *fetchEventsOp = [[NSBlockOperation alloc] init];
     [fetchEventsOp addExecutionBlock:^{
         
         NSError *error;
-        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
-        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
         
-        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
-        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        PFQuery *query = [ManagedParseUser getPFQueryForEvent];
         
-        NSLog(@"Current user:%@", [PFUser currentUser]);
-        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
         [query orderByDescending:@"createdAt"];
         
         [query fromLocalDatastore];
         NSArray *localResults = [query findObjects:&error];
+        
+        [PFObject fetchAllIfNeededInBackground:localResults block:^(NSArray *objects, NSError *error) {
+           if (error)
+               NSLog(@"error fetching all in background if needed fetchallevent");
+            else
+            {
+                [PFObject pinAllInBackground:objects block:^(BOOL succeeded, NSError *error) {
+                    
+                }];
+            }
+            
+        }];
         for (PFObject *o in localResults)
         {
-            if ([o[@"sendinguser"] isEqualToString:[PFUser currentUser].username] && o[@"isReceived"] == [NSNumber numberWithBool:NO])
+            //[o[@"sendinguser"] isEqualToString:[PFUser currentUser].username] &&
+            if (o[@"isReceived"] == [NSNumber numberWithBool:NO])
             {
                 NSBlockOperation *fetchToServer = [[NSBlockOperation alloc] init];
                 
@@ -374,29 +385,25 @@
         }
         if (error)
             NSLog(@"Error fetching data in fetchLocalEvents: %@", error);
-        
+        error = nil;
         NSMutableArray *idsToExclude = [[NSMutableArray alloc] init];
         NSArray *remoteResults = nil;
-        PFQuery *queryOnServer = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        PFQuery *queryOnServer = [ManagedParseUser getPFQueryForEvent];
+        
         [queryOnServer orderByDescending:@"createdAt"];
         
         for (int i = 0; i < localResults.count; ++i)
             [idsToExclude addObject:[[localResults objectAtIndex:i] objectId]];
-        
-        [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
-        remoteResults = [queryOnServer findObjects];
-        
-        // NSMutableArray *resultstmp = [[NSMutableArray alloc] init];
-        //for (int i = 0; i < remoteResults.count; ++i)
-        //   [resultstmp addObject:[remoteResults objectAtIndex:i]];
-        //[resultstmp addObjectsFromArray:localResults];
-        //NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
-        //NSArray *results = nil;
-        //results = [resultstmp sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-        
+        if (idsToExclude.count > 0)
+            [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
+        remoteResults = [queryOnServer findObjects:&error];
+        if (error)
+            NSLog(@"Error %@", error);
+        NSLog(@"Remote: %@", remoteResults);
         for (int i = 0; i < remoteResults.count; ++i)
         {
             Event  *event = [remoteResults objectAtIndex:i];
+            NSLog(@"Event: %@", event);
             NSBlockOperation *pinEvent  = [[NSBlockOperation alloc] init];
             
             [pinEvent addExecutionBlock:^{
@@ -407,6 +414,26 @@
             [operation addDependency:pinEvent];
         }
     }];
+    [operation addExecutionBlock:^{
+        PFQuery      *query1 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query1 whereKey:@"receivinguser" equalTo:[PFUser currentUser].username];
+        
+        PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
+        
+        PFQuery     *query3 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query3 whereKey:@"usersConcerned" equalTo:[PFUser currentUser].username];
+        
+        NSLog(@"Current user:%@", [PFUser currentUser]);
+        PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2, query3]];
+        [query orderByDescending:@"createdAt"];
+        
+        [query fromLocalDatastore];
+        lRet = [query findObjects];
+        //NSLog(@"Lret: %@", lRet);
+    }];
+
+    
     [operation addDependency:fetchEventsOp];
     [ManagedParseUser addOperationToQueue:fetchEventsOp];
     [ManagedParseUser addOperationToQueue:operation];
@@ -432,6 +459,9 @@
         PFQuery      *query2 = [[PFQuery alloc] initWithClassName:@"Event"];
         [query2 whereKey:@"sendinguser" equalTo:[PFUser currentUser].username];
         
+        PFQuery     *query3 = [[PFQuery alloc] initWithClassName:@"Event"];
+        [query3 whereKey:@"usersConcerned" equalTo:[PFUser currentUser].username];
+        
         NSLog(@"Current user:%@", [PFUser currentUser]);
         PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
         [query orderByDescending:@"createdAt"];
@@ -451,6 +481,8 @@
         success();
     }];
     Event   *event = [[Event alloc] initWithClassName:@"Event"];
+    [event addUniqueObject:@"empty" forKey:@"usersAccepted"];
+    [event addUniqueObject:@"empty" forKey:@"usersDeclined"];
     if (userConcerned.count > 1)
     {
         event.usersConcerned = userConcerned;

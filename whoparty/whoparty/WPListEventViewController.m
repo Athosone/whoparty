@@ -150,14 +150,9 @@
         
         cell.imageView.layer.cornerRadius = 6.0f;
         
-        if ([event objectForKey:@"isReceived"] == [NSNumber numberWithBool:FALSE])
-            cell.imageView.image = [UIImage imageWithColor:[UIColor cloudsColor] cornerRadius:6.0f];
-       else if ([event objectForKey:@"isAccepted"] == [NSNumber numberWithBool:TRUE])
-           cell.imageView.image = [UIImage imageWithColor:DEFAULTACCEPTCOLOR cornerRadius:6.0f];
-        else
-            cell.imageView.image = [UIImage imageWithColor:DEFAULTDECLINECOLOR cornerRadius:6.0f];
-        NSString *sendingusername = [event objectForKey:@"sendinguser"];
+         [self setColorForCell:cell event:event];
         
+        NSString *sendingusername = [event objectForKey:@"sendinguser"];
         NSArray *users = event[@"usersConcerned"];
         NSString *cellText = @"";
         if (users.count > 1)
@@ -175,6 +170,39 @@
     return cell;
 }
 
+- (void) setColorForCell:(UITableViewCell*) cell event:(Event*)event
+{
+    if (event[@"usersConcerned"])
+        {
+            NSArray *usersConcerned = event[@"usersConcerned"];
+            NSArray *usersAccepted = event[@"usersAccepted"];
+            NSArray *usersDeclined = event[@"usersDeclined"];
+            if ((usersAccepted.count + usersDeclined.count - 2) == usersConcerned.count)
+            {
+                if (usersDeclined.count > 0 && usersAccepted.count > 0)
+                    cell.imageView.image = [UIImage imageWithColor:[UIColor orangeColor] cornerRadius:6.0f];
+                else if (usersAccepted.count == usersConcerned.count)
+                    cell.imageView.image = [UIImage imageWithColor:DEFAULTACCEPTCOLOR cornerRadius:6.0f];
+                else
+                    cell.imageView.image = [UIImage imageWithColor:DEFAULTDECLINECOLOR cornerRadius:6.0f];
+            }
+            else
+                cell.imageView.image = [UIImage imageWithColor:[UIColor cloudsColor] cornerRadius:6.0f];
+        }
+    else
+    {
+        if ([event objectForKey:@"isReceived"] == [NSNumber numberWithBool:FALSE])
+            cell.imageView.image = [UIImage imageWithColor:[UIColor cloudsColor] cornerRadius:6.0f];
+        else
+        {
+            if ([event objectForKey:@"isAccepted"] == [NSNumber numberWithBool:TRUE])
+                cell.imageView.image = [UIImage imageWithColor:DEFAULTACCEPTCOLOR cornerRadius:6.0f];
+            else
+                cell.imageView.image = [UIImage imageWithColor:DEFAULTDECLINECOLOR cornerRadius:6.0f];
+        }
+    }
+   
+}
 
 
 - (void)didReceiveMemoryWarning {

@@ -21,5 +21,7 @@
 @property (strong, nonatomic) NSString        *receivinguser;
 @property (strong, nonatomic) NSArray         *usersConcerned;
 @property (strong, nonatomic) NSString        *groupName;
+@property (strong, nonatomic) NSArray         *usersAccepted;
+@property (strong, nonatomic) NSArray         *usersDeclined;
 
 @end

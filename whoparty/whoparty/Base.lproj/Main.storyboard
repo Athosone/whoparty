@@ -170,6 +170,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="414" height="736"/>
                     <connections>
+                        <outlet property="bgImage" destination="i1Z-MB-83B" id="TDa-nY-1JN"/>
                         <outlet property="buttonOutletLogin" destination="igC-BX-sKr" id="1LA-Oc-3JQ"/>
                         <outlet property="buttonOutletRegister" destination="lmP-yK-v8x" id="Cce-Zw-wdZ"/>
                         <outlet property="textFieldEmail" destination="3jA-q8-hRd" id="BOt-Ms-7li"/>

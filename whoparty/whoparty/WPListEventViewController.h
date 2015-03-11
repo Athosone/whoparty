@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <EMAccordionTableViewController/EMAccordionTableViewController.h>
 
 @interface WPListEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 

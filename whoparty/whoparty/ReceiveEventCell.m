@@ -10,10 +10,13 @@
 #import "WPHelperConstant.h"
 #import "GooglePlaceDataProvider.h"
 #import "Animations.h"
+#import "MarkerView.h"
+
 
 @interface ReceiveEventCell ()
 
 @property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) MarkerView      *currentMarker;
 
 @property (strong, nonatomic) IBOutlet FUIButton *buttonCancel;
 @property (strong, nonatomic) IBOutlet FUIButton *buttonAccept;
@@ -26,6 +29,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelComment;
 @property (strong, nonatomic) IBOutlet FUIButton *buttonFinalCall;
 @property (strong, nonatomic) NSString *textFinalCall;
+@property (strong, nonatomic) NSArray  *usersConcerned;
+@property (strong, nonatomic) NSArray  *usersAccepted;
+@property (strong, nonatomic) NSArray  *usersDeclined;
 
 @end
 
@@ -54,7 +60,7 @@
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     [self.locationManager requestWhenInUseAuthorization];
-    
+    self.currentMarker = nil;
 }
 
 
@@ -69,6 +75,24 @@
     if (gA)
     {
         self.destPos = gA;
+        [self initMap];
+        if (self.mapView.hidden == TRUE)
+            [self showMap];
+    }
+}
+
+
+- (void) initReceiveEventCellWithEvent:(Event*)event
+{
+    self.mapView.selectedMarker = nil;
+    self.destPos = event[@"mygoogleaddress"];
+    self.labelComment.text = event[@"comment"];
+    self.usersConcerned = event[@"usersConcerned"];
+    self.usersAccepted = event[@"usersAccepted"];
+    self.usersDeclined = event[@"usersDeclined"];
+    self.mapView.delegate = self;
+    if (self.destPos)
+    {
         [self initMap];
         if (self.mapView.hidden == TRUE)
             [self showMap];
@@ -145,6 +169,19 @@
 
 }
 
+- (void) setMixedStatus
+{
+    [WPHelperConstant setButtonToFlat:self.buttonFinalCall];
+    self.buttonFinalCall.buttonColor = [UIColor pumpkinColor];
+    self.buttonFinalCall.shadowColor = [UIColor carrotColor];
+    self.buttonCancel.hidden = true;
+    self.buttonAccept.hidden = true;
+    self.buttonFinalCall.hidden = false;
+    [self.buttonFinalCall setTitle:@"Some people declined" forState:UIControlStateNormal];
+    [self.buttonFinalCall sizeToFit];
+
+}
+
 - (IBAction)declineButtonOnClick:(id)sender
 {
     [self.delegate didClickOnDeclineButton:self];    
@@ -166,8 +203,29 @@
     [Animations addMaskExpandleRectAnimation:self.mapView duration:1];
 }
 
-#pragma mark ->Map
+#pragma mark ->GoogleMap delegate
 
+- (UIView*) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker
+{
+    CLLocationCoordinate2D anchor = marker.position;
+
+    MarkerView *view = [[MarkerView alloc] init];
+    view.frame = CGRectMake(0, 0, 200, 100);
+    
+    view.usersDeclined = self.usersDeclined;
+    view.usersAccepted = self.usersAccepted;
+    view.usersConcerned = self.usersConcerned;
+    [view initViewWithMarker:marker];
+    view.center = [self.mapView.projection pointForCoordinate:anchor];
+    
+    return view;
+}
+
+- (BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker
+{
+    mapView.selectedMarker = marker;
+    return YES;
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
