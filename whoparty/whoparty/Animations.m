@@ -125,58 +125,99 @@
     return slideAnimation;
 }
 
-+ (void) addRubberBandAnimation:(UIView*)leftView rightView:(UIView*)rightView receivingView:(UIView*)mainView completed:(void(^)(BOOL completed))completed
+
++ (void) addRubberBandAnimation:(UIView*)leftView rightView:(UIView*)rightView receivingView:(UIView*)mainView completed:(void(^)(BOOL completed))completedBlock
 {
     CGPoint leftViewCenter = leftView.layer.position;
     CGPoint rightViewCenter = rightView.layer.position;
     
-    CGPoint slideRightView = rightViewCenter;
-    CGPoint slideLeftView = leftViewCenter;
+    CGPoint slideRightViewPos = rightViewCenter;
+    CGPoint slideLeftViewPos = leftViewCenter;
     
-    slideRightView.x += mainView.frame.size.height;
-    slideLeftView.x -= mainView.frame.size.height;
+    slideRightViewPos.x += mainView.frame.size.height;
+    slideLeftViewPos.x -= mainView.frame.size.height;
+    
+    [CATransaction begin];
+    CABasicAnimation *slideLeftAnim = [Animations slideAnimationOnX:leftViewCenter end:slideLeftViewPos];
+    CABasicAnimation *slideLeftAnimRightView = [Animations slideAnimationOnX:rightViewCenter end:slideRightViewPos];
+    
+    slideLeftAnim.duration = 0.5f;
+    slideLeftAnim.fillMode = kCAFillModeForwards;
+    slideLeftAnimRightView.duration = 0.5f;
+    slideLeftAnimRightView.fillMode = kCAFillModeForwards;
+    
+    [CATransaction setCompletionBlock:^{
+    [CATransaction begin];
+        
+        CABasicAnimation *slideReverseAnim = [Animations slideAnimationOnX:slideLeftViewPos end:leftViewCenter];
+        CABasicAnimation *slideReverseAnimRightView = [Animations slideAnimationOnX:slideRightViewPos end:rightViewCenter];
+        
+        slideReverseAnim.duration = 0.5f;
+        slideReverseAnim.fillMode = kCAFillModeForwards;
+        slideReverseAnimRightView.duration = 0.5f;
+        slideReverseAnimRightView.fillMode = kCAFillModeForwards;
+        [CATransaction setCompletionBlock:^{
+            completedBlock(YES);
+        }];
+        [leftView.layer addAnimation:slideReverseAnim forKey:@"slideleftanimereverse"];
+        [rightView.layer addAnimation:slideReverseAnimRightView forKey:@"sliderightanimreverse"];
+        leftView.layer.position = leftViewCenter;
+        rightView.layer.position = rightViewCenter;
+        [CATransaction commit];
+    }];
+    [leftView.layer addAnimation:slideLeftAnim forKey:@"slideleftanime"];
+    [rightView.layer addAnimation:slideLeftAnimRightView forKey:@"sliderightanim"];
+    leftView.layer.position = slideLeftViewPos;
+    rightView.layer.position = slideRightViewPos;
+    [CATransaction commit];
     
     
     
-    POPBasicAnimation *popAnimLeft = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     
-    popAnimLeft.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    popAnimLeft.fromValue = [NSNumber numberWithFloat:leftView.center.x];
-    popAnimLeft.toValue = [NSNumber numberWithFloat:slideLeftView.x];
-    [leftView pop_addAnimation:popAnimLeft forKey:@"test"];
-
-    POPBasicAnimation *popAnimRight = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     
-    popAnimRight.fromValue = [NSNumber numberWithFloat:rightView.center.x];
-    popAnimRight.toValue = [NSNumber numberWithFloat:rightView.center.x + 100];
-    popAnimRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    [rightView pop_addAnimation:popAnimRight forKey:@"test2"];
-    NSLog(@"Rightview pos :%f %f", rightView.layer.position.x, slideRightView.x);
-    NSLog(@"Rightview pos :%f %f", leftView.center.x, slideLeftView.x);
+    /*  POPBasicAnimation *popAnimLeft = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+     
+     popAnimLeft.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+     popAnimLeft.fromValue = [NSNumber numberWithFloat:leftView.center.x];
+     popAnimLeft.toValue = [NSNumber numberWithFloat:slideLeftView.x];
+     [leftView pop_addAnimation:popAnimLeft forKey:@"test"];
+     
+     POPBasicAnimation *popAnimRight = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+     
+     popAnimRight.fromValue = [NSNumber numberWithFloat:rightView.center.x];
+     popAnimRight.toValue = [NSNumber numberWithFloat:rightView.center.x + 100];
+     popAnimRight.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+     [rightView pop_addAnimation:popAnimRight forKey:@"test2"];
+     
+     
+     [popAnimRight setCompletionBlock:^(POPAnimation *popAnim, BOOL completed) {
+     completedBlock(YES);
+     }];
+     */
     
-    completed(YES);
+    
 }
 
 #pragma mark Test Animations
 - (void) test:(UIView*)destView
 {
-   /* CAKeyframeAnimation *keyAnimToRight = [CAKeyframeAnimation animation];
-    
-    keyAnimToRight.values = @[[NSNumber numberWithFloat:rightViewCenter.x], [NSNumber numberWithFloat:slideRightView.x], [NSNumber numberWithFloat:rightViewCenter.x]];
-    keyAnimToRight.keyPath = @"position.x";
-    keyAnimToRight.duration = 2.0f;
-    
-    //  [rightView.layer addAnimation:keyAnimToRight forKey:@"test"];
-    
-    
-    CAKeyframeAnimation *keyAnim = [CAKeyframeAnimation animation];
-    
-    keyAnim.values = @[[NSNumber numberWithFloat:leftViewCenter.x], [NSNumber numberWithFloat:slideLeftView.x], [NSNumber numberWithFloat:leftViewCenter.x]];
-    keyAnim.keyPath = @"position.x";
-    keyAnim.duration = 2.0f;
-    //[leftView.layer addAnimation:keyAnim forKey:@"test"];
-    //To the right
-    */
+    /* CAKeyframeAnimation *keyAnimToRight = [CAKeyframeAnimation animation];
+     
+     keyAnimToRight.values = @[[NSNumber numberWithFloat:rightViewCenter.x], [NSNumber numberWithFloat:slideRightView.x], [NSNumber numberWithFloat:rightViewCenter.x]];
+     keyAnimToRight.keyPath = @"position.x";
+     keyAnimToRight.duration = 2.0f;
+     
+     //  [rightView.layer addAnimation:keyAnimToRight forKey:@"test"];
+     
+     
+     CAKeyframeAnimation *keyAnim = [CAKeyframeAnimation animation];
+     
+     keyAnim.values = @[[NSNumber numberWithFloat:leftViewCenter.x], [NSNumber numberWithFloat:slideLeftView.x], [NSNumber numberWithFloat:leftViewCenter.x]];
+     keyAnim.keyPath = @"position.x";
+     keyAnim.duration = 2.0f;
+     //[leftView.layer addAnimation:keyAnim forKey:@"test"];
+     //To the right
+     */
     int radius = 100;
     CAShapeLayer *circle = [CAShapeLayer layer];
     

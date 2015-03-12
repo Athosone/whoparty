@@ -25,56 +25,44 @@
 
 - (void) createEvent:(NSDictionary*) notificationPayload
 {
-    NSBlockOperation *op = [[NSBlockOperation alloc] init];
-    __block PFObject *lRet = nil;
-    
-    [op addExecutionBlock:^{
         NSString *eventId = [notificationPayload objectForKey:@"eventId"];
-        NSError  *error;
         PFObject *event = [PFObject objectWithoutDataWithClassName:@"Event" objectId:eventId];
-        
-        event = [event fetchIfNeeded:&error];
-        if (error)
-            NSLog(@"Error receiving notfication in didFinishLaunchingWithOptions, erorr: %@", error);
-        else
-        {
-            [event pin];
-            lRet = event;
-        }
-    }];
-    [op setCompletionBlock:^{
-        NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:lRet, @"event", nil];
-        NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:event];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    }];
-    [ManagedParseUser addOperationToQueue:op];
+    
+        //Dl the new received event
+        [event fetchInBackgroundWithBlock:^(PFObject *objectServer, NSError *error) {
+            
+            //Save it in the local datastore
+            [objectServer pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                    if (succeeded)
+                    {
+                        //Broadcast notif to the views
+                        NSDictionary *eventDict = [NSDictionary dictionaryWithObjectsAndKeys:objectServer, @"event", nil];
+                        NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:eventDict];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
+                    else
+                        [ManagedParseUser sendErrorReport:error];
+            }];
+        }];
 }
 
 - (void) eventIsAccepted:(NSDictionary*)notificationPayload
 {
     NSString *eventId = [notificationPayload objectForKey:@"eventId"];
     
-    NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:eventId, @"eventId", nil];
+    NSDictionary *eventDict = [NSDictionary dictionaryWithObjectsAndKeys:eventId, @"eventId", nil];
     
-    NSBlockOperation *op = [[NSBlockOperation alloc] init];
-    
-    [op addExecutionBlock:^{
-        
-        NSString *eventId = [notificationPayload objectForKey:@"eventId"];
-        NSError  *error;
         PFObject *event = [PFObject objectWithoutDataWithClassName:@"Event" objectId:eventId];
-        
-        [event fetch:&error];
-        if (error)
-            NSLog(@"Error receiving notfication in didFinishLaunchingWithOptions, erorr: %@", error);
-        else
-            [event pin];
-    }];
     
-    [op setCompletionBlock:^{
-        NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDISACCEPTEDNOTFICATION object:nil userInfo:event];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    }];
+        //Update the event from server
+        [event fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            //Save to localdatastore
+            [object pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDISACCEPTEDNOTFICATION object:nil userInfo:eventDict];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            }];
+        }];
 }
 
 - (void) handleMyPushNotification:(NSDictionary*)notificationPayload

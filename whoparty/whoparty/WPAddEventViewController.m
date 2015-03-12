@@ -27,11 +27,20 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
-    [self.tableView registerNib:[UINib nibWithNibName:@"MapForm" bundle:nil] forCellReuseIdentifier:@"AddEventCell"];    // self.tableView.estimatedRowHeight = 473;
-   // self.tableView.rowHeight = UITableViewAutomaticDimension;
+    [self.tableView registerNib:[UINib nibWithNibName:@"MapForm" bundle:nil] forCellReuseIdentifier:@"AddEventCell"];
     
     [WPHelperConstant setBGColorForView:self.tableView color:nil];
     // Do any additional setup after loading the view.
+}
+
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (![PFUser currentUser])
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -32,6 +32,7 @@
 @property (strong, nonatomic) NSArray  *usersConcerned;
 @property (strong, nonatomic) NSArray  *usersAccepted;
 @property (strong, nonatomic) NSArray  *usersDeclined;
+@property (strong, nonatomic) IBOutlet UITextField *textfieldAddress;
 
 @end
 
@@ -75,6 +76,11 @@
     if (gA)
     {
         self.destPos = gA;
+        NSString *address = self.destPos[@"address"];
+        if (address.length > 0)
+            self.textfieldAddress.text = address;
+        else
+            self.textfieldAddress.hidden = true;
         [self initMap];
         if (self.mapView.hidden == TRUE)
             [self showMap];
@@ -82,7 +88,7 @@
 }
 
 
-- (void) initReceiveEventCellWithEvent:(Event*)event
+- (void) initReceiveEventCellWithEvent:(PFObject*)event
 {
     self.mapView.selectedMarker = nil;
     self.destPos = event[@"mygoogleaddress"];
@@ -93,6 +99,11 @@
     self.mapView.delegate = self;
     if (self.destPos)
     {
+        NSString *address = self.destPos[@"address"];
+        if (address.length > 0)
+            self.textfieldAddress.text = address;
+        else
+            self.textfieldAddress.hidden = true;
         [self initMap];
         if (self.mapView.hidden == TRUE)
             [self showMap];

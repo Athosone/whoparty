@@ -58,6 +58,7 @@
 		588EDD171AA3E161003A146F /* WPTheme.nss in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD161AA3E161003A146F /* WPTheme.nss */; };
 		589A61A71AAEFC7C006FB5A2 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 589A61A61AAEFC7C006FB5A2 /* ParseCrashReporting.framework */; };
 		589A61A91AAEFCCA006FB5A2 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 589A61A81AAEFCCA006FB5A2 /* libstdc++.6.dylib */; };
+		58B606841AB1CFE300D500EB /* MenuSubView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B606831AB1CFE300D500EB /* MenuSubView.xib */; };
 		58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */; };
 		58BE5DA01AA5EFBD00BE2DB3 /* plusFriend.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */; };
 		58BE5DA11AA5EFBD00BE2DB3 /* plusFriend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE5D9D1AA5EFBD00BE2DB3 /* plusFriend@2x.png */; };
@@ -79,7 +80,6 @@
 		58C4780E1AADD88800612E2B /* backgroundParis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780C1AADD88800612E2B /* backgroundParis@2x.png */; };
 		58C478101AADDD6100612E2B /* loginLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C4780F1AADDD6100612E2B /* loginLeftView.png */; };
 		58C478121AADDD6700612E2B /* emailLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478111AADDD6700612E2B /* emailLeftView.png */; };
-		58C4781D1AAE083900612E2B /* MenuSubView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C4781C1AAE083900612E2B /* MenuSubView.xib */; };
 		58C478201AAE0D4800612E2B /* MenuSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C4781F1AAE0D4800612E2B /* MenuSubView.m */; };
 		58C478231AAE136100612E2B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C478221AAE136100612E2B /* MenuViewController.m */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
@@ -187,6 +187,7 @@
 		589A61A21AAEFB79006FB5A2 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = "../../../../../Downloads/parse-library-1.6.3/ParseCrashReporting.framework"; sourceTree = "<group>"; };
 		589A61A61AAEFC7C006FB5A2 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		589A61A81AAEFCCA006FB5A2 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		58B606831AB1CFE300D500EB /* MenuSubView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuSubView.xib; sourceTree = "<group>"; };
 		58BE5D991AA5EB8200BE2DB3 /* WPAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPAddFriendsViewController.h; sourceTree = "<group>"; };
 		58BE5D9A1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPAddFriendsViewController.m; sourceTree = "<group>"; };
 		58BE5D9C1AA5EFBD00BE2DB3 /* plusFriend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusFriend.png; sourceTree = "<group>"; };
@@ -213,7 +214,6 @@
 		58C4780C1AADD88800612E2B /* backgroundParis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundParis@2x.png"; sourceTree = "<group>"; };
 		58C4780F1AADDD6100612E2B /* loginLeftView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginLeftView.png; sourceTree = "<group>"; };
 		58C478111AADDD6700612E2B /* emailLeftView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emailLeftView.png; sourceTree = "<group>"; };
-		58C4781C1AAE083900612E2B /* MenuSubView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuSubView.xib; sourceTree = "<group>"; };
 		58C4781E1AAE0D4800612E2B /* MenuSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSubView.h; sourceTree = "<group>"; };
 		58C4781F1AAE0D4800612E2B /* MenuSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSubView.m; sourceTree = "<group>"; };
 		58C478211AAE136100612E2B /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
@@ -472,9 +472,9 @@
 		58C478141AADF1B700612E2B /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				58C4781C1AAE083900612E2B /* MenuSubView.xib */,
 				58C4781E1AAE0D4800612E2B /* MenuSubView.h */,
 				58C4781F1AAE0D4800612E2B /* MenuSubView.m */,
+				58B606831AB1CFE300D500EB /* MenuSubView.xib */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -611,7 +611,6 @@
 				587F560F1AA27D750083638A /* Frameworks */,
 				587F56101AA27D750083638A /* Resources */,
 				0FC376E5D2444EA62366B1EA /* Copy Pods Resources */,
-				589A61AA1AAEFE79006FB5A2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -702,8 +701,8 @@
 				588EDD151AA3E04F003A146F /* passwordCadenas@2x.png in Resources */,
 				58C478021AADD65600612E2B /* loginLeftView@2x.png in Resources */,
 				58C4780D1AADD88800612E2B /* backgroundParis.png in Resources */,
-				58C4781D1AAE083900612E2B /* MenuSubView.xib in Resources */,
 				588EDD131AA3E04F003A146F /* accountLogin@2x.png in Resources */,
+				58B606841AB1CFE300D500EB /* MenuSubView.xib in Resources */,
 				58C478091AADD65F00612E2B /* addFriendIcon.png in Resources */,
 				58C477EF1AACB6D700612E2B /* SendView.xib in Resources */,
 				5860EB9C1AA4AD3800D81E5F /* destPin@2x.png in Resources */,
@@ -752,19 +751,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-whoparty/Pods-whoparty-resources.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		589A61AA1AAEFE79006FB5A2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=/usr/local/bin:$PATH\ncd /Users/Athos/Documents/Prog/IOS-Dev/whoparty/whoparty/parse/cloud\n\nparse symbols \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 		E7C9D5C0CEB4C6BED2F1B44D /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

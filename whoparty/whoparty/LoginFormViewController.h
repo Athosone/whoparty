@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <Parse/Parse.h>
 #import "NSString+FormValidation.h"
 
 @interface LoginFormViewController : UIViewController
@@ -19,6 +20,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonOutletLogin;
 @property (strong, nonatomic) IBOutlet UIButton *buttonOutletRegister;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) IBOutlet UIButton *buttonResetPassword;
 
 - (NSString*) validateFormLogin;
 - (NSString*) validateFormRegister;

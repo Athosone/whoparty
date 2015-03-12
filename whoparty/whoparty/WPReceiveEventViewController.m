@@ -48,6 +48,17 @@
     {
         self.hud.hidden = false;
         [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
+        NSArray *usersAccetped = self.event[@"usersAccepted"];
+        NSArray *usersDeclined = self.event[@"usersDeclined"];
+        NSArray *usersConcerned = self.event[@"usersConcerned"];
+        if ((usersAccetped.count + usersDeclined.count - 2) != usersConcerned.count)
+        {
+            [ManagedParseUser fetchEvent:self.event completionBlock:^(PFObject *obj) {
+                
+                self.event = obj;
+                [self.tableView reloadData];
+            }];
+        }
     }
 }
 
@@ -86,15 +97,12 @@
     {
         [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
         
-        if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
+        if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username] && self.event[@"groupName"])
         {
-            if (self.event[@"groupName"])
-            {
-                [cell initReceiveEventCellWithEvent:self.event];
-            }
+            [cell initReceiveEventCellWithEvent:self.event];
             [self setCellStyleForSendingUser:cell];
         }
-        else if (self.event[@"usersConcerned"])
+        else if (self.event[@"usersConcerned"] && ![self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
         {
             cell.eventType = kEventGroup;
             [cell initReceiveEventCellWithEvent:self.event];
@@ -117,7 +125,7 @@
             }
             else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
                [cell setSendingUserStyle];
-        }
+       }
     }
     cell.delegate = self;
     [Animations addFadeInTransitionToView:cell duration:0.8f];

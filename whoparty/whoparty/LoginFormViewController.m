@@ -34,7 +34,7 @@
     NSString *errorMessage = nil;
     
     if (![self.textFieldLogin.text isValidName])
-        errorMessage = @"Please enter a valid email";
+        errorMessage = @"Please enter a valid login";
     else if (![self.textFieldPassword1.text isValidPassword])
         errorMessage = @"Please enter a valid password";
     return errorMessage;
@@ -56,12 +56,44 @@
 }
 
 
+- (IBAction)buttonResetPasswordOnClick:(id)sender
+{
+    __block NSString *mail;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Resetting password !" message:@"Enter the mail you provided when you have registered please" preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             UITextField *tF = (UITextField*)[alert.textFields objectAtIndex:0];
+                             mail = tF.text;
+                             if (mail.length > 0)
+                                 [PFUser requestPasswordResetForEmailInBackground:mail];
+                            [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:@"Cancel"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    [alert addAction:cancel];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Enter your group name";
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 //fail to established connection with the server
 - (void) connectionFailed:(NSString *)error
 {
-    [Animations addShakingAnimation:self.textFieldEmail];
+    [Animations addShakingAnimation:self.textFieldLogin];
     [Animations addShakingAnimation:self.textFieldPassword1];
+    [Animations addShakingAnimation:self.textFieldEmail];
+    [Animations addShakingAnimation:self.textFieldPassword2];
     NSLog(@"Connection Fail, reason: %@", error);
 }
 

@@ -13,7 +13,7 @@
 @interface MenuViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
+@property (readwrite, nonatomic) subTypeMenu typeSelected;
 
 @end
 
@@ -35,6 +35,11 @@
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 }
 
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -48,25 +53,20 @@
     return lRet;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MenuSubView *cell = [tableView dequeueReusableCellWithIdentifier:@"MenuSubView"];
-    
-    if (cell.type == kMenuLogout)
-    {
-        
-        //[PFUser logOut];
-        //[self popToRootViewControllerAnimated:YES];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-        
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MenuSubView *cell = [tableView dequeueReusableCellWithIdentifier:@"MenuSubView"];
-    
+
     cell.type = kMenuLogout;
+    subTypeMenu type = cell.type;
+    [cell setCompletionBlockAnim:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate didDismissMenuWithSubMenuType:type];
+            NSLog(@"Type: %d", type);
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+          }];
     return cell;
 }
 

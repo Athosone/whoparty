@@ -19,13 +19,17 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.5</string>
+	<string>2.6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location such as we can calculate initerary</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow in use location such as we can calculate initerary</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>flat-ui-icons-regular.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

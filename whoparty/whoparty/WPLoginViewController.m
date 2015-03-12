@@ -94,7 +94,7 @@
         [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
         [currentInstallation saveInBackground];
 
-        [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+       [self performSegueWithIdentifier:@"loginSuccess" sender:self];
     }
 }
 
@@ -112,7 +112,7 @@
     if ((error = [super validateFormLogin]))
     {
         FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
-        
+       
         [alertView show];
         return;
     }
@@ -146,6 +146,7 @@
         [self.buttonOutletRegister setTitle:@"Register !" forState:UIControlStateNormal];
         self.textFieldPassword2.hidden = FALSE;
         self.textFieldEmail.hidden = FALSE;
+        self.buttonResetPassword.hidden = true;
         i = 1;
         return;
     }

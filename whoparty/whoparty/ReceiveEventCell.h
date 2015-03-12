@@ -28,7 +28,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) id<ReceiveEventCellProtocol> delegate;
 @property (readwrite, nonatomic) EventType  *eventType;
 
-- (void) initReceiveEventCellWithEvent:(Event*)event;
+- (void) initReceiveEventCellWithEvent:(PFObject*)event;
 - (void) initReceiveEventCell:(MYGoogleAddress*)gA comment:(NSString*)comment;
 - (void) setAcceptedStatus;
 - (void) setDeclineStatus;

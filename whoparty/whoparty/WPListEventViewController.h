@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MenuViewController.h"
 
-@interface WPListEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface WPListEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, MenuVCDelegate>
 
 @end

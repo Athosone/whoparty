@@ -12,7 +12,6 @@
 #import "Event.h"
 #import "WPReceiveEventViewController.h"
 #import "Animations.h"
-#import "MenuViewController.h"
 
 
 @interface WPListEventViewController ()
@@ -37,6 +36,7 @@
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
     [WPHelperConstant setBGColorForView:self.tableView color:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPushNotfication:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
 }
@@ -44,8 +44,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
-    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
+     [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
 #pragma mark ->Segmented Control value changed
@@ -71,13 +70,12 @@
     
     NSDictionary *fieldsToUpdate = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
     NSString *eventId = [[notification userInfo] objectForKey:@"eventId"];
-    [ManagedParseUser updateEvent:eventId target:self selector:@selector(updateDone:) data:fieldsToUpdate];
+    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
 - (void) updateDone:(PFObject*)object
 {
-    if (object)
-        [ManagedParseUser fetchLocalEvents:self selector:@selector(updateEventList:)];
+    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
 - (void) updateEventList:(NSArray*)events
@@ -139,7 +137,6 @@
         eventList = self.eventListReceived;
     else
        eventList = self.eventListSent;
-    
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
@@ -179,9 +176,9 @@
             NSArray *usersDeclined = event[@"usersDeclined"];
             if ((usersAccepted.count + usersDeclined.count - 2) == usersConcerned.count)
             {
-                if (usersDeclined.count > 0 && usersAccepted.count > 0)
+                if (usersDeclined.count > 1 && usersAccepted.count > 1)
                     cell.imageView.image = [UIImage imageWithColor:[UIColor orangeColor] cornerRadius:6.0f];
-                else if (usersAccepted.count == usersConcerned.count)
+                else if ((usersAccepted.count - 1) == usersConcerned.count)
                     cell.imageView.image = [UIImage imageWithColor:DEFAULTACCEPTCOLOR cornerRadius:6.0f];
                 else
                     cell.imageView.image = [UIImage imageWithColor:DEFAULTDECLINECOLOR cornerRadius:6.0f];
@@ -214,11 +211,29 @@
 {
    MenuViewController  *menu = [[MenuViewController alloc] init];
 
+    menu.delegate = self;
     menu.view.frame = self.view.frame;
     menu.definesPresentationContext = YES;
     menu.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [self presentViewController:menu animated:YES completion:nil];
 }
+
+#pragma mark ->Menu delegate
+
+- (void) didDismissMenuWithSubMenuType:(subTypeMenu)type
+{
+    switch (type) {
+        case kMenuLogout:
+        {
+            [PFUser logOut];
+            [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+        }   break;
+            
+        default:
+            break;
+    }
+}
+
 
 #pragma mark - Navigation
 

@@ -8,11 +8,13 @@
 
 #import "MenuSubView.h"
 #import "Animations.h"
-
+#import <FlatUIKit/FlatUIKit.h>
+#import <NSString+Icons.h>
 @interface MenuSubView ()
 
 @property (strong, nonatomic) IBOutlet UILabel *labelTitle;
 @property (strong, nonatomic) IBOutlet UILabel *labelMenuSub;
+
 
 @end
 
@@ -22,24 +24,33 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    _labelTitle =  [[UILabel alloc] initWithFrame:self.labelMenuSub.frame];
     
-    //self.buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
-}
-
-
-- (void) setLabelTitle:(NSString*)labelTitle
-{
+    self.backgroundColor = [UIColor clearColor];
     
+    [_labelTitle setText:@"Logout"];
+    _labelMenuSub.font = [UIFont iconFontWithSize:20.0f];
+    _labelMenuSub.text = [NSString iconStringForEnum:FUIHeart];
+    [self layoutIfNeeded];
+    
+    /*
+     
+     */
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [self layoutIfNeeded];
-    
     [super setSelected:selected animated:animated];
-        [Animations addRubberBandAnimation:self.labelMenuSub rightView:_labelTitle receivingView:self completed:^(BOOL completed) {
+    
+    if (selected)
+    {
+        [Animations addRubberBandAnimation:self.labelMenuSub rightView:self.labelTitle receivingView:self.contentView completed:^(BOOL completed) {
+            if (self.completionBlockAnim)
+                self.completionBlockAnim();
+            else
+                NSLog(@"[Error]: MenuSubView no completionblockanim found");
         }];
+    }
 }
 
 @end

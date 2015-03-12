@@ -9,6 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "MenuSubView.h"
 
+@protocol MenuVCDelegate <NSObject>
+
+- (void) didDismissMenuWithSubMenuType:(subTypeMenu)type;
+
+@end
+
 @interface MenuViewController : UIViewController<UITableViewDataSource, UITabBarDelegate>
+
+@property (weak, nonatomic) id<MenuVCDelegate> delegate;
 
 @end

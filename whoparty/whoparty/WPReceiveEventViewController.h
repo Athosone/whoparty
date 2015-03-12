@@ -14,7 +14,7 @@
 @class ReceiveEventCell;
 @interface WPReceiveEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ReceiveEventCellProtocol>
 
-@property (strong, nonatomic) Event         *event;
+@property (strong, nonatomic) PFObject         *event;
 
 - (void) didClickOnAcceptButton:(id)sender;
 - (void) didClickOnDeclineButton:(id)sender;

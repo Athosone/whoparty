@@ -17,5 +17,6 @@ typedef enum : NSUInteger {
 @interface MenuSubView : UITableViewCell
 
 @property (readwrite, nonatomic) subTypeMenu type;
+@property (strong, nonatomic) void (^completionBlockAnim)();
 
 @end
