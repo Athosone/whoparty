@@ -94,13 +94,10 @@
          }
          else
          {
-             if (object)
-             {
-                 if ([target respondsToSelector:selector])
-                     [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
-                 else
-                     NSLog(@"Error selector non declared in the target passed as parameters");
-             }
+             if ([target respondsToSelector:selector])
+                 [target performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
+             else
+                 NSLog(@"Error selector non declared in the target passed as parameters");
          }
      }];
 }
@@ -258,7 +255,6 @@
 + (void) fetchAllEvents:(id)target selector:(SEL)selector
 {
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
-    __block NSArray          *lRet;
     
     [operation addExecutionBlock:^{
         PFQuery *query = [ManagedParseUser getPFQueryForEvent];
@@ -267,21 +263,21 @@
         [query fromLocalDatastore];
         //Find locals objects
         [query findObjectsInBackgroundWithBlock:^(NSArray *objectsLocal, NSError *error) {
+            
+            //Update GUI with existing objects
+            if ([target respondsToSelector:selector])
+                [target performSelectorOnMainThread:selector withObject:objectsLocal waitUntilDone:YES];
+            else
+                NSLog(@"Error selector non declared in the target passed as parameters");
             //Update locals objects
             [PFObject fetchAllInBackground:objectsLocal block:^(NSArray *objectsLocalUpdated, NSError *error) {
                 if (error)
-                    NSLog(@"error fetching all in background if needed fetchallevent");
+                    NSLog(@"error fetching all in background fetchallevent");
                 else
                 {   //Save new updated objects
                     [PFObject pinAllInBackground:objectsLocalUpdated block:^(BOOL succeeded, NSError *error) {
                         if (succeeded)
                         {
-                            //Update GUI with existing objects
-                            if ([target respondsToSelector:selector])
-                                [target performSelectorOnMainThread:selector withObject:objectsLocalUpdated waitUntilDone:YES];
-                            else
-                                NSLog(@"Error selector non declared in the target passed as parameters");
-                            
                             //Find new events and exclude already fetched one
                             NSMutableArray *idsToExclude = [[NSMutableArray alloc] init];
                             for (int i = 0; i < objectsLocalUpdated.count; ++i)

@@ -22,6 +22,8 @@
 - (id) init
 {
     self = [[[NSBundle mainBundle] loadNibNamed:@"MarkerView" owner:nil options:nil] objectAtIndex:0];
+    self.tableView.tag = 0;
+    self.backgroundColor = [UIColor clearColor];
     return self;
 }
 - (void) initViewWithMarker:(GMSMarker*)marker
@@ -29,9 +31,11 @@
     self.sectionTitle = marker.title;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.backgroundColor = [UIColor clearColor];
-    NSLog(@"Frame : %d", self.frame.size.height);
+    self.tableView.backgroundColor = [UIColor peterRiverColor];
+    self.tableView.layer.cornerRadius = 6.0f;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    [self layoutIfNeeded];
     [self.tableView reloadData];
 }
 

@@ -41,9 +41,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
      [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
@@ -68,13 +68,6 @@
 {
     NSLog(@"Login-ViewController-userinfo receive push notification isAccepted: %@", [notification userInfo]);
     
-    NSDictionary *fieldsToUpdate = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"isAccepted"];
-    NSString *eventId = [[notification userInfo] objectForKey:@"eventId"];
-    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
-}
-
-- (void) updateDone:(PFObject*)object
-{
     [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
@@ -143,7 +136,7 @@
     }
     if ([eventList objectAtIndex:indexPath.row])
     {
-        Event *event = [eventList objectAtIndex:indexPath.row];
+        PFObject *event = [eventList objectAtIndex:indexPath.row];
         
         cell.imageView.layer.cornerRadius = 6.0f;
         
@@ -167,7 +160,7 @@
     return cell;
 }
 
-- (void) setColorForCell:(UITableViewCell*) cell event:(Event*)event
+- (void) setColorForCell:(UITableViewCell*) cell event:(PFObject*)event
 {
     if (event[@"usersConcerned"])
         {

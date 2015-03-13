@@ -10,7 +10,6 @@
 #import "GooglePlaceDataProvider.h"
 #import "WPHelperConstant.h"
 
-#define GOOGLEBASEURL @"https://maps.googleapis.com/maps/api/place/textsearch/json?"
 #define RADIUS        50000
 
 @implementation GooglePlaceDataProvider

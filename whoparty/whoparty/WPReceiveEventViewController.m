@@ -47,6 +47,7 @@
     if (self.event && self.event.objectId)
     {
         self.hud.hidden = false;
+        if (self.event)
         [ManagedParseUser fetchGoogleAddress:self.event[@"mygoogleaddress"] target:self selector:@selector(updateMyGoogleAddress:)];
         NSArray *usersAccetped = self.event[@"usersAccepted"];
         NSArray *usersDeclined = self.event[@"usersDeclined"];
@@ -54,7 +55,6 @@
         if ((usersAccetped.count + usersDeclined.count - 2) != usersConcerned.count)
         {
             [ManagedParseUser fetchEvent:self.event completionBlock:^(PFObject *obj) {
-                
                 self.event = obj;
                 [self.tableView reloadData];
             }];
@@ -68,6 +68,7 @@
         if (googleAddress)
         {
             [self.event setObject:googleAddress forKey:@"mygoogleaddress"];
+            [self.event pinInBackground];
             self.isReady = YES;
         }
         self.hud.hidden = true;
@@ -95,8 +96,8 @@
     }
     if (self.event && self.isReady)
     {
-        [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
-        
+       // [cell initReceiveEventCell:[self.event objectForKey:@"mygoogleaddress"] comment:[self.event objectForKey:@"comment"]];
+        [cell initReceiveEventCellWithEvent:self.event];
         if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username] && self.event[@"groupName"])
         {
             [cell initReceiveEventCellWithEvent:self.event];
@@ -105,7 +106,6 @@
         else if (self.event[@"usersConcerned"] && ![self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
         {
             cell.eventType = kEventGroup;
-            [cell initReceiveEventCellWithEvent:self.event];
             NSArray *usersAccetped = self.event[@"usersAccepted"];
             NSArray *usersDeclined = self.event[@"usersDeclined"];
             
@@ -126,9 +126,9 @@
             else if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
                [cell setSendingUserStyle];
        }
+        [Animations addFadeInTransitionToView:cell duration:0.8f];
     }
     cell.delegate = self;
-    [Animations addFadeInTransitionToView:cell duration:0.8f];
     return cell;
 }
 

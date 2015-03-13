@@ -12,6 +12,7 @@
 #import "Animations.h"
 #import "MarkerView.h"
 
+#define MARKERVIEWHEIGHTFORCELL 50
 
 @interface ReceiveEventCell ()
 
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) NSArray  *usersAccepted;
 @property (strong, nonatomic) NSArray  *usersDeclined;
 @property (strong, nonatomic) IBOutlet UITextField *textfieldAddress;
+@property (strong, nonatomic) IBOutlet UIButton *buttonGMLink;
 
 @end
 
@@ -112,7 +114,6 @@
 
 - (void) initMap
 {
-    
     [GooglePlaceDataProvider setPointForView:self.mapView mygoogleAddress:self.destPos];
     [GooglePlaceDataProvider setCameraPositionForView:self.mapView mygoogleAddress:self.destPos];
 }
@@ -219,9 +220,9 @@
 - (UIView*) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker
 {
     CLLocationCoordinate2D anchor = marker.position;
-
     MarkerView *view = [[MarkerView alloc] init];
-    view.frame = CGRectMake(0, 0, 200, 100);
+    
+    view.frame = CGRectMake(0, 0, mapView.frame.size.width/2, self.usersConcerned.count * MARKERVIEWHEIGHTFORCELL);
     
     view.usersDeclined = self.usersDeclined;
     view.usersAccepted = self.usersAccepted;
@@ -236,6 +237,33 @@
 {
     mapView.selectedMarker = marker;
     return YES;
+}
+
+- (IBAction)buttonGMLinkOnClick:(id)sender
+{
+   /* 
+    **Maybe use later to improve linkMAPS, for now google seems to give better result
+    NSString *nameAddr = self.destPos[@"name"];
+    NSString *addr = self.destPos[@"address"];
+    
+    addr = [addr stringByReplacingOccurrencesOfString:@"," withString:@"+"];
+    addr = [addr stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSString *placeToLink = [NSString stringWithFormat:
+                             @"%@+%@", nameAddr, addr];
+    */
+    NSString *linkGoogle = [NSString stringWithFormat:@"%@%@,%@&zoom=14", GOOGLEBASELINK,
+                      self.destPos[@"latitude"],
+                      self.destPos[@"longitude"]];
+   
+
+    
+    if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkGoogle]])
+    {
+        NSString *linkMAPS = [NSString stringWithFormat:@"%@%@,%@&zoom=14", MAPSBASELINK,
+                              self.destPos[@"latitude"],
+                              self.destPos[@"longitude"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkMAPS]];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

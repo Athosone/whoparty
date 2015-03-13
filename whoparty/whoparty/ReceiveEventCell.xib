@@ -65,14 +65,19 @@
                                     <action selector="declineButtonOnClick:" destination="y8O-rn-Qru" eventType="touchUpInside" id="sv5-R9-tja"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aP6-7s-lBP">
-                                <rect key="frame" x="8" y="512" width="343" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNH-YA-BXp">
+                                <rect key="frame" x="154" y="497" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="ize-eT-hpQ"/>
+                                    <constraint firstAttribute="height" constant="50" id="1v3-Ia-P2Y"/>
+                                    <constraint firstAttribute="width" constant="50" id="Rsf-Wh-ium"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <state key="normal" image="icon-map.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonGMLinkOnClick:" destination="y8O-rn-Qru" eventType="touchUpInside" id="b9k-sB-lQC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -80,7 +85,6 @@
                             <constraint firstAttribute="centerX" secondItem="zxG-3r-mAv" secondAttribute="centerX" id="4Ty-2e-kkX"/>
                             <constraint firstItem="RbI-yM-KoG" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leadingMargin" id="6yw-rc-vFo"/>
                             <constraint firstItem="bUa-7z-llR" firstAttribute="top" secondItem="udp-eq-GMm" secondAttribute="bottom" constant="36" id="72u-ln-evw"/>
-                            <constraint firstItem="aP6-7s-lBP" firstAttribute="top" secondItem="zxG-3r-mAv" secondAttribute="bottom" constant="23" id="7Q6-Ed-okS"/>
                             <constraint firstItem="bUa-7z-llR" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leading" constant="8" id="E46-kL-JAG"/>
                             <constraint firstAttribute="bottomMargin" secondItem="6ut-cq-7Ka" secondAttribute="bottom" constant="45.5" id="Huu-ui-mGO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6ut-cq-7Ka" secondAttribute="trailing" id="Kuf-5c-Wyu"/>
@@ -88,10 +92,10 @@
                             <constraint firstItem="zxG-3r-mAv" firstAttribute="top" secondItem="udp-eq-GMm" secondAttribute="bottom" constant="36" id="Ug1-O1-c1A"/>
                             <constraint firstAttribute="bottom" secondItem="bUa-7z-llR" secondAttribute="bottom" constant="53.5" id="WHX-tA-2YT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RbI-yM-KoG" secondAttribute="trailing" id="XK3-4p-vCk"/>
-                            <constraint firstItem="aP6-7s-lBP" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leadingMargin" id="epv-k0-pxB"/>
+                            <constraint firstItem="cNH-YA-BXp" firstAttribute="top" secondItem="zxG-3r-mAv" secondAttribute="bottom" constant="8" id="e1d-8d-EB5"/>
                             <constraint firstItem="udp-eq-GMm" firstAttribute="leading" secondItem="8Iv-Dq-H8g" secondAttribute="leading" constant="8" id="iIq-aC-u8T"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="aP6-7s-lBP" secondAttribute="trailing" id="sMb-rS-kKr"/>
                             <constraint firstItem="RbI-yM-KoG" firstAttribute="top" secondItem="8Iv-Dq-H8g" secondAttribute="topMargin" id="t9a-oR-4ZT"/>
+                            <constraint firstAttribute="centerX" secondItem="cNH-YA-BXp" secondAttribute="centerX" id="xNH-KI-S3D"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -106,12 +110,15 @@
                 <outlet property="buttonAccept" destination="bUa-7z-llR" id="85L-eM-slI"/>
                 <outlet property="buttonCancel" destination="6ut-cq-7Ka" id="9ih-KT-HSe"/>
                 <outlet property="buttonFinalCall" destination="zxG-3r-mAv" id="nxC-wO-Wi6"/>
+                <outlet property="buttonGMLink" destination="cNH-YA-BXp" id="r7s-Av-lyy"/>
                 <outlet property="containerView" destination="8Iv-Dq-H8g" id="VdN-8w-Wer"/>
                 <outlet property="labelComment" destination="udp-eq-GMm" id="bXH-eV-0N9"/>
                 <outlet property="mapView" destination="RbI-yM-KoG" id="mq6-bC-AAj"/>
-                <outlet property="textfieldAddress" destination="aP6-7s-lBP" id="Jer-Rq-bt3"/>
             </connections>
             <point key="canvasLocation" x="428.5" y="391"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="icon-map.png" width="256" height="256"/>
+    </resources>
 </document>
