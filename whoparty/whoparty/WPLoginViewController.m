@@ -14,10 +14,10 @@
 #define LEFTVIEWWIDTH 25
 
 @interface WPLoginViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *bgImage;
 
 - (IBAction)login:(id)sender;
 - (IBAction)registerUser:(id)sender;
+- (IBAction)loginFaceBook:(id)sender;
 
 
 @end
@@ -41,6 +41,7 @@
     // Do any additional setup after loading the view.
 }
 
+
 #pragma mark ->Receive Notification Push
 
 - (void) receivePushNotification:(NSDictionary*) userInfo
@@ -54,31 +55,31 @@
 {
     [super viewWillAppear:animated];
     
-    CGRect frame1 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-    CGRect frame2 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-    CGRect frame3 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-    CGRect frame4 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+    /*  CGRect frame1 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     CGRect frame2 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     CGRect frame3 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     CGRect frame4 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     
+     UIImageView *field1 = [[UIImageView alloc] initWithFrame:frame1];
+     UIImageView *field2 = [[UIImageView alloc] initWithFrame:frame2];
+     UIImageView *field3 = [[UIImageView alloc] initWithFrame:frame3];
+     UIImageView *field4 = [[UIImageView alloc] initWithFrame:frame4];
+     
+     field1.image = [UIImage imageNamed:@"emailLeftView"];
+     field2.image = [UIImage imageNamed:@"passwordCadenas"];
+     field3.image = [UIImage imageNamed:@"passwordCadenas"];
+     field4.image = [UIImage imageNamed:@"accountLogin"];
+     
+     self.textFieldEmail.leftView = field1;
+     self.textFieldLogin.leftView = field4;
+     self.textFieldPassword1.leftView = field2;
+     self.textFieldPassword2.leftView = field3;
+     
+     self.textFieldLogin.leftViewMode = UITextFieldViewModeAlways;
+     self.textFieldEmail.leftViewMode = UITextFieldViewModeAlways;
+     self.textFieldPassword1.leftViewMode = UITextFieldViewModeAlways;
+     self.textFieldPassword2.leftViewMode = UITextFieldViewModeAlways;*/
     
-    UIImageView *field1 = [[UIImageView alloc] initWithFrame:frame1];
-    UIImageView *field2 = [[UIImageView alloc] initWithFrame:frame2];
-    UIImageView *field3 = [[UIImageView alloc] initWithFrame:frame3];
-    UIImageView *field4 = [[UIImageView alloc] initWithFrame:frame4];
-    
-    field1.image = [UIImage imageNamed:@"emailLeftView"];
-    field2.image = [UIImage imageNamed:@"passwordCadenas"];
-    field3.image = [UIImage imageNamed:@"passwordCadenas"];
-    field4.image = [UIImage imageNamed:@"accountLogin"];
-    
-    self.textFieldEmail.leftView = field1;
-    self.textFieldLogin.leftView = field4;
-    self.textFieldPassword1.leftView = field2;
-    self.textFieldPassword2.leftView = field3;
-    
-    self.textFieldLogin.leftViewMode = UITextFieldViewModeAlways;
-    self.textFieldEmail.leftViewMode = UITextFieldViewModeAlways;
-    self.textFieldPassword1.leftViewMode = UITextFieldViewModeAlways;
-    self.textFieldPassword2.leftViewMode = UITextFieldViewModeAlways;
-
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -93,8 +94,8 @@
         NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
         [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
         [currentInstallation saveInBackground];
-
-       [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+        
+        [self performSegueWithIdentifier:@"loginSuccess" sender:self];
     }
 }
 
@@ -104,15 +105,59 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) registering
+{
+    self.hud.labelText = @"Registering";
+    
+    NSString *error = nil;
+    if ((error = [super validateFormRegister]))
+    {
+        FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
+        
+        [alertView show];
+        return;
+    }
+    else
+    {
+        self.hud.hidden = FALSE;
+        PFUser *user = [[PFUser alloc] init];
+        
+        user.email = self.textFieldEmail.text;
+        user.username = self.textFieldLogin.text;
+        user.password = self.textFieldPassword1.text;
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+         {
+             self.hud.hidden = TRUE;
+             if (error)
+                 [super connectionFailed:[error localizedDescription]];
+             else
+             {
+                 NSLog(@"User successfully signup");
+                 //RegisterChannel for this user
+                 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                 currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
+                 [currentInstallation saveEventually];
+                 // [WPHelperConstant saveUserCredentialsToKeyChain:user.username password:user.password];
+                 [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+             }
+         }];
+    }
+}
+
 //Method peut etre a virer dans la superclass
 - (IBAction)login:(id)sender
 {
+    
+    if (self.isRegistering == YES)
+        [self registering];
+    else
+    {
     NSString *error = nil;
     self.hud.labelText = @"Connecting";
     if ((error = [super validateFormLogin]))
     {
         FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
-       
+        
         [alertView show];
         return;
     }
@@ -135,69 +180,82 @@
             }
         }];
     }
+    }
 }
+
 - (IBAction)registerUser:(id)sender
 {
-    static int i = 0;
-    NSString *error = nil;
     
-    if (i == 0)
+    if (self.isRegistering == NO)
     {
-        [self.buttonOutletRegister setTitle:@"Register !" forState:UIControlStateNormal];
-        self.textFieldPassword2.hidden = FALSE;
-        self.textFieldEmail.hidden = FALSE;
-        self.buttonResetPassword.hidden = true;
-        i = 1;
-        return;
-    }
-    
-    self.hud.labelText = @"Registering";
-    
-    
-    if ((error = [super validateFormRegister]))
-    {
-        FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
-        
-        [alertView show];
-        return;
-    }
-    else
-    {
-        self.hud.hidden = FALSE;
-        PFUser *user = [[PFUser alloc] init];
-
-        user.email = self.textFieldEmail.text;
-        user.username = self.textFieldLogin.text;
-        user.password = self.textFieldPassword1.text;
-        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-        {
-            self.hud.hidden = TRUE;
-            if (error)
-                [super connectionFailed:[error localizedDescription]];
-            else
-            {
-                 NSLog(@"User successfully signup");
-                //RegisterChannel for this user
-                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
-                [currentInstallation saveEventually];
-               // [WPHelperConstant saveUserCredentialsToKeyChain:user.username password:user.password];
-                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
-            }
+       [super setAnimationForRegistersOutlet:^(BOOL completed) {
+           
         }];
     }
-  
+    
+    /* static int i = 0;
+     NSString *error = nil;
+     
+     if (i == 0)
+     {
+     [self.buttonOutletRegister setTitle:@"Register !" forState:UIControlStateNormal];
+     self.textFieldPassword2.hidden = FALSE;
+     self.textFieldEmail.hidden = FALSE;
+     self.buttonResetPassword.hidden = true;
+     i = 1;
+     return;
+     }
+     
+     self.hud.labelText = @"Registering";
+     
+     
+     if ((error = [super validateFormRegister]))
+     {
+     FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
+     
+     [alertView show];
+     return;
+     }
+     else
+     {
+     self.hud.hidden = FALSE;
+     PFUser *user = [[PFUser alloc] init];
+     
+     user.email = self.textFieldEmail.text;
+     user.username = self.textFieldLogin.text;
+     user.password = self.textFieldPassword1.text;
+     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+     self.hud.hidden = TRUE;
+     if (error)
+     [super connectionFailed:[error localizedDescription]];
+     else
+     {
+     NSLog(@"User successfully signup");
+     //RegisterChannel for this user
+     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+     currentInstallation.channels = @[ @"global", [CHANNELUSERPREFIX stringByAppendingString:user.objectId]];
+     [currentInstallation saveEventually];
+     // [WPHelperConstant saveUserCredentialsToKeyChain:user.username password:user.password];
+     [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+     }
+     }];
+     }*/
+    
+}
+
+- (IBAction)loginFaceBook:(id)sender {
 }
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

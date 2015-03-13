@@ -14,14 +14,19 @@
 @interface LoginFormViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UITextField *textFieldLogin;
-@property (strong, nonatomic) IBOutlet UITextField *textFieldEmail;
 @property (strong, nonatomic) IBOutlet UITextField *textFieldPassword1;
-@property (strong, nonatomic) IBOutlet UITextField *textFieldPassword2;
 @property (strong, nonatomic) IBOutlet UIButton *buttonOutletLogin;
 @property (strong, nonatomic) IBOutlet UIButton *buttonOutletRegister;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) IBOutlet UIButton *buttonResetPassword;
+@property (strong, nonatomic) IBOutlet UIButton *buttonSigninFB;
+@property (strong, nonatomic) IBOutlet UIImageView *viewOrview;
+@property (readwrite, nonatomic) BOOL    isRegistering;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldEmail;
+@property (strong, nonatomic) IBOutlet UITextField *textFieldPassword2;
 
+- (void) initRegistersOutlets;
+- (void) setAnimationForRegistersOutlet:(void(^)(BOOL completed))completedAnim;
 - (NSString*) validateFormLogin;
 - (NSString*) validateFormRegister;
 - (void) connectionFailed:(NSString *)error;

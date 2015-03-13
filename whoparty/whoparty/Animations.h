@@ -19,6 +19,8 @@
 + (void) addFadeOutFadeInTransitionToView:(UIView*) destView duration:(float)duration;
 + (void) addVerticalShaking:(UIView*) destView;
 + (void) addRubberBandAnimation:(UIView*)leftView rightView:(UIView*)rightView receivingView:(UIView*)mainView completed:(void(^)(BOOL completed))completed;
-+ (CABasicAnimation*) slideAnimationOnX:(CGPoint)start end:(CGPoint)end;
++ (CABasicAnimation*) getSlideAnimationOnX:(CGPoint)start end:(CGPoint)end;
++ (CABasicAnimation*) getSlideAnimationOnY:(CGPoint)start end:(CGPoint)end;
++ (CABasicAnimation*) getFadeAnimation:(float)start end:(float)end;
 
 @end

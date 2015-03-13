@@ -116,7 +116,16 @@
 
 #pragma mark ->RubberbandAnimation
 
-+ (CABasicAnimation*) slideAnimationOnX:(CGPoint)start end:(CGPoint)end
++ (CABasicAnimation*) getFadeAnimation:(float)start end:(float)end
+{
+    CABasicAnimation *fade = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [fade setFromValue:[NSNumber numberWithFloat:start]];
+    [fade setToValue:[NSNumber numberWithFloat:end]];
+    return fade;
+}
+
+
++ (CABasicAnimation*) getSlideAnimationOnX:(CGPoint)start end:(CGPoint)end
 {
     CABasicAnimation *slideAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
     
@@ -125,12 +134,22 @@
     return slideAnimation;
 }
 
++ (CABasicAnimation*) getSlideAnimationOnY:(CGPoint)start end:(CGPoint)end
+{
+    CABasicAnimation *slideAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
+    
+    [slideAnimation setFromValue:[NSNumber numberWithFloat:start.y]];
+    [slideAnimation setToValue:[NSNumber numberWithFloat:end.y]];
+    return slideAnimation;
+}
+
+
 
 + (void) addRubberBandAnimation:(UIView*)leftView rightView:(UIView*)rightView receivingView:(UIView*)mainView completed:(void(^)(BOOL completed))completedBlock
 {
     CGPoint leftViewCenter = leftView.layer.position;
     CGPoint rightViewCenter = rightView.layer.position;
-    
+
     CGPoint slideRightViewPos = rightViewCenter;
     CGPoint slideLeftViewPos = leftViewCenter;
     
@@ -138,9 +157,9 @@
     slideLeftViewPos.x -= mainView.frame.size.height;
     
     [CATransaction begin];
-    CABasicAnimation *slideLeftAnim = [Animations slideAnimationOnX:leftViewCenter end:slideLeftViewPos];
-    CABasicAnimation *slideLeftAnimRightView = [Animations slideAnimationOnX:rightViewCenter end:slideRightViewPos];
-    
+    CABasicAnimation *slideLeftAnim = [Animations getSlideAnimationOnX:leftViewCenter end:slideLeftViewPos];
+    CABasicAnimation *slideLeftAnimRightView = [Animations getSlideAnimationOnX:rightViewCenter end:slideRightViewPos];
+
     slideLeftAnim.duration = 0.5f;
     slideLeftAnim.fillMode = kCAFillModeForwards;
     slideLeftAnimRightView.duration = 0.5f;
@@ -149,8 +168,8 @@
     [CATransaction setCompletionBlock:^{
     [CATransaction begin];
         
-        CABasicAnimation *slideReverseAnim = [Animations slideAnimationOnX:slideLeftViewPos end:leftViewCenter];
-        CABasicAnimation *slideReverseAnimRightView = [Animations slideAnimationOnX:slideRightViewPos end:rightViewCenter];
+        CABasicAnimation *slideReverseAnim = [Animations getSlideAnimationOnX:slideLeftViewPos end:leftViewCenter];
+        CABasicAnimation *slideReverseAnimRightView = [Animations getSlideAnimationOnX:slideRightViewPos end:rightViewCenter];
         
         slideReverseAnim.duration = 0.5f;
         slideReverseAnim.fillMode = kCAFillModeForwards;
@@ -170,10 +189,6 @@
     leftView.layer.position = slideLeftViewPos;
     rightView.layer.position = slideRightViewPos;
     [CATransaction commit];
-    
-    
-    
-    
     
     /*  POPBasicAnimation *popAnimLeft = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionX];
      
