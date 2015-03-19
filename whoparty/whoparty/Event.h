@@ -23,5 +23,7 @@
 @property (strong, nonatomic) NSString        *groupName;
 @property (strong, nonatomic) NSArray         *usersAccepted;
 @property (strong, nonatomic) NSArray         *usersDeclined;
+@property (strong, nonatomic) NSString        *name;
+@property (strong, nonatomic) NSDate          *eventdate;
 
 @end

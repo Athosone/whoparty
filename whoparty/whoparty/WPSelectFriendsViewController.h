@@ -16,5 +16,7 @@
 
 @property (strong, nonatomic) MYGoogleAddress   *currentAddress;
 @property (strong, nonatomic) NSString          *comment;
+@property (strong, nonatomic) NSString          *name;
+@property (strong, nonatomic) NSDate            *selectedDate;
 
 @end

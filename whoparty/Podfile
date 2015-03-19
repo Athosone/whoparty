@@ -10,6 +10,8 @@ pod 'MBProgressHUD', '~> 0.9'
 pod 'NUI'
 pod 'pop', '~> 1.0'
 pod 'FlatUIKit'
+pod 'JTCalendar', '~> 1.1'
+pod 'SPGooglePlacesAutocomplete'
 
 end
 

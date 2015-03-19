@@ -29,10 +29,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.friendsName = nil;
+    [WPHelperConstant setBGWithImageForView:self.view image:@"lacBG"];
     self.user = [PFUser currentUser];
     self.friendsName = [self.user objectForKey:@"friendsId"];
     self.barButtonAddFriend.tintColor = [UIColor whiteColor];
-    [self.navigationItem.backBarButtonItem setTitle:@"OYO"];
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.tableView registerNib:[UINib nibWithNibName:@"CheckBoxCell" bundle:nil] forCellReuseIdentifier:@"checkBoxCell"];
 }
@@ -111,9 +113,17 @@
 
 #pragma mark ->Send NotifPush
 
-- (void) sendNotificationPush:(NSArray*) userDest groupName:(NSString*)groupName
+- (void) sendNotificationPush:(NSArray*) userDest
 {
-    [ManagedParseUser createEvent:userDest comment:self.comment groupName:groupName address:self.currentAddress success:^{
+    PFObject *event = [PFObject objectWithClassName:@"Event"];
+    
+    [event setObject:self.name forKey:@"name"];
+    [event setObject:self.currentAddress forKey:@"mygoogleaddress"];
+    [event setObject:self.comment forKey:@"comment"];
+    [event setObject:self.selectedDate forKey:@"eventdate"];
+    [event setObject:userDest forKey:@"usersConcerned"];
+    [event setObject:[PFUser currentUser].username forKey:@"sendinguser"];
+    [ManagedParseUser createEvent:event success:^{
         NSLog(@"Event created");
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController popToRootViewControllerAnimated:YES];
@@ -122,9 +132,8 @@
 }
 
 #pragma mark ->SendView Delegate
-//Create method for grouped event
 
-- (void) preparePushNotification:(NSArray*)indexesPath groupName:(NSString*)groupName
+- (void) preparePushNotification:(NSArray*)indexesPath
 {
     NSMutableArray  *userConcerned = [[NSMutableArray alloc] init];;
     
@@ -134,51 +143,15 @@
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:i];
         [userConcerned addObject:cell.textLabel.text];
     }
-    [self sendNotificationPush:userConcerned groupName:groupName];
+    [self sendNotificationPush:userConcerned];
 }
 
 - (void) didClickOnSendViewButton:(id)sender
 {
     NSArray *indexesPath = [self.tableView indexPathsForSelectedRows];
-    __block NSString *groupName = nil;
    
-    if (indexesPath.count > 10)
-    {
-        FUIAlertView *alert = [AlertView getDefaultAlertVIew:@"Oops !" message:@"You can send an event to ten people maximum"];
-        [alert show];
-        return;
-    }
-    else if (indexesPath.count > 1)
-    {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"One last information ^^" message:@"Provide a name for your grouped invitation" preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* ok = [UIAlertAction
-                             actionWithTitle:@"OK"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action)
-                             {
-                                 UITextField *tF = (UITextField*)[alert.textFields objectAtIndex:0];
-                                 groupName = tF.text;
-                                    if (groupName)
-                                     [self preparePushNotification:indexesPath groupName:groupName];
-                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                             }];
-        [alert addAction:ok];
-        UIAlertAction* cancel = [UIAlertAction
-                                 actionWithTitle:@"Cancel"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                  }];
-        [alert addAction:cancel];
-        [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = @"Enter your group name";
-        }];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-    else
-        [self preparePushNotification:indexesPath groupName:nil];
+   [self preparePushNotification:indexesPath];
+
 }
 
 

@@ -13,7 +13,6 @@
 #import "WPReceiveEventViewController.h"
 #import "Animations.h"
 
-
 @interface WPListEventViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -21,30 +20,41 @@
 @property (strong, nonatomic) NSArray    *eventListSent;
 @property (strong, nonatomic) Event      *currentEvent;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *barbuttonitemMenu;
+@property (strong,nonatomic) NSIndexPath    *currentIndexpath;
 
 - (void) receivedPushNotfication:(NSDictionary*) userInfo;
 - (void) updateEventList:(NSArray*)events;
-- (void) updateDone:(PFObject*)object;
 
 @end
 
+//TODO pour accepter ou decliner mettre en mode button avec le blanc a gauche
+//TODO cacher le button ajouter des amis si receveur ou bien proposer option a l'envoyeur d'autoriser ou pas les receveurs à inviter des gens
 @implementation WPListEventViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
-    [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
-    [WPHelperConstant setBGColorForView:self.tableView color:nil];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPushNotfication:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"ListEventCell" bundle:nil] forCellReuseIdentifier:@"ListEventCell"];
+
 }
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-     [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
+    [super viewWillAppear:animated];
+    [WPHelperConstant setImageAsBGForTableView:self.tableView image:[UIImage imageNamed:@"lacBG"]];
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [blurEffectView setFrame:self.navigationController.navigationBar.frame];
+    [self.view addSubview:blurEffectView];
+    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
 }
 
 #pragma mark ->Segmented Control value changed
@@ -101,6 +111,19 @@
 
 #pragma mark ->TableView delegate
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath == self.currentIndexpath)
+    {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        return cell.frame.size.height;
+    }
+    else
+        return 160;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.segmentedControl.selectedSegmentIndex == 0)
@@ -123,40 +146,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)mtableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"Cell"];
-    NSArray         *eventList = nil;
+    ListEventCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"ListEventCell"];
     
     if (self.segmentedControl.selectedSegmentIndex == 0)
-        eventList = self.eventListReceived;
+        [cell initWithEvent:[self.eventListReceived objectAtIndex:indexPath.row]];
     else
-       eventList = self.eventListSent;
-    if (!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    if ([eventList objectAtIndex:indexPath.row])
-    {
-        PFObject *event = [eventList objectAtIndex:indexPath.row];
-        
-        cell.imageView.layer.cornerRadius = 6.0f;
-        
-         [self setColorForCell:cell event:event];
-        
-        NSString *sendingusername = [event objectForKey:@"sendinguser"];
-        NSArray *users = event[@"usersConcerned"];
-        NSString *cellText = @"";
-        if (users.count > 1)
-            cell.textLabel.text = event[@"groupName"];
-        else
-        {
-            if (self.segmentedControl.selectedSegmentIndex == 0)
-                cell.textLabel.text = [cellText stringByAppendingString:sendingusername];
-            else
-                cell.textLabel.text = event[@"receivinguser"];
-        }
-        NSString *dateString = [WPHelperConstant dateToString:event.createdAt];
-        cell.detailTextLabel.text = dateString;
-    }
+        [cell initWithEvent:[self.eventListSent objectAtIndex:indexPath.row]];
+    cell.tableView = self.tableView;
+    cell.delegate = self;
+    cell.indexPath = indexPath;
     return cell;
 }
 
@@ -221,12 +219,48 @@
             [PFUser logOut];
             [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
         }   break;
-            
         default:
             break;
     }
 }
 
+
+#pragma mark ->ListEventCellDelegate
+
+- (void) didClickOnDisplayEventButton:(ListEventCell *)cell
+{
+    self.currentIndexpath = cell.indexPath;
+    if (cell.isSlided == TRUE)
+    {
+        [UIView animateWithDuration:0.8f animations:^{
+            cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height - CONTAINERVIEWSIZEHEIGHT);
+            cell.containerViewForCell.hidden = true;
+            cell.buttonSlideCell.transform = CGAffineTransformRotate( cell.buttonSlideCell.transform, M_PI);
+            cell.isSlided = false;
+            cell.buttonSlideCell.enabled = true;
+           // [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:cell.indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+         completion:^(BOOL finished) {
+             [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:cell.indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+         }];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.8f animations:^{
+            cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height + CONTAINERVIEWSIZEHEIGHT);
+            cell.containerViewForCell.frame = CGRectMake(cell.containerViewForCell.frame.origin.x, cell.containerViewForCell.frame.origin.y,
+                                                         cell.frame.size.width, CONTAINERVIEWSIZEHEIGHT);
+            cell.containerViewForCell.hidden = false;
+            cell.buttonSlideCell.transform = CGAffineTransformRotate(cell.buttonSlideCell.transform, M_PI);
+            cell.isSlided = true;
+            cell.buttonSlideCell.enabled = true;
+        }
+         completion:^(BOOL finished) {
+             [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:cell.indexPath] withRowAnimation:UITableViewRowAnimationNone];
+         }];
+    }
+
+}
 
 #pragma mark - Navigation
 

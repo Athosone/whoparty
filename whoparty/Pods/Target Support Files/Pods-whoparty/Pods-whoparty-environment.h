@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_FlatUIKit 6
 #define COCOAPODS_VERSION_PATCH_FlatUIKit 0
 
+// JTCalendar
+#define COCOAPODS_POD_AVAILABLE_JTCalendar
+#define COCOAPODS_VERSION_MAJOR_JTCalendar 1
+#define COCOAPODS_VERSION_MINOR_JTCalendar 2
+#define COCOAPODS_VERSION_PATCH_JTCalendar 1
+
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
 #define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
@@ -71,6 +77,12 @@
 #define COCOAPODS_VERSION_MAJOR_NUIParse 1
 #define COCOAPODS_VERSION_MINOR_NUIParse 2
 #define COCOAPODS_VERSION_PATCH_NUIParse 1
+
+// SPGooglePlacesAutocomplete
+#define COCOAPODS_POD_AVAILABLE_SPGooglePlacesAutocomplete
+#define COCOAPODS_VERSION_MAJOR_SPGooglePlacesAutocomplete 1
+#define COCOAPODS_VERSION_MINOR_SPGooglePlacesAutocomplete 0
+#define COCOAPODS_VERSION_PATCH_SPGooglePlacesAutocomplete 4
 
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop

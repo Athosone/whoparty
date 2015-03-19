@@ -20,6 +20,8 @@
 @dynamic groupName;
 @dynamic usersAccepted;
 @dynamic usersDeclined;
+@dynamic eventdate;
+@dynamic name;
 
 + (NSString*)parseClassName
 {

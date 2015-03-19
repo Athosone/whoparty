@@ -18,14 +18,27 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb845217215535185</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>2.8</string>
+	<string>2.9.1</string>
+	<key>FacebookAppID</key>
+	<string>845217215535185</string>
+	<key>FacebookDisplayName</key>
+	<string>JoinMYEvent</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow location such as we can calculate initerary</string>
+	<string>Allow location such as we can calculate itinary</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow in use location such as we can calculate initerary</string>
+	<string>Allow in use location such as we can calculate itinary</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>flat-ui-icons-regular.ttf</string>

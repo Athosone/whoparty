@@ -39,4 +39,11 @@
 + (void) saveUserCredentialsToKeyChain:(NSString*)login password:(NSString*)password;
 + (NSDate*)formatDateFromString:(NSString*) dateString;
 + (NSString*)dateToString:(NSDate*)date;
++ (void) setImageAsBGForTableView:(UITableView*)view image:(UIImage*) image;
++ (void) setBlurForCell:(UITableViewCell*)cell;
++ (void) setBlurForView:(UIView*)view;
++ (void) setBGWithImageForView:(UIView*)view image:(NSString*)imageName;
++ (NSString*) getDateStringFromDate:(NSDate*)date;
+
+
 @end

@@ -21,6 +21,47 @@
         view.backgroundColor = DEFAULTBGCOLOR;
 }
 
++ (void) setBGWithImageForView:(UIView*)view image:(NSString*)imageName
+{
+    UIGraphicsBeginImageContext(view.bounds.size);
+    [[UIImage imageNamed:imageName] drawInRect:view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
++ (void) setImageAsBGForTableView:(UITableView*)view image:(UIImage*) image
+{
+    UIImageView *imageBG = [[UIImageView alloc] initWithFrame:view.frame];
+    
+    imageBG.contentMode = UIViewContentModeScaleAspectFill;
+    imageBG.image = image;
+    view.backgroundView = imageBG;
+}
+
++ (void) setBlurForCell:(UITableViewCell*)cell
+{
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    blurEffectView.frame = CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height);
+   
+    cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundView = blurEffectView;
+    NSLog(@"cellframe: %f %f, backgroundview: %f %f, blureffectview: %f,%f", cell.frame.size.width, cell.frame.size.height, cell.backgroundView.frame.size.width, cell.backgroundView.frame.size.height, blurEffectView.frame.size.width, blurEffectView.frame.size.height);
+}
+
++ (void) setBlurForView:(UIView*)view
+{
+    view.backgroundColor = [UIColor clearColor];
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    blurEffectView.frame = CGRectMake(0, 0, view.bounds.size.width, view.bounds.size.height);
+    
+    [view addSubview:blurEffectView];
+}
+
+
 + (void) setButtonToFlat:(FUIButton*)destButton
 {
     FUIButton *button = destButton;
@@ -45,6 +86,14 @@
 {
     //KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"YourAppLogin" accessGroup:nil];
 
+}
+
++ (NSString*) getDateStringFromDate:(NSDate*)date
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"EEEE d MMM"];
+    NSLog(@"Date test: %@", [dateFormatter stringFromDate:date]);
+    return [dateFormatter stringFromDate:date];
 }
 
 + (NSDate*)formatDateFromString:(NSString*) dateString

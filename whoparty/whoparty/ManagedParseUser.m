@@ -346,56 +346,36 @@
 }
 
 
-+ (void) createEvent:(NSArray*)userConcerned comment:(NSString*)comment groupName:(NSString*)groupName address:(MYGoogleAddress*)address success:(void(^)())success
++ (void) createEvent:(PFObject*)event success:(void(^)())success
 {
     NSBlockOperation *mainOp = [[NSBlockOperation alloc] init];
     
     [mainOp setCompletionBlock:^{
         success();
     }];
-    Event   *event = [[Event alloc] initWithClassName:@"Event"];
-    [event addUniqueObject:@"empty" forKey:@"usersAccepted"];
-    [event addUniqueObject:@"empty" forKey:@"usersDeclined"];
-    if (userConcerned.count > 1)
+    
+    [mainOp addExecutionBlock:^
     {
-        event.usersConcerned = userConcerned;
-        event.groupName = groupName;
-    }
-    else
-        event.receivinguser = [userConcerned objectAtIndex:0];
-    [mainOp addExecutionBlock:^{
+        [event[@"mygoogleaddress"] saveEventually:^(BOOL succeeded, NSError *error) {
+            
+            [event saveEventually:^(BOOL succeeded, NSError *error) {
+                if (succeeded)
+                    NSLog(@"Successed save new event");
+                else
+                    NSLog(@"Error saving new event: %@", error);
+                NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
+                [data setObject:alert forKey:@"alert"];
+                [data setObject:@"createEvent" forKey:@"eventType"];
+                [data setObject:@"default" forKey:@"sound"];
+                [data setObject:event.objectId forKey:@"eventId"];
+                [ManagedParseUser sendNotificationPushSync:event[@"usersConcerned"]
+                                                      data:data];
+                success();
+                
+            }];
+        }];
         
-        NSError *error;
-        
-        if (address)
-        {
-            [address save:&error];
-            if (error)
-                NSLog(@"error saving address: %@", error);
-            else
-            {
-                event.mygoogleaddress = address;
-                [address saveEventually];
-            }
-        }
-        event.comment = comment;
-        event.sendinguser = [PFUser currentUser].username;
-        event.isReceived = NO;
-        event.isAccepted = NO;
-        error = nil;
-        [event save:&error];
-        if (error)
-            NSLog(@"Error saving event: %@", error);
-        else
-            [event pin];
-        NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-        NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
-        [data setObject:alert forKey:@"alert"];
-        [data setObject:@"createEvent" forKey:@"eventType"];
-        [data setObject:@"default" forKey:@"sound"];
-        [data setObject:event.objectId forKey:@"eventId"];
-        [ManagedParseUser sendNotificationPushSync:userConcerned
-                                              data:data];
     }];
     [ManagedParseUser addOperationToQueue:mainOp];
 }

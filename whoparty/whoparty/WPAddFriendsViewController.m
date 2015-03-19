@@ -12,6 +12,8 @@
 
 #define ADDFRIENDCELL 0
 
+//PUT A DELEGATE FOR THE MAIN VIEWCONTROLLER and ADD FRIEND IN THE CALLING VIEWCONTROLLER
+
 @interface WPAddFriendsCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -65,13 +67,14 @@
     else
         [friendsList addObject:self.textLabel.text];
     [user setObject:friendsList forKey:@"friendsId"];
-    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [user pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded)
         {
             if (self.isFriend)
                 self.buttonFriend.imageView.image = [UIImage imageNamed:@"plusFriend"];
             else
                 self.buttonFriend.imageView.image = [UIImage imageNamed:@"validFriend"];
+            [user saveEventually];
         }
         [self stopAI];
         self.buttonFriend.hidden = FALSE;
@@ -98,6 +101,13 @@
 
 @implementation WPAddFriendsViewController
 
+- (id) init
+{
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+     WPAddFriendsViewController* vc = (WPAddFriendsViewController *)[sb instantiateViewControllerWithIdentifier:@"WPAddFriendsViewController"];
+    return vc;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
    // self.navigationController.navigationBar.backItem
@@ -105,7 +115,10 @@
     self.isSeeking = FALSE;
     self.isFriend = NO;
     self.isExist = NO;
-    [self.navigationController.navigationBar configureFlatNavigationBarWithColor:DEFAULTNAVBARBGCOLOR];
+    [WPHelperConstant setBGWithImageForView:self.view image:@"lacBG"];
+    self.tableView.backgroundColor = [UIColor clearColor];
+
+    [WPHelperConstant setBlurForView:self.tableView.backgroundView];
     // Do any additional setup after loading the view.
 }
 
@@ -134,6 +147,7 @@
 
 - (void) isUserExist:(PFUser*)userFound
 {
+    self.isSeeking = false;
     if (userFound)
     {
         self.isExist = YES;
@@ -143,11 +157,10 @@
             self.isFriend = YES;
         else
             self.isFriend = NO;
+        [self.tableView reloadData];
     }
     else
         self.isExist = NO;
-    self.isSeeking = false;
-    [self.tableView reloadData];
 }
 
 #pragma mark ->TableView Delegate
@@ -169,11 +182,13 @@
         cell = [[WPAddFriendsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"friends"];
     
     cell.textLabel.text = self.cellText;
+    cell.textLabel.textColor = [UIColor whiteColor];
     if (self.isSeeking)
         [cell startAI];
     else
         [cell stopAI];
     [cell initAddFriendsCell:self.isExist isFriend:self.isFriend];
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 

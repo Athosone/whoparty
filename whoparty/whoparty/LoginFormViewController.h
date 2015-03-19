@@ -30,5 +30,6 @@
 - (NSString*) validateFormLogin;
 - (NSString*) validateFormRegister;
 - (void) connectionFailed:(NSString *)error;
+- (void) removeRegisterFields;
 
 @end

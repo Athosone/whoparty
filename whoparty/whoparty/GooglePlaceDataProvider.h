@@ -22,5 +22,6 @@
 + (void) fetchPlaceByName:(NSDictionary*)data success:(SEL)selector target:(id)target;
 + (void) setPointForView:(GMSMapView*)destView mygoogleAddress:(MYGoogleAddress*)destLoc;
 + (void) setCameraPositionForView:(GMSMapView*)destView mygoogleAddress:(MYGoogleAddress*)destLoc;
++ (void) getAutoComplete:(NSDictionary*)datas searchText:(NSString*)searchText completionBlock:(void(^)(NSArray*))completionBlock;
 
 @end

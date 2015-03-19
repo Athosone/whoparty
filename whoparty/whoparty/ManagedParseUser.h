@@ -24,7 +24,7 @@
 + (void) fetchLocalEvents:(id)target selector:(SEL)selector;
 + (void) fetchGoogleAddress:(MYGoogleAddress*)googleAddressToFetch target:(id)target selector:(SEL)selector;
 
-+ (void) createEvent:(NSArray*)userConcerned comment:(NSString*)comment groupName:(NSString*)groupName address:(MYGoogleAddress*)address success:(void(^)())success;
++ (void) createEvent:(PFObject*)event success:(void(^)())success;
 + (void) updateEventWithCompletionBlock:(NSString*)eventId success:(void(^)(PFObject *event))success data:(NSDictionary*)data;
 + (void) sendNotificationPush:(NSString*)usernameDest data:(NSDictionary*)data completionBlock:(void(^)())success;
 + (void) sendNotificationPushSync:(NSArray*)userConcerned data:(NSDictionary*)data;

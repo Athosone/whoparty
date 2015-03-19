@@ -21,25 +21,31 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - FlatUIKit (1.6)
+  - JTCalendar (1.2.1)
   - MBProgressHUD (0.9)
   - NUI (0.5.4):
     - NUIParse
   - NUIParse (1.2.1)
   - pop (1.0.7)
+  - SPGooglePlacesAutocomplete (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
   - FlatUIKit
+  - JTCalendar (~> 1.1)
   - MBProgressHUD (~> 0.9)
   - NUI
   - pop (~> 1.0)
+  - SPGooglePlacesAutocomplete
 
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   FlatUIKit: 48b78e6d026c2f2c8a733425aaa5015c99ffc079
+  JTCalendar: e382bbf6a8d99d3e8c3d8744091664f083831cc2
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   NUI: ce8570dc3bb7983ffa8ae58ab0fc852d378b00cb
   NUIParse: f29eb240cfc9848b216c827884f37ae64abd19e4
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
+  SPGooglePlacesAutocomplete: 6352d38dedf40ccac6d728fa50c50fd370d183b9
 
 COCOAPODS: 0.35.0

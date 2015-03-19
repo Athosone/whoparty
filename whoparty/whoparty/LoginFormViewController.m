@@ -12,6 +12,8 @@
 
 
 #define DURATIONANIMATIONREGISTER 0.7f
+#define TEXTFIELDOPACITY 0.8f
+#define RIGHTVIEWWIDTH 25
 
 @interface LoginFormViewController ()
 
@@ -19,11 +21,12 @@
 @property (readwrite, nonatomic) BOOL needToLayout;
 @property (strong, nonatomic) IBOutlet UIImageView *imageViewBG;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *constraintUsernameToPwd1;
-
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *constraintPwd1ToSigninButton;
+@property (strong, nonatomic) NSMutableArray *constraintsToNewView;
+
+
 - (void) initUI;
 - (void) addRegisterFields:(CGPoint)emailPos password2Point:(CGPoint)password2Pos completedAnim:(void(^)(BOOL completed))completedAnim;
-- (void) removeAllConstraint;
 
 @end
 
@@ -61,18 +64,51 @@
     NSLayoutConstraint *constraintCenterPassword2 = [ConstraintHelper getAlignementXForView:self.textFieldPassword2 viewToCenter:self.view];
     
     
-    [self.view addConstraint:constraintCenterEmail];
+   [self.view addConstraint:constraintCenterEmail];
     [self.view addConstraint:constraintCenterPassword2];
     
     [self.view addConstraint:constraintEmailToPass1];
    [self.view addConstraint:constraintEmailToLoginTF];
    [self.view addConstraint:constraintPass1ToPass2];
     [self.view addConstraint:constraintPass2ToSignin];
+    [self.constraintsToNewView addObject:constraintCenterEmail];
+    [self.constraintsToNewView addObject:constraintCenterPassword2];
+    [self.constraintsToNewView addObject:constraintEmailToLoginTF];
+    [self.constraintsToNewView addObject:constraintEmailToPass1];
+    [self.constraintsToNewView addObject:constraintPass1ToPass2];
+    [self.constraintsToNewView addObject:constraintPass2ToSignin];
     
 }
 
-- (void) adjustConstraintForLoginView
+- (void) removeRegisterFields
 {
+    [CATransaction begin];
+    CABasicAnimation *fadOutEmail = [Animations getFadeAnimation:TEXTFIELDOPACITY end:0.0f];
+    fadOutEmail.duration = 1.0f;
+    fadOutEmail.fillMode = kCAFillModeForwards;
+    self.textFieldEmail.layer.opacity = 0.0f;
+    [self.textFieldEmail.layer addAnimation:fadOutEmail forKey:@"fadeoutemail"];
+    
+    CABasicAnimation *fadeOutPassword2 = [Animations getFadeAnimation:TEXTFIELDOPACITY end:0.0f];
+    fadeOutPassword2.duration = 1.0f;
+    fadeOutPassword2.fillMode = kCAFillModeForwards;
+    self.textFieldPassword2.layer.opacity = 0.0f;
+    [self.textFieldPassword2.layer addAnimation:fadeOutPassword2 forKey:@"fadeoutpassword"];
+    
+    [CATransaction setCompletionBlock:^{
+       
+        [self.view removeConstraints:self.constraintsToNewView];
+        [self.view addConstraint:self.constraintPwd1ToSigninButton];
+        [self.view addConstraint:self.constraintUsernameToPwd1];
+        [UIView animateWithDuration:1.0f animations:^{
+            [self.view layoutIfNeeded];
+            [self.buttonOutletRegister setTitle:@"Register" forState:UIControlStateNormal];
+            [self.buttonOutletLogin setTitle:@"Signin" forState:UIControlStateNormal];
+            self.isRegistering = NO;
+        }];
+        
+    }];
+    [CATransaction commit];
 }
 
 - (void) addRegisterFields:(CGPoint)emailPos password2Point:(CGPoint)password2Pos completedAnim:(void(^)(BOOL completed))completedAnim
@@ -82,16 +118,16 @@
     self.textFieldPassword2.layer.position = password2Pos;
     [CATransaction begin];
     
-    CABasicAnimation *fadInEmail = [Animations getFadeAnimation:0.0f end:0.3f];
-    fadInEmail.duration = 1.0f;
+    CABasicAnimation *fadInEmail = [Animations getFadeAnimation:0.0f end:TEXTFIELDOPACITY];
+    fadInEmail.duration = TEXTFIELDOPACITY;
     fadInEmail.fillMode = kCAFillModeForwards;
-    self.textFieldEmail.layer.opacity = 0.3f;
+    self.textFieldEmail.layer.opacity = 1.0f;
     [self.textFieldEmail.layer addAnimation:fadInEmail forKey:@"fadeinemail"];
     
-    CABasicAnimation *fadeInPassword2 = [Animations getFadeAnimation:0.0f end:0.3f];
+    CABasicAnimation *fadeInPassword2 = [Animations getFadeAnimation:0.0f end:TEXTFIELDOPACITY];
     fadeInPassword2.duration = 1.0f;
     fadeInPassword2.fillMode = kCAFillModeForwards;
-    self.textFieldPassword2.layer.opacity = 0.3f;
+    self.textFieldPassword2.layer.opacity = TEXTFIELDOPACITY;
     [self.textFieldPassword2.layer addAnimation:fadeInPassword2 forKey:@"fadeinpassword"];
     
     
@@ -161,6 +197,7 @@
     [self.buttonOutletRegister.layer addAnimation:slideDownRegister forKey:@"slidedownregister"];
     self.buttonOutletRegister.layer.position = CGPointMake(destRegister.x, destRegister.y);
     self.buttonOutletRegister.layer.position = CGPointMake(self.buttonOutletRegister.layer.position.x, destLabel.y);
+   
     [CATransaction setCompletionBlock:^{
         [self addRegisterFields:CGPointMake(originPassTF.x, originPassTF.y + 2)
                  password2Point:CGPointMake(destPassTF.x, destPassTF.y + self.textFieldPassword1.frame.size.height + 4)
@@ -172,21 +209,59 @@
 - (void) initRegistersOutlets
 {
     self.textFieldEmail = [[UITextField alloc] initWithFrame:self.textFieldPassword1.frame];
-    self.textFieldEmail.backgroundColor = self.textFieldLogin.backgroundColor;
+    self.textFieldEmail.backgroundColor = self.textFieldPassword1.backgroundColor;
+    self.textFieldEmail.borderStyle = self.textFieldPassword1.borderStyle;
     self.textFieldEmail.layer.cornerRadius = 6.0f;
-    
+    self.textFieldEmail.textColor = [UIColor whiteColor];
+    self.textFieldEmail.layer.borderColor = [UIColor clearColor].CGColor;
+    self.textFieldEmail.placeholder = @"Email";
+    self.textFieldEmail.font = self.textFieldPassword1.font;
     
     self.textFieldPassword2 = [[UITextField alloc] initWithFrame:self.textFieldPassword1.frame];
     self.textFieldPassword2.backgroundColor = self.textFieldPassword1.backgroundColor;
+    self.textFieldPassword2.borderStyle = self.textFieldPassword1.borderStyle;
     self.textFieldPassword2.layer.cornerRadius = 6.0f;
     self.textFieldPassword2.secureTextEntry = YES;
     self.textFieldEmail.hidden = true;
     self.textFieldPassword2.hidden = true;
+    self.textFieldPassword2.font = self.textFieldPassword1.font;
+    self.textFieldPassword2.textColor = [UIColor whiteColor];
+    self.textFieldPassword2.layer.borderColor = [UIColor clearColor].CGColor;
+    self.textFieldPassword2.placeholder = @"Password";
     
     [self.view addSubview:self.textFieldEmail];
     [self.view addSubview:self.textFieldPassword2];
 }
 
+- (void) initRightViewTFS
+{
+    
+     CGRect frame1 = CGRectMake(0, 0, RIGHTVIEWWIDTH, self.textFieldEmail.frame.size.height - 10);
+     CGRect frame2 = CGRectMake(0, 0, RIGHTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     CGRect frame3 = CGRectMake(0, 0, RIGHTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     CGRect frame4 = CGRectMake(0, 0, RIGHTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
+     
+     UIImageView *field1 = [[UIImageView alloc] initWithFrame:frame1];
+     UIImageView *field2 = [[UIImageView alloc] initWithFrame:frame2];
+     UIImageView *field3 = [[UIImageView alloc] initWithFrame:frame3];
+     UIImageView *field4 = [[UIImageView alloc] initWithFrame:frame4];
+     
+     field1.image = [UIImage imageNamed:@"emailLeftView"];
+     field2.image = [UIImage imageNamed:@"passwordCadenas"];
+     field3.image = [UIImage imageNamed:@"passwordCadenas"];
+     field4.image = [UIImage imageNamed:@"accountLogin"];
+     
+     self.textFieldEmail.rightView = field1;
+     self.textFieldLogin.rightView = field4;
+     self.textFieldPassword1.rightView = field2;
+     self.textFieldPassword2.rightView = field3;
+     
+     self.textFieldLogin.rightViewMode = UITextFieldViewModeAlways;
+     self.textFieldEmail.rightViewMode = UITextFieldViewModeAlways;
+     self.textFieldPassword1.rightViewMode = UITextFieldViewModeAlways;
+     self.textFieldPassword2.rightViewMode = UITextFieldViewModeAlways;
+
+}
 
 - (void) initUI
 {
@@ -206,12 +281,18 @@
     self.textFieldEmail.hidden = true;
     self.textFieldPassword2.hidden = true;
     self.isRegistering = NO;
+    self.constraintsToNewView = [[NSMutableArray alloc] init];
+    
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.textFieldLogin.layer.borderColor = [UIColor clearColor].CGColor;
+    self.textFieldPassword1.layer.borderColor = [UIColor clearColor].CGColor;
     [self initRegistersOutlets];
+    [self initRightViewTFS];
 }
 
 #pragma mark ->Validate forms
@@ -241,7 +322,6 @@
         errorMessage = @"Both password must match";
     return errorMessage;
 }
-
 
 
 

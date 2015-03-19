@@ -29,9 +29,6 @@
 - (void) initView
 {
     [WPHelperConstant setBGColorForView:self color:[UIColor clearColor]];
-    [WPHelperConstant setButtonToFlat:self.buttonSend];
-    self.buttonSend.buttonColor = [UIColor orangeColor];
-    self.buttonSend.shadowColor = [UIColor sunflowerColor];
     self.layer.cornerRadius = 6.0f;
     [self bringSubviewToFront:self.activityIndicator];
    // self.hidden = true;

@@ -10,6 +10,7 @@
 #import "WPLoginViewController.h"
 #import "WPHelperConstant.h"
 #import "AlertView.h"
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 #define LEFTVIEWWIDTH 25
 
@@ -47,39 +48,6 @@
 - (void) receivePushNotification:(NSDictionary*) userInfo
 {
     NSLog(@"Login-ViewController-userinfo receive push notification: %@", userInfo);
-}
-
-#pragma mark ->Design
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    /*  CGRect frame1 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-     CGRect frame2 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-     CGRect frame3 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-     CGRect frame4 = CGRectMake(0, 0, LEFTVIEWWIDTH, self.textFieldEmail.frame.size.height - 5);
-     
-     UIImageView *field1 = [[UIImageView alloc] initWithFrame:frame1];
-     UIImageView *field2 = [[UIImageView alloc] initWithFrame:frame2];
-     UIImageView *field3 = [[UIImageView alloc] initWithFrame:frame3];
-     UIImageView *field4 = [[UIImageView alloc] initWithFrame:frame4];
-     
-     field1.image = [UIImage imageNamed:@"emailLeftView"];
-     field2.image = [UIImage imageNamed:@"passwordCadenas"];
-     field3.image = [UIImage imageNamed:@"passwordCadenas"];
-     field4.image = [UIImage imageNamed:@"accountLogin"];
-     
-     self.textFieldEmail.leftView = field1;
-     self.textFieldLogin.leftView = field4;
-     self.textFieldPassword1.leftView = field2;
-     self.textFieldPassword2.leftView = field3;
-     
-     self.textFieldLogin.leftViewMode = UITextFieldViewModeAlways;
-     self.textFieldEmail.leftViewMode = UITextFieldViewModeAlways;
-     self.textFieldPassword1.leftViewMode = UITextFieldViewModeAlways;
-     self.textFieldPassword2.leftViewMode = UITextFieldViewModeAlways;*/
-    
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -144,6 +112,38 @@
     }
 }
 
+
+- (IBAction)loginWithFB:(id)sender
+{
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error)
+     {
+        if (user)
+        {
+            FBRequest *request = [FBRequest requestForMe];
+            [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+             {
+                if (!error)
+                {
+                    // result is a dictionary with the user's Facebook data
+                    NSDictionary *userData = (NSDictionary *)result;
+                    
+                    NSString *facebookID = userData[@"id"];
+                    user.username = userData[@"first_name"];
+                    user.email = userData[@"email"];
+                    [user saveEventually];
+                    NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+                    NSLog(@"FacebookLog :%@ %@", user.username, user.email);
+                    [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                }
+             }];
+        }
+        
+    }];
+}
+
 //Method peut etre a virer dans la superclass
 - (IBAction)login:(id)sender
 {
@@ -152,34 +152,34 @@
         [self registering];
     else
     {
-    NSString *error = nil;
-    self.hud.labelText = @"Connecting";
-    if ((error = [super validateFormLogin]))
-    {
-        FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
-        
-        [alertView show];
-        return;
-    }
-    else
-    {
-        self.hud.hidden = FALSE;
-        [PFUser logInWithUsernameInBackground:self.textFieldLogin.text password:self.textFieldPassword1.text block:^(PFUser *user, NSError *error) {
-            self.hud.hidden = TRUE;
-            if (error)
-                [super connectionFailed:[error localizedDescription]];
-            else
-            {
-                //RegisterChannel for this user
-                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
-                [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
-                [currentInstallation saveInBackground];
-                NSLog(@"User successfully signin");
-                [self performSegueWithIdentifier:@"loginSuccess" sender:self];
-            }
-        }];
-    }
+        NSString *error = nil;
+        self.hud.labelText = @"Connecting";
+        if ((error = [super validateFormLogin]))
+        {
+            FUIAlertView *alertView = [AlertView getDefaultAlertVIew:@"Oops !" message:error];
+            
+            [alertView show];
+            return;
+        }
+        else
+        {
+            self.hud.hidden = FALSE;
+            [PFUser logInWithUsernameInBackground:self.textFieldLogin.text password:self.textFieldPassword1.text block:^(PFUser *user, NSError *error) {
+                self.hud.hidden = TRUE;
+                if (error)
+                    [super connectionFailed:[error localizedDescription]];
+                else
+                {
+                    //RegisterChannel for this user
+                    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                    NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
+                    [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
+                    [currentInstallation saveInBackground];
+                    NSLog(@"User successfully signin");
+                    [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                }
+            }];
+        }
     }
 }
 
@@ -188,9 +188,13 @@
     
     if (self.isRegistering == NO)
     {
-       [super setAnimationForRegistersOutlet:^(BOOL completed) {
-           
+        [super setAnimationForRegistersOutlet:^(BOOL completed) {
+            
         }];
+    }
+    else
+    {
+        [super removeRegisterFields];
     }
     
     /* static int i = 0;

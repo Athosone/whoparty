@@ -27,16 +27,17 @@
     //navWine.navigationBar.barTintColor = [WOTHelperConstants getRedColorApp];
     
     [self.tabBar configureFlatTabBarWithColor:DEFAULTNAVBARBGCOLOR];
-    //Init variables each viewcontroller that compose the tab bar with data needed
+    self.tabBar.hidden = true;
+    // Init variables each viewcontroller that compose the tab bar with data needed
    // WPAddEventViewController *addEventVC = (WPAddEventViewController*)[[navAddEvent viewControllers] objectAtIndex:0];
 //    WOTSearchWineViewController *searchWine = (WOTSearchWineViewController*)[[navWine viewControllers] objectAtIndex:0];
  //   searchWine.client = self.client;
 
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

@@ -9,6 +9,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "GooglePlaceDataProvider.h"
 #import "WPHelperConstant.h"
+#import <SPGooglePlacesAutocomplete/SPGooglePlacesAutocomplete.h>
 
 #define RADIUS        50000
 
@@ -52,6 +53,27 @@
         NSLog(@"DICT: %@", addresses);
         connectionSuccess(addresses);
     });
+}
+
++ (void) getAutoComplete:(NSDictionary*)datas searchText:(NSString*)searchText completionBlock:(void(^)(NSArray*))completionBlock
+{
+    float latitude = [[datas objectForKey:@"latitude"] floatValue];
+    float longitude = [[datas objectForKey:@"longitude"] floatValue];
+    
+    SPGooglePlacesAutocompleteQuery *query = [[SPGooglePlacesAutocompleteQuery alloc] initWithApiKey:GOOGLESERVERAPIKEY];
+    query.input = searchText; // search key word
+    query.location = CLLocationCoordinate2DMake(latitude, longitude);  // user's current location
+    query.radius = 500;   // search addresses close to user
+    query.language = @"en"; // optional
+    //query.types = SPPlaceTypeGeocode;
+    [query fetchPlaces:^(NSArray *places, NSError *error) {
+        NSMutableArray *foundedPlaces = [[NSMutableArray alloc] init];
+        for (SPGooglePlacesAutocompletePlace *p in places)
+        {
+            [foundedPlaces addObject:p.name];
+        }
+        completionBlock(foundedPlaces);
+    }];
 }
 
 + (void) fetchPlaceByName:(NSDictionary*)data success:(SEL)selector target:(id)target

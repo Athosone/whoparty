@@ -21,6 +21,8 @@
 - (void)awakeFromNib {
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = [UIColor clearColor];
+    self.textLabel.textColor = [UIColor whiteColor];
     //self.buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
 }
 
@@ -34,12 +36,12 @@
     [super setSelected:selected animated:animated];
     if (selected)
     {
-        self.buttonSelect.imageView.image = [UIImage imageNamed:@"validFriend"];
+        self.buttonSelect.imageView.image = [UIImage imageNamed:@"validEvent"];
         [Animations addFadeInTransitionToView:self.buttonSelect duration:1.0f];
     }
     else
     {
-        self.buttonSelect.imageView.image = [UIImage imageNamed:@"plusFriend"];
+        self.buttonSelect.imageView.image = [UIImage imageNamed:@"plusEvent"];
         [Animations addFadeInTransitionToView:self.buttonSelect duration:1.0f];
     }
 }
