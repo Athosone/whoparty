@@ -5,13 +5,15 @@ inhibit_all_warnings!
 
 target 'whoparty' do
 
-pod 'AFNetworking', '~> 2.5'
-pod 'MBProgressHUD', '~> 0.9'
+pod 'AFNetworking', '2.5'
+pod 'MBProgressHUD', '0.9'
 pod 'NUI'
 pod 'pop', '~> 1.0'
 pod 'FlatUIKit'
-pod 'JTCalendar', '~> 1.1'
+pod 'JTCalendar', '~> 1.0'
 pod 'SPGooglePlacesAutocomplete'
+pod 'SLExpandableTableView', '1.3.1'
+
 
 end
 

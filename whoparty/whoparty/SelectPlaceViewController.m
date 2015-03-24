@@ -22,6 +22,7 @@
 @property (strong, nonatomic) MYGoogleAddress                   *currentAddr;
 @property (weak, nonatomic) IBOutlet GMSMapView *gmView;
 @property (strong, nonatomic) NSArray                           *autoCompleteAddresses;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rightBarButtonItem;
 
 - (void) initMap;
 @end
@@ -31,7 +32,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.searchBar.delegate = self;
+    self.currentAddr = nil;
+     self.searchBar.delegate = self;
     self.datas = [[NSMutableDictionary alloc] init];
     
     [self initMap];
@@ -44,6 +46,7 @@
     self.tableViewAddress.backgroundColor = [UIColor clearColor];
     [WPHelperConstant setBGWithImageForView:self.view image:@"lacBG"];
 }
+
 
 - (void) initMap
 {

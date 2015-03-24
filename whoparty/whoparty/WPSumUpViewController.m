@@ -62,6 +62,7 @@
 @property (strong, nonatomic) NSMutableArray *friends;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonAddFriends;
+@property (weak, nonatomic) WPDescriptionCell *cell;
 
 @end
 
@@ -114,6 +115,7 @@
             WPDescriptionCell *cellDesc = [tableView dequeueReusableCellWithIdentifier:@"WPDescriptionCell"];
             cellDesc.backgroundColor = [UIColor clearColor];
             [cellDesc initWPDescriptionCell];
+            self.cell = cellDesc;
             return cellDesc;
         }
         default:
@@ -128,6 +130,7 @@
 
 - (IBAction)buttonAddFriendsOnClic:(id)sender
 {
+    
     [self performSegueWithIdentifier:@"WPSelectFriendsViewController" sender:self];
 }
 
@@ -158,8 +161,8 @@
 {
     if ([[segue identifier] isEqualToString:@"WPSelectFriendsViewController"])
     {
-        NSString *desc = [[self.tableView dequeueReusableCellWithIdentifier:@"WPDescriptionCell"] getDesc];
-        NSString *name = [[self.tableView dequeueReusableCellWithIdentifier:@"WPDescriptionCell"] getName];
+        NSString *desc = [self.cell getDesc];
+        NSString *name = [self.cell getName];
         WPSelectFriendsViewController *destVC = [segue destinationViewController];
         
         destVC.comment = desc;

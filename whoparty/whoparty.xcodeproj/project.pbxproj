@@ -71,7 +71,6 @@
 		588EDD171AA3E161003A146F /* WPTheme.nss in Resources */ = {isa = PBXBuildFile; fileRef = 588EDD161AA3E161003A146F /* WPTheme.nss */; };
 		58998DAF1AB5C45100F408E2 /* lacBGblurr.png in Resources */ = {isa = PBXBuildFile; fileRef = 58998DAD1AB5C45100F408E2 /* lacBGblurr.png */; };
 		58998DB01AB5C45100F408E2 /* lacBGblurr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58998DAE1AB5C45100F408E2 /* lacBGblurr@2x.png */; };
-		58998DB31AB5CB7200F408E2 /* ListEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58998DB21AB5CB7200F408E2 /* ListEventCell.xib */; };
 		58998DC41AB5D1CA00F408E2 /* usersAccepted.png in Resources */ = {isa = PBXBuildFile; fileRef = 58998DBE1AB5D1CA00F408E2 /* usersAccepted.png */; };
 		58998DC51AB5D1CA00F408E2 /* usersAccepted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58998DBF1AB5D1CA00F408E2 /* usersAccepted@2x.png */; };
 		58998DC61AB5D1CA00F408E2 /* usersConcerned.png in Resources */ = {isa = PBXBuildFile; fileRef = 58998DC01AB5D1CA00F408E2 /* usersConcerned.png */; };
@@ -121,6 +120,7 @@
 		58C478121AADDD6700612E2B /* emailLeftView.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C478111AADDD6700612E2B /* emailLeftView.png */; };
 		58C478201AAE0D4800612E2B /* MenuSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C4781F1AAE0D4800612E2B /* MenuSubView.m */; };
 		58C478231AAE136100612E2B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C478221AAE136100612E2B /* MenuViewController.m */; };
+		58C858811AC1CAB80002C6A4 /* MoreListEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C858801AC1CAB80002C6A4 /* MoreListEventTableViewCell.m */; };
 		58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */; };
 		58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */; };
 		58D7A9F41AA3722800E8E788 /* NSString+FormValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D7A9F31AA3722800E8E788 /* NSString+FormValidation.m */; };
@@ -237,7 +237,6 @@
 		588EDD161AA3E161003A146F /* WPTheme.nss */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WPTheme.nss; sourceTree = "<group>"; };
 		58998DAD1AB5C45100F408E2 /* lacBGblurr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lacBGblurr.png; sourceTree = "<group>"; };
 		58998DAE1AB5C45100F408E2 /* lacBGblurr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lacBGblurr@2x.png"; sourceTree = "<group>"; };
-		58998DB21AB5CB7200F408E2 /* ListEventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListEventCell.xib; sourceTree = "<group>"; };
 		58998DBE1AB5D1CA00F408E2 /* usersAccepted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usersAccepted.png; sourceTree = "<group>"; };
 		58998DBF1AB5D1CA00F408E2 /* usersAccepted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "usersAccepted@2x.png"; sourceTree = "<group>"; };
 		58998DC01AB5D1CA00F408E2 /* usersConcerned.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usersConcerned.png; sourceTree = "<group>"; };
@@ -301,6 +300,8 @@
 		58C4781F1AAE0D4800612E2B /* MenuSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSubView.m; sourceTree = "<group>"; };
 		58C478211AAE136100612E2B /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		58C478221AAE136100612E2B /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		58C8587F1AC1CAB80002C6A4 /* MoreListEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreListEventTableViewCell.h; sourceTree = "<group>"; };
+		58C858801AC1CAB80002C6A4 /* MoreListEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreListEventTableViewCell.m; sourceTree = "<group>"; };
 		58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginFormViewController.h; sourceTree = "<group>"; };
 		58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginFormViewController.m; sourceTree = "<group>"; };
 		58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPLoginViewController.h; sourceTree = "<group>"; };
@@ -531,9 +532,10 @@
 		58998DB11AB5CB5100F408E2 /* ListEventCell */ = {
 			isa = PBXGroup;
 			children = (
-				58998DB21AB5CB7200F408E2 /* ListEventCell.xib */,
 				58998DCA1AB5DAF300F408E2 /* ListEventCell.h */,
 				58998DCB1AB5DAF300F408E2 /* ListEventCell.m */,
+				58C8587F1AC1CAB80002C6A4 /* MoreListEventTableViewCell.h */,
+				58C858801AC1CAB80002C6A4 /* MoreListEventTableViewCell.m */,
 			);
 			name = ListEventCell;
 			sourceTree = "<group>";
@@ -900,7 +902,6 @@
 				58C478021AADD65600612E2B /* loginLeftView@2x.png in Resources */,
 				58998DE41AB5F98000F408E2 /* goUp@2x.png in Resources */,
 				588EDD131AA3E04F003A146F /* accountLogin@2x.png in Resources */,
-				58998DB31AB5CB7200F408E2 /* ListEventCell.xib in Resources */,
 				586AE3161ABAFDE90014F665 /* validEvent.png in Resources */,
 				586EE9BB1AB9EFE1002A11DB /* friendIcon.png in Resources */,
 				58B606841AB1CFE300D500EB /* MenuSubView.xib in Resources */,
@@ -1014,6 +1015,7 @@
 				58998E0A1AB746F700F408E2 /* CreateView.m in Sources */,
 				5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */,
 				5827C5A21AA5CC3E00680747 /* WPSelectFriendsViewController.m in Sources */,
+				58C858811AC1CAB80002C6A4 /* MoreListEventTableViewCell.m in Sources */,
 				587F56181AA27D750083638A /* main.m in Sources */,
 				58998DCC1AB5DAF300F408E2 /* ListEventCell.m in Sources */,
 				587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */,

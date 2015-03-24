@@ -356,7 +356,9 @@
     
     [mainOp addExecutionBlock:^
     {
-        [event[@"mygoogleaddress"] saveEventually:^(BOOL succeeded, NSError *error) {
+        [event[@"mygoogleaddress"] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error)
+                NSLog(@"fail saving event google address:%@", error);
             
             [event saveEventually:^(BOOL succeeded, NSError *error) {
                 if (succeeded)
@@ -374,7 +376,7 @@
                 success();
                 
             }];
-        }];
+    }];
         
     }];
     [ManagedParseUser addOperationToQueue:mainOp];

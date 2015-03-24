@@ -136,6 +136,7 @@
                     [user saveEventually];
                     NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
                     NSLog(@"FacebookLog :%@ %@", user.username, user.email);
+                    
                     [self performSegueWithIdentifier:@"loginSuccess" sender:self];
                 }
              }];

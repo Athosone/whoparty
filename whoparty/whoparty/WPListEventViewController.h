@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SLExpandableTableView/SLExpandableTableView.h>
 #import "ListEventCell.h"
+#import "MoreListEventTableViewCell.h"
 #import "MenuViewController.h"
 
-@interface WPListEventViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, MenuVCDelegate, ListEventCellDelegate>
+@interface WPListEventViewController : UIViewController<SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, MenuVCDelegate, MoreListEventTableViewCellDelegate>
 
 @end

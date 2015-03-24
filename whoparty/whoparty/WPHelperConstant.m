@@ -90,10 +90,12 @@
 
 + (NSString*) getDateStringFromDate:(NSDate*)date
 {
+    NSString *lRet = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE d MMM"];
     NSLog(@"Date test: %@", [dateFormatter stringFromDate:date]);
-    return [dateFormatter stringFromDate:date];
+    lRet = [dateFormatter stringFromDate:date];
+    return lRet;
 }
 
 + (NSDate*)formatDateFromString:(NSString*) dateString

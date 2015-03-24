@@ -22,5 +22,6 @@
 + (CABasicAnimation*) getSlideAnimationOnX:(CGPoint)start end:(CGPoint)end;
 + (CABasicAnimation*) getSlideAnimationOnY:(CGPoint)start end:(CGPoint)end;
 + (CABasicAnimation*) getFadeAnimation:(float)start end:(float)end;
++ (void) addMaskExpandleRectAnimationFromTop:(UIView*)destView duration:(float)duration;
 
 @end

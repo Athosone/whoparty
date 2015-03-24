@@ -10,6 +10,47 @@
 
 @implementation Animations
 
+
++ (void) addMaskExpandleRectAnimationFromTop:(UIView*)destView duration:(float)duration
+{
+    CAShapeLayer *rect = [CAShapeLayer layer];
+    CGRect frame = CGRectMake(0, 0,destView.frame.size.width, 1);
+    
+    CGRect newFrame = CGRectMake(0, 0,destView.frame.size.width, destView.frame.size.height);
+    UIBezierPath *newPath = [UIBezierPath bezierPathWithRect:newFrame];
+    
+    rect.frame = frame;
+    rect.path = [UIBezierPath bezierPathWithRect:frame].CGPath;
+    rect.position = destView.center;
+    rect.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5].CGColor;
+    rect.strokeColor = [UIColor redColor].CGColor;
+    //0 for top
+    rect.anchorPoint = CGPointMake(0.5, 0);
+    
+    CABasicAnimation *resizeLayer = [CABasicAnimation animationWithKeyPath:@"path"];
+    [resizeLayer setFromValue:(id)rect.path];
+    [resizeLayer setToValue:(id)newPath.CGPath];
+    rect.path = newPath.CGPath;
+    
+    //1 for bottom
+    CGPoint destPos = CGPointMake(destView.center.x, 1);
+    CABasicAnimation    *adjustPos = [CABasicAnimation animationWithKeyPath:@"position"];
+    
+    [adjustPos setFromValue:[NSValue valueWithCGPoint:rect.position]];
+    [adjustPos setToValue:[NSValue valueWithCGPoint:destPos]];
+    
+    rect.position = destPos;
+    
+    CAAnimationGroup    *animationGroup = [CAAnimationGroup animation];
+    
+    animationGroup.animations = [NSArray arrayWithObjects:resizeLayer, adjustPos, nil];
+    animationGroup.duration = duration;
+    animationGroup.fillMode =  kCAFillModeForwards;
+    [rect addAnimation:animationGroup forKey:@"addMaskExpandleRectAnimation"];
+    destView.layer.mask = rect;
+}
+
+
 + (void) addMaskExpandleRectAnimation:(UIView*)destView duration:(float)duration
 {
     CAShapeLayer *rect = [CAShapeLayer layer];

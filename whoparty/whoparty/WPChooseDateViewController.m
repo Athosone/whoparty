@@ -27,9 +27,42 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [WPHelperConstant setBGWithImageForView:self.view image:@"lacBG"];
+  }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath  ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    
+    if ([keyPath isEqual:@"currentDate"])
+    {
+        if (self.currentDate != nil)
+        {
+            self.rightBarButtonItem.title = @"Next";
+            self.rightBarButtonItem.enabled = TRUE;//  self.rightBarButtonItem.title = @"Next";
+        }
+        else
+        {
+            self.rightBarButtonItem.title = @"";
+            self.rightBarButtonItem.enabled = false;
+        }
+    }
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self removeObserver:self forKeyPath:@"currentDate"];
+    [super viewWillDisappear:animated];
+    self.jtcalendarmenuview.hidden = YES;
+    self.jtcalendarcontentview.hidden = YES;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     self.currentDate = nil;
     self.calendar = [JTCalendar new];
-    self.rightBarButtonItem.title = @"Pass";
+    self.rightBarButtonItem.title = @"";
+    self.rightBarButtonItem.enabled = FALSE;
     self.calendar.calendarAppearance.menuMonthTextColor = [UIColor whiteColor];
     self.calendar.calendarAppearance.dayTextColorSelected = [UIColor whiteColor];
     self.calendar.calendarAppearance.dayTextColor = [UIColor whiteColor];
@@ -39,30 +72,7 @@
     [self.calendar reloadData];
     self.jtcalendarcontentview.backgroundColor = [UIColor clearColor];
     self.jtcalendarmenuview.backgroundColor = [UIColor clearColor];
-    [WPHelperConstant setBGWithImageForView:self.view image:@"lacBG"];
-}
 
-- (void)observeValueForKeyPath:(NSString *)keyPath  ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    
-    if ([keyPath isEqual:@"currentDate"])
-    {
-        if (self.currentDate != nil)
-            self.rightBarButtonItem.title = @"Next";
-        else
-            self.rightBarButtonItem.title = @"Pass";
-     }
-}
-
-- (void) viewWillDisappear:(BOOL)animated
-{
-    [self removeObserver:self forKeyPath:@"currentDate"];
-    [super viewWillDisappear:animated];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     [self addObserver:self forKeyPath:@"currentDate" options:NSKeyValueObservingOptionNew context:nil];
     [WPHelperConstant setBlurForView:self.tutoView];
     [self.tutoView bringSubviewToFront:self.labelTuto];
@@ -101,12 +111,55 @@
 }
 - (IBAction)nextOnClick:(id)sender
 {
-    [self performSegueWithIdentifier:@"SelectPlace" sender:self];
+    UIAlertController *alertError = [UIAlertController alertControllerWithTitle:@"Oops !" message:@"Select a valid date" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [alertError dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertError addAction:ok];
+
+    
+    
+    if (self.currentDate == nil)
+    {
+        [self.navigationController presentViewController:alertError animated:YES completion:nil];
+        return;
+    }
+    
+    
+    NSDate *date1 = nil;
+    NSDate *date2 = nil;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger comps = (NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear);
+    
+    NSDateComponents *date1Components = [calendar components:comps
+                                                    fromDate: self.currentDate];
+    NSDateComponents *date2Components = [calendar components:comps
+                                                    fromDate: [NSDate date]];
+    
+    date1 = [calendar dateFromComponents:date1Components];
+    date2 = [calendar dateFromComponents:date2Components];
+
+    
+    if ([date1 compare:date2] == NSOrderedAscending)
+        [self.navigationController presentViewController:alertError animated:YES completion:nil];
+    else
+        [self performSegueWithIdentifier:@"SelectPlace" sender:self];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//To not forget else it crashes
+- (void) dealloc
+{
+    self.jtcalendarcontentview.delegate = nil;
+    self.jtcalendarmenuview.delegate = nil;
 }
 
 
@@ -117,8 +170,8 @@
 {
     if ([[segue identifier] isEqualToString:@"SelectPlace"])
     {
-        UINavigationController *navVC = [segue destinationViewController];
-        SelectPlaceViewController *vc = [navVC.viewControllers objectAtIndex:0];
+        //UINavigationController *navVC = [segue destinationViewController];
+        SelectPlaceViewController *vc = [segue destinationViewController];//[navVC.viewControllers objectAtIndex:0];
         vc.selectedDate = self.currentDate;
     }
     

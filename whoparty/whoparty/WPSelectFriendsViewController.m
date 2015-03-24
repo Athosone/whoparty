@@ -117,17 +117,17 @@
 {
     PFObject *event = [PFObject objectWithClassName:@"Event"];
     
-    [event setObject:self.name forKey:@"name"];
-    [event setObject:self.currentAddress forKey:@"mygoogleaddress"];
-    [event setObject:self.comment forKey:@"comment"];
-    [event setObject:self.selectedDate forKey:@"eventdate"];
-    [event setObject:userDest forKey:@"usersConcerned"];
-    [event setObject:[PFUser currentUser].username forKey:@"sendinguser"];
-    [ManagedParseUser createEvent:event success:^{
-        NSLog(@"Event created");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        });
+        [event setObject:self.name forKey:@"name"];
+        [event setObject:self.currentAddress forKey:@"mygoogleaddress"];
+        [event setObject:self.comment forKey:@"comment"];
+        [event setObject:self.selectedDate forKey:@"eventdate"];
+        [event setObject:userDest forKey:@"usersConcerned"];
+        [event setObject:[PFUser currentUser].username forKey:@"sendinguser"];
+        [ManagedParseUser createEvent:event success:^{
+            NSLog(@"Event created");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
         }];
 }
 
