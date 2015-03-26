@@ -7,6 +7,7 @@
 //
 
 #import <EventKit/EventKit.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "WPListEventViewController.h"
 #import "WPHelperConstant.h"
 #import "ManagedParseUser.h"
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) Event      *currentEvent;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *barbuttonitemMenu;
+@property (strong, nonatomic) MBProgressHUD *hud;
+
 
 - (void) receivedPushNotfication:(NSDictionary*) userInfo;
 - (void) updateEventList:(NSArray*)events;
@@ -40,7 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   // self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
@@ -50,6 +53,10 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.hidden = true;
+    self.hud.labelText = @"Loading";
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -155,6 +162,7 @@
     cell.delegate = self;
     cell.indexpath = indexPath;
     [cell initWithEvent:[eventList objectAtIndex:indexPath.section]];
+    [WPHelperConstant setBlurForCell:cell];
     return cell;
 }
 
@@ -197,6 +205,7 @@
         cell = [[ListEventCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ListEventCell"];
     }
     [cell initWithEvent:[eventList objectAtIndex:section]];
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -346,12 +355,22 @@
         event = [self.eventListSent objectAtIndex:cell.indexpath.section];
     
     NSMutableArray *friends = event[@"usersAccepted"];
+    NSMutableArray *friendsDeclined = event[@"usersDeclined"];
+    
+    if (friendsDeclined && [friendsDeclined containsObject:[PFUser currentUser].username])
+    {
+        [friendsDeclined removeObject:[PFUser currentUser].username];
+        [event setObject:friendsDeclined forKey:@"usersDeclined"];
+    }
+
     if (friends == nil)
         friends = [[NSMutableArray alloc] init];
     if ([friends containsObject:[PFUser currentUser].username])
     {
         [friends removeObject:[PFUser currentUser].username];
-        //save event
+        [event setObject:friends forKey:@"usersAccepted"];
+        [event saveEventually];
+        [self.tableView reloadDataAndResetExpansionStates:NO];
         return;
     }
     else
@@ -372,7 +391,7 @@
                  [ManagedParseUser sendNotificationPush:event[@"sendinguser"] data:data completionBlock:^{
                      NSLog(@"Event Accepted");
                  }];
-                 [self.tableView reloadData];
+                 [self.tableView reloadDataAndResetExpansionStates:NO];
              }];
          }
          else
@@ -394,12 +413,21 @@
     
     
     NSMutableArray *friends = event[@"usersDeclined"];
+    NSMutableArray *friendsAccepted = event[@"usersAccepted"];
+    
+    if (friendsAccepted && [friendsAccepted containsObject:[PFUser currentUser].username])
+    {
+        [friendsAccepted removeObject:[PFUser currentUser].username];
+        [event setObject:friendsAccepted forKey:@"usersAccepted"];
+    }
     if (friends == nil)
         friends = [[NSMutableArray alloc] init];
     if ([friends containsObject:[PFUser currentUser].username])
     {
         [friends removeObject:[PFUser currentUser].username];
-        //save event
+        [event setObject:friends forKey:@"usersDeclined"];
+        [event saveEventually];
+        [self.tableView reloadDataAndResetExpansionStates:NO];
         return;
     }
     else
@@ -421,7 +449,7 @@
                  [ManagedParseUser sendNotificationPush:event[@"sendinguser"] data:data completionBlock:^{
                      NSLog(@"Event Declined");
                  }];
-                 [self.tableView reloadData];
+                 [self.tableView reloadDataAndResetExpansionStates:NO];
              }];
          }
          else
@@ -434,7 +462,47 @@
 
 - (void) didClickOnCancelEvent:(MoreListEventTableViewCell *)cell
 {
+     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cancel event" message:@"You are about to delete this event for all of its participant" preferredStyle:UIAlertControllerStyleAlert];
     
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        self.hud.hidden = false;
+        PFObject    *event = nil;
+        event = [self.eventListSent objectAtIndex:cell.indexpath.section];
+        
+        [event deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+           if (succeeded)
+           {
+               [event unpinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                   NSMutableArray *arrayTmp = [NSMutableArray arrayWithArray:self.eventListSent];
+                   [arrayTmp removeObject:event];
+                   self.eventListSent = [NSArray arrayWithArray:arrayTmp];
+                   
+                   NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                   NSString *alertMessage = [NSString stringWithFormat:@"%@ just canceled an event !",[PFUser currentUser].username];
+                   
+                   [data setObject:alertMessage forKey:@"alert"];
+                   [data setObject:@"eventIsAccepted" forKey:@"eventType"];
+                   [data setObject:@"default" forKey:@"sound"];
+                   [data setObject:event.objectId forKey:@"eventId"];
+                   [ManagedParseUser sendNotificationPush:event[@"sendinguser"] data:data completionBlock:^{
+                       NSLog(@"Event Canceled");
+                   }];
+                   [self.tableView reloadData];
+               }];
+           }
+            [alert dismissViewControllerAnimated:YES completion:nil];
+            self.hud.hidden = true;
+        }];
+        
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) didClickOnMapButton:(MoreListEventTableViewCell *)cell

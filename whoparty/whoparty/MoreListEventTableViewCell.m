@@ -48,6 +48,20 @@
     self.labelNbUsersYes.text = [NSString stringWithFormat:@"%lu",(unsigned long)((NSArray*)self.event[@"usersAccepted"]).count];
     self.labelDateFull.text = [WPHelperConstant getDateStringFromDate:self.event[@"eventdate"]];
     self.labelAddress.text = address[@"name"];
+    NSLog(@"namme: %@", [PFUser currentUser].username);
+    if ([self.event[@"sendinguser"] isEqualToString:[PFUser currentUser].username])
+    {
+        self.buttonUsersAccepted.enabled = false;
+        self.buttonUsersDeclined.enabled = false;
+        self.cancelEvent.enabled = true;
+        self.cancelEvent.hidden = false;
+    }
+    else
+    {
+        self.cancelEvent.hidden = true;
+        self.cancelEvent.enabled = false;
+    }
+    
     
 }
 

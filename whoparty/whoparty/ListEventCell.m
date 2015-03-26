@@ -65,7 +65,6 @@
     self.usernameSender.text = (NSString*)self.event[@"sendinguser"];
     self.labelDateOfEvent.text = [WPHelperConstant dateToString:date];
     self.labelComment.text = self.event[@"comment"];
-    [WPHelperConstant setBlurForCell:self];
 }
 
 - (IBAction)displayEventButonOnClick:(id)sender
