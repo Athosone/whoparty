@@ -35,9 +35,9 @@
     {
         self.buttonFriend.hidden = false;
         if (!isFriend)
-            self.buttonFriend.imageView.image = [UIImage imageNamed:@"plusFriend"];
+            self.buttonFriend.imageView.image = [UIImage imageNamed:@"plusEvent"];
         else
-            self.buttonFriend.imageView.image = [UIImage imageNamed:@"validFriend"];
+            self.buttonFriend.imageView.image = [UIImage imageNamed:@"validEvent"];
     }
 }
 
@@ -71,9 +71,9 @@
         if (succeeded)
         {
             if (self.isFriend)
-                self.buttonFriend.imageView.image = [UIImage imageNamed:@"plusFriend"];
+                self.buttonFriend.imageView.image = [UIImage imageNamed:@"plusEvent"];
             else
-                self.buttonFriend.imageView.image = [UIImage imageNamed:@"validFriend"];
+                self.buttonFriend.imageView.image = [UIImage imageNamed:@"validEvent"];
             [user saveEventually];
         }
         [self stopAI];

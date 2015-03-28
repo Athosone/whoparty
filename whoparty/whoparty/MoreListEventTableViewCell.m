@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelNbUsersConcerned;
 @property (strong, nonatomic) IBOutlet UILabel *labelNBUsersDeclined;
 @property (strong, nonatomic) PFObject          *event;
+@property (weak, nonatomic) IBOutlet UILabel *labelState;
 
 @end
 
@@ -33,6 +34,7 @@
     self.buttonUsersAccepted.layer.borderWidth = 2;
     self.buttonUsersDeclined.layer.borderColor = [UIColor redColor].CGColor;
     self.buttonUsersDeclined.layer.borderWidth = 2;
+    self.labelState.hidden = true;
     [WPHelperConstant setBlurForCell:self];
 }
 
@@ -53,16 +55,38 @@
     {
         self.buttonUsersAccepted.enabled = false;
         self.buttonUsersDeclined.enabled = false;
+        self.buttonUsersAccepted.layer.borderWidth = 0;
+        self.buttonUsersDeclined.layer.borderWidth = 0;
         self.cancelEvent.enabled = true;
         self.cancelEvent.hidden = false;
+        self.labelState.hidden = true;
     }
     else
     {
+        self.buttonUsersAccepted.enabled = true;
+        self.buttonUsersDeclined.enabled = true;
+        self.buttonUsersAccepted.layer.borderWidth = 2;
+        self.buttonUsersDeclined.layer.borderWidth = 2;
+        
+        
+        if ([self.event[@"usersDeclined"] containsObject:[PFUser currentUser].username])
+        {
+            self.labelState.textColor = [UIColor redColor];
+            self.labelState.text = @"Declined";
+        }
+        else if ([self.event[@"usersAccepted"] containsObject:[PFUser currentUser].username])
+        {
+            self.labelState.textColor = [UIColor greenColor];
+            self.labelState.text = @"Accepted";
+        }
+        else
+        {
+            self.labelState.text = @"";
+        }
         self.cancelEvent.hidden = true;
         self.cancelEvent.enabled = false;
+        self.labelState.hidden = false;
     }
-    
-    
 }
 
 - (IBAction)buttonUsersDeclinedOnClick:(id)sender

@@ -33,6 +33,7 @@
 + (void) sendErrorReport:(NSError*)error;
 
 + (void) fetchEvent:(PFObject*)event completionBlock:(void(^)(PFObject* obj))completionBlock;
++ (void) userWithUserName:(NSString*) username completionBlock:(void(^)(PFObject*))completion;
 
 
 @end

@@ -133,10 +133,10 @@
                     NSString *facebookID = userData[@"id"];
                     user.username = userData[@"first_name"];
                     user.email = userData[@"email"];
-                    [user saveEventually];
                     NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+                    user[@"profilePicture"] = [pictureURL absoluteString];
                     NSLog(@"FacebookLog :%@ %@", user.username, user.email);
-                    
+                    [user saveEventually];
                     [self performSegueWithIdentifier:@"loginSuccess" sender:self];
                 }
              }];

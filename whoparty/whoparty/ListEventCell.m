@@ -11,6 +11,7 @@
 #import "WPHelperConstant.h"
 #import "MYGoogleAddress.h"
 #import "Animations.h"
+#import "ManagedParseUser.h"
 
 @interface ListEventCell ()
 
@@ -53,18 +54,34 @@
     [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor clearColor];
+    self.imageViewSenderPicture.layer.cornerRadius = self.imageViewSenderPicture.frame.size.width / 2;
+    self.imageViewSenderPicture.layer.masksToBounds = YES;
+
 }
 
 - (void) initWithEvent:(PFObject*) event
 {
     self.event = event;
-    
+    self.imageViewSenderPicture.image = [UIImage imageNamed:@"noav.png"];
     //PFObject *address =  event[@"mygoogleaddress"];
     NSDate          *date = event[@"eventdate"];
     
     self.usernameSender.text = (NSString*)self.event[@"sendinguser"];
     self.labelDateOfEvent.text = [WPHelperConstant dateToString:date];
     self.labelComment.text = self.event[@"comment"];
+    [ManagedParseUser userWithUserName:event[@"sendinguser"] completionBlock:^(PFObject *user)
+     {
+        if (user && [user objectForKey:@"profilePictureFile"])
+        {
+            PFFile *picture = user[@"profilePictureFile"];
+            [picture getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                if (data)
+                    self.imageViewSenderPicture.image = [UIImage imageWithData:data];
+                else
+                    NSLog(@"No data for profilePictureFile");
+            }];
+        }
+    }];
 }
 
 - (IBAction)displayEventButonOnClick:(id)sender

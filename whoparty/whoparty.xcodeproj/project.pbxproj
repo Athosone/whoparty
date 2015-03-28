@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5812B1B11AC560FA00D8A679 /* noav.png in Resources */ = {isa = PBXBuildFile; fileRef = 5812B1B01AC560FA00D8A679 /* noav.png */; };
 		5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */; };
 		5827C5A21AA5CC3E00680747 /* WPSelectFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */; };
 		5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A41AA5D27200680747 /* ManagedParseUser.m */; };
@@ -136,6 +137,7 @@
 		58D7AA1B1AA37AF300E8E788 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7AA1A1AA37AF300E8E788 /* SystemConfiguration.framework */; };
 		58D7AA1D1AA37B2100E8E788 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7AA1C1AA37B2100E8E788 /* libz.dylib */; };
 		58D7AA1F1AA37B4400E8E788 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7AA1E1AA37B4400E8E788 /* libsqlite3.dylib */; };
+		58F4D6871AC6AA8100A280BC /* WPTimePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F4D6861AC6AA8100A280BC /* WPTimePickerViewController.m */; };
 		D4C3BA5FB1344C947EAD2879 /* libPods-whoparty.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0108384256B8BDFC218734 /* libPods-whoparty.a */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +153,7 @@
 
 /* Begin PBXFileReference section */
 		2751F0E55F0CB5423D6E17F6 /* Pods-whoparty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whoparty.release.xcconfig"; path = "Pods/Target Support Files/Pods-whoparty/Pods-whoparty.release.xcconfig"; sourceTree = "<group>"; };
+		5812B1B01AC560FA00D8A679 /* noav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noav.png; sourceTree = "<group>"; };
 		5827C59D1AA4E67E00680747 /* MYGoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYGoogleAddress.h; sourceTree = "<group>"; };
 		5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYGoogleAddress.m; sourceTree = "<group>"; };
 		5827C5A01AA5CC3E00680747 /* WPSelectFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPSelectFriendsViewController.h; sourceTree = "<group>"; };
@@ -320,6 +323,8 @@
 		58D7AA1A1AA37AF300E8E788 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		58D7AA1C1AA37B2100E8E788 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		58D7AA1E1AA37B4400E8E788 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		58F4D6851AC6AA8100A280BC /* WPTimePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPTimePickerViewController.h; sourceTree = "<group>"; };
+		58F4D6861AC6AA8100A280BC /* WPTimePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPTimePickerViewController.m; sourceTree = "<group>"; };
 		CE32DBA3C481ACEAD9EF10D2 /* Pods-whoparty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whoparty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-whoparty/Pods-whoparty.debug.xcconfig"; sourceTree = "<group>"; };
 		DD0108384256B8BDFC218734 /* libPods-whoparty.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-whoparty.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -405,6 +410,8 @@
 				58998E111AB748C700F408E2 /* SelectPlaceViewController.m */,
 				583ADBD31AB82C5C009B79B4 /* WPSumUpViewController.h */,
 				583ADBD41AB82C5C009B79B4 /* WPSumUpViewController.m */,
+				58F4D6851AC6AA8100A280BC /* WPTimePickerViewController.h */,
+				58F4D6861AC6AA8100A280BC /* WPTimePickerViewController.m */,
 			);
 			name = AddEvent;
 			sourceTree = "<group>";
@@ -554,6 +561,7 @@
 		58998DBD1AB5D16C00F408E2 /* ListEventCellIcons */ = {
 			isa = PBXGroup;
 			children = (
+				5812B1B01AC560FA00D8A679 /* noav.png */,
 				586AE3141ABAFDE90014F665 /* validEvent.png */,
 				586AE3151ABAFDE90014F665 /* validEvent@2x.png */,
 				586EE9B91AB9EFE1002A11DB /* friendIcon.png */,
@@ -681,6 +689,7 @@
 		58D7A9E31AA3687900E8E788 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				58F4D6881AC6AE5800A280BC /* TimePicker */,
 				58998E041AB7468300F408E2 /* ViewFactory */,
 				587F56221AA27D750083638A /* Main.storyboard */,
 				58998DEC1AB650F300F408E2 /* Calendar */,
@@ -754,6 +763,13 @@
 				588EDD111AA3E04F003A146F /* passwordCadenas@2x.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		58F4D6881AC6AE5800A280BC /* TimePicker */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = TimePicker;
 			sourceTree = "<group>";
 		};
 		F5F0000FCA0955343BD41AC7 /* Frameworks */ = {
@@ -926,6 +942,7 @@
 				58BE5DA21AA5EFBD00BE2DB3 /* validFriend.png in Resources */,
 				58C478121AADDD6700612E2B /* emailLeftView.png in Resources */,
 				586EE9BC1AB9EFE1002A11DB /* friendIcon@2x.png in Resources */,
+				5812B1B11AC560FA00D8A679 /* noav.png in Resources */,
 				586EE9B61AB9C54A002A11DB /* calendar@2x.png in Resources */,
 				58BE5DAC1AA65B5D00BE2DB3 /* MapForm.xib in Resources */,
 				58C478071AADD65F00612E2B /* addEventIcon.png in Resources */,
@@ -1007,6 +1024,7 @@
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
 				583ADBD51AB82C5C009B79B4 /* WPSumUpViewController.m in Sources */,
 				58998E031AB73D9200F408E2 /* SelectPlace.m in Sources */,
+				58F4D6871AC6AA8100A280BC /* WPTimePickerViewController.m in Sources */,
 				58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */,
 				587F561B1AA27D750083638A /* AppDelegate.m in Sources */,
 				5846D46A1AA9C24E00259C09 /* WPListEventViewController.m in Sources */,

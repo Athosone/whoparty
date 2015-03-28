@@ -38,6 +38,63 @@
 }
 
 
++ (void) userWithUserName:(NSString*) username completionBlock:(void(^)(PFObject*))completion
+{
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"_User"];
+    
+    [query whereKey:@"username" equalTo:username];
+    [query fromLocalDatastore];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+    {
+        if (objects && objects.count == 1)
+        {
+            PFObject *user = [objects objectAtIndex:0];
+            [user fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                completion(object);
+            }];
+        }
+        else
+        {
+            PFQuery *queryOnline = [[PFQuery alloc] initWithClassName:@"_User"];
+            
+            [queryOnline whereKey:@"username" equalTo:username];
+            [queryOnline findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+             {
+                if (objects && objects.count == 1)
+                {
+                    PFObject *user = [objects objectAtIndex:0];
+                    [user fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                        if (error)
+                            completion(nil);
+                        else
+                        {
+
+                            if (![object objectForKey:@"profilePictureFile"] && [object objectForKey:@"profilePicture"])
+                            {
+                                    NSURL *url = [NSURL URLWithString:[object objectForKey:@"profilePicture"]];
+                                    NSData *data = [NSData dataWithContentsOfURL:url];
+                                    PFFile *picture = [PFFile fileWithData:data];
+                                    [user setObject:picture forKey:@"profilePictureFile"];
+                                    [user setObject:data forKey:@"test"];
+                                    [user saveInBackground];
+                                    [user pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                        completion(object);
+                                    }];
+                            }
+                            else
+                                completion(object);
+                        }
+                    }];
+                }
+                else
+                    completion(nil);
+             }];
+        }
+        completion(nil);
+    }];
+    
+}
+    
 + (void) addOperationToQueue:(NSOperation*) op
 {
     ManagedParseUser   *client = [ManagedParseUser sharedInstance];

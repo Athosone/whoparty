@@ -17,7 +17,7 @@
 #import "GooglePlaceDataProvider.h"
 #import "MoreListEventTableViewCell.h"
 
-#define SECTIONHEIGHT 125
+#define SECTIONHEIGHT 147
 #define ROWHEIGHT 270
 
 @interface WPListEventViewController ()
@@ -47,7 +47,6 @@
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPushNotfication:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
     
@@ -56,7 +55,6 @@
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.hidden = true;
     self.hud.labelText = @"Loading";
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -462,7 +460,7 @@
 
 - (void) didClickOnCancelEvent:(MoreListEventTableViewCell *)cell
 {
-     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cancel event" message:@"You are about to delete this event for all of its participant" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cancel event" message:@"You are about to delete this event for all of its participant" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
@@ -518,8 +516,6 @@
                             destPos[@"latitude"],
                             destPos[@"longitude"]];
     
-    
-    
     if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkGoogle]])
     {
         NSString *linkMAPS = [NSString stringWithFormat:@"%@%@,%@&zoom=14", MAPSBASELINK,
@@ -532,16 +528,30 @@
 
 - (void) didClickOnAddToCalendarButton:(MoreListEventTableViewCell *)cell
 {
+    PFObject    *event = nil;
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0)
+        event = [self.eventListReceived objectAtIndex:cell.indexpath.section];
+    else
+        event = [self.eventListSent objectAtIndex:cell.indexpath.section];
+    
     EKEventStore *store = [EKEventStore new];
     [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (!granted) { return; }
-        EKEvent *event = [EKEvent eventWithEventStore:store];
-        event.title = @"Event Title";
-        event.startDate = [NSDate date]; //today
-        event.endDate = [event.startDate dateByAddingTimeInterval:60*60];  //set 1 hour meeting
-        event.calendar = [store defaultCalendarForNewEvents];
+        EKEvent *eventCal = [EKEvent eventWithEventStore:store];
+        eventCal.title = event[@"name"];
+        eventCal.startDate = event[@"eventdate"];
+        eventCal.endDate = [eventCal.startDate dateByAddingTimeInterval:60*60*24];  //set 1 day meeting
+        eventCal.calendar = [store defaultCalendarForNewEvents];
         NSError *err = nil;
-        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+        [store saveEvent:eventCal span:EKSpanThisEvent commit:YES error:&err];
+        UIAlertController *alertCal = [UIAlertController alertControllerWithTitle:@"" message:@"Event saved on your agenda" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [alertCal dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertCal addAction:ok];
+        [self  presentViewController:alertCal animated:YES completion:nil];
+        
         //self.savedEventId = event.eventIdentifier;  //save the event id if you want to access this later
     }];
 }

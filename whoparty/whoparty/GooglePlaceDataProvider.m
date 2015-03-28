@@ -79,7 +79,8 @@
 + (void) fetchPlaceByName:(NSDictionary*)data success:(SEL)selector target:(id)target
 {
     NSString    *name = [(NSString*)[data objectForKey:@"name"] stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSString *queryPar = [NSString stringWithFormat:@"%@+%@", name, (NSString*)[data objectForKey:@"city"]];
+   //NSString *queryPar = [NSString stringWithFormat:@"%@+%@", name, (NSString*)[data objectForKey:@"city"]];
+    NSString *queryPar = [NSString stringWithFormat:@"%@", name];
     
     NSString *dataString = [NSString stringWithFormat:@"query=%@&location=%f,%f&radius=%@&key=%@",
                             queryPar,

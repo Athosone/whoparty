@@ -10,6 +10,7 @@
 #import "WPChooseDateViewController.h"
 #import "WPHelperConstant.h"
 #import "SelectPlaceViewController.h"
+#import "WPTimePickerViewController.h"
 
 @interface WPChooseDateViewController ()
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
@@ -72,6 +73,8 @@
     [self.calendar reloadData];
     self.jtcalendarcontentview.backgroundColor = [UIColor clearColor];
     self.jtcalendarmenuview.backgroundColor = [UIColor clearColor];
+    self.jtcalendarmenuview.hidden = NO;
+    self.jtcalendarcontentview.hidden = NO;
 
     [self addObserver:self forKeyPath:@"currentDate" options:NSKeyValueObservingOptionNew context:nil];
     [WPHelperConstant setBlurForView:self.tutoView];
@@ -146,7 +149,7 @@
     if ([date1 compare:date2] == NSOrderedAscending)
         [self.navigationController presentViewController:alertError animated:YES completion:nil];
     else
-        [self performSegueWithIdentifier:@"SelectPlace" sender:self];
+        [self performSegueWithIdentifier:@"WPTimePickerViewController" sender:self];
 }
 
 
@@ -168,10 +171,10 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"SelectPlace"])
+    if ([[segue identifier] isEqualToString:@"WPTimePickerViewController"])
     {
         //UINavigationController *navVC = [segue destinationViewController];
-        SelectPlaceViewController *vc = [segue destinationViewController];//[navVC.viewControllers objectAtIndex:0];
+        WPTimePickerViewController *vc = [segue destinationViewController];//[navVC.viewControllers objectAtIndex:0];
         vc.selectedDate = self.currentDate;
     }
     

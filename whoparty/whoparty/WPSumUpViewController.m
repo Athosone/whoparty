@@ -63,6 +63,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonAddFriends;
 @property (weak, nonatomic) WPDescriptionCell *cell;
+@property (weak, nonatomic) IBOutlet UILabel *labelButtonAddFriends;
 
 @end
 
@@ -78,6 +79,7 @@
     self.buttonValidate.layer.cornerRadius = 6.0f;
     [self.tutoView bringSubviewToFront:self.labelTuto];
     [self.tutoView bringSubviewToFront:self.buttonAddFriends];
+    [self.tutoView bringSubviewToFront:self.labelButtonAddFriends];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.friends = nil;
 }
@@ -100,7 +102,11 @@
         {
             cell.imageView.image = [UIImage imageNamed:@"calendar"];
             cell.textLabel.text = [WPHelperConstant getDateStringFromDate:self.selectedDate];
-            cell.detailTextLabel.text = @"";
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+            [dateFormatter setDateFormat:@"hh:mm"];
+            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+            cell.detailTextLabel.text = [dateFormatter stringFromDate:self.selectedDate];
             break;
         }
         case 1:
@@ -130,8 +136,21 @@
 
 - (IBAction)buttonAddFriendsOnClic:(id)sender
 {
+    NSString *desc = [self.cell getDesc];
+    NSString *name = [self.cell getName];
     
-    [self performSegueWithIdentifier:@"WPSelectFriendsViewController" sender:self];
+    if (desc.length == 0 || name.length == 0)
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"You must provide a description and a name for the event" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else
+        [self performSegueWithIdentifier:@"WPSelectFriendsViewController" sender:self];
 }
 
 
