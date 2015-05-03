@@ -34,6 +34,8 @@
 
 + (void) fetchEvent:(PFObject*)event completionBlock:(void(^)(PFObject* obj))completionBlock;
 + (void) userWithUserName:(NSString*) username completionBlock:(void(^)(PFObject*))completion;
++ (void) isUsernameExist:(NSString *) username completionBlock:(void(^)(bool))completion;
++ (void) isEmailExist:(NSString *) email completionBlock:(void(^)(bool))completion;
 
 
 @end

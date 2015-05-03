@@ -86,7 +86,7 @@
 
 - (UITableViewCell*) tableView:(UITableView *)mtableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CheckBoxTableViewCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"checkBoxCell"];
+    WPCheckBoxTableViewCell *cell = [mtableView dequeueReusableCellWithIdentifier:@"checkBoxCell"];
     NSArray *users = (NSArray*)[self.user objectForKey:@"friendsId"];
 
     if (!cell)

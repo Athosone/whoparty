@@ -11,7 +11,8 @@
 #import "ListEventCell.h"
 #import "MoreListEventTableViewCell.h"
 #import "MenuViewController.h"
+#import "Animations.h"
 
-@interface WPListEventViewController : UIViewController<SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, MenuVCDelegate, MoreListEventTableViewCellDelegate>
+@interface WPListEventViewController : UIViewController<SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, MenuVCDelegate, MoreListEventTableViewCellDelegate, UIViewControllerTransitioningDelegate>
 
 @end

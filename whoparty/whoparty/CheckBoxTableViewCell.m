@@ -9,14 +9,14 @@
 #import "CheckBoxTableViewCell.h"
 #import "Animations.h"
 
-@interface CheckBoxTableViewCell ()
+@interface WPCheckBoxTableViewCell ()
 
 
 @property (strong, nonatomic) IBOutlet UIButton *buttonSelect;
 
 @end
 
-@implementation CheckBoxTableViewCell
+@implementation WPCheckBoxTableViewCell
 
 - (void)awakeFromNib {
     
@@ -36,12 +36,15 @@
     [super setSelected:selected animated:animated];
     if (selected)
     {
-        self.buttonSelect.imageView.image = [UIImage imageNamed:@"validEvent"];
+        UIImage *image = [UIImage imageNamed:@"validEvent"];
+        [self.buttonSelect setImage:image forState:UIControlStateNormal];
+        // self.buttonSelect.imageView.image = [UIImage imageNamed:@"validEvent"];
         [Animations addFadeInTransitionToView:self.buttonSelect duration:1.0f];
     }
     else
     {
-        self.buttonSelect.imageView.image = [UIImage imageNamed:@"plusEvent"];
+        UIImage *image = [UIImage imageNamed:@"plusEvent"];
+        [self.buttonSelect setImage:image forState:UIControlStateNormal];
         [Animations addFadeInTransitionToView:self.buttonSelect duration:1.0f];
     }
 }

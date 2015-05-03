@@ -434,15 +434,11 @@ static BOOL protocol_containsSelector(Protocol *protocol, SEL selector)
         return [self.myDataSource tableView:tableView cellForRowAtIndexPath:indexPath];
     } else {
         // cell is expandable
-        if (indexPath.row == 0)
-        {
+        if (indexPath.row == 0) {
             UITableViewCell<UIExpandingTableViewCell> *cell = [self.myDataSource tableView:self expandingCellForSection:indexPath.section];
-            if ([self.downloadingSectionsDictionary[key] boolValue])
-            {
+            if ([self.downloadingSectionsDictionary[key] boolValue]) {
                 [cell setLoading:YES];
-            }
-            else
-            {
+            } else {
                 [cell setLoading:NO];
                 if ([self.showingSectionsDictionary[key] boolValue]) {
                     [cell setExpansionStyle:UIExpansionStyleExpanded animated:NO];
@@ -451,9 +447,7 @@ static BOOL protocol_containsSelector(Protocol *protocol, SEL selector)
                 }
             }
             return cell;
-        }
-        else
-        {
+        } else {
             return [self.myDataSource tableView:tableView cellForRowAtIndexPath:indexPath];
         }
     }

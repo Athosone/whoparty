@@ -68,14 +68,33 @@
         }];
 }
 
+- (void) eventCancel:(NSDictionary*) notificationPayload
+{
+    NSString *eventId = [notificationPayload objectForKey:@"eventId"];
+    
+    NSDictionary *eventDict = [NSDictionary dictionaryWithObjectsAndKeys:eventId, @"eventId", nil];
+    
+    PFObject *event = [PFObject objectWithoutDataWithClassName:@"Event" objectId:eventId];
+    
+    //Update the event from server
+    [event unpinInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+    {
+        NSLog(@"event unpin");
+        NSNotification *notification = [[NSNotification alloc] initWithName:HASRECEIVEDPUSHNOTIFICATION object:nil userInfo:eventDict];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }];
+}
+
 - (void) handleMyPushNotification:(NSDictionary*)notificationPayload
 {
     NSString *eventType = [notificationPayload objectForKey:@"eventType"];
     
     if ([eventType isEqualToString:@"createEvent"])
         [self createEvent:notificationPayload];
-    if ([eventType isEqualToString:@"eventIsAccepted"])
+    else if ([eventType isEqualToString:@"eventIsAccepted"])
         [self eventIsAccepted:notificationPayload];
+    else if ([eventType isEqualToString:@"eventCancel"])
+        [self eventCancel:notificationPayload];
 }
 
 #pragma mark ->didFinishLaunchingWithOptions
@@ -122,6 +141,8 @@
     {
         [self handleMyPushNotification:notificationPayload];
     }
+    
+    [FBFriendPickerViewController class];
     return YES;
 }
 

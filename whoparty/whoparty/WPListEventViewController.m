@@ -8,16 +8,20 @@
 
 #import <EventKit/EventKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+
+
+#import "CustomModalAnimation.h"
+
+#import "WPShowParticipantTableViewController.h"
 #import "WPListEventViewController.h"
 #import "WPHelperConstant.h"
 #import "ManagedParseUser.h"
 #import "Event.h"
 #import "WPReceiveEventViewController.h"
-#import "Animations.h"
 #import "GooglePlaceDataProvider.h"
 #import "MoreListEventTableViewCell.h"
 
-#define SECTIONHEIGHT 147
+#define SECTIONHEIGHT 128
 #define ROWHEIGHT 270
 
 @interface WPListEventViewController ()
@@ -44,12 +48,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPushNotfication:) name:HASRECEIVEDPUSHNOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedisAcceptedPushNotfication:) name:HASRECEIVEDISACCEPTEDNOTFICATION object:nil];
-    
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -60,12 +63,18 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [WPHelperConstant setImageAsBGForTableView:self.tableView image:[UIImage imageNamed:@"lacBG"]];
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    [blurEffectView setFrame:self.navigationController.navigationBar.frame];
-    [self.view addSubview:blurEffectView];
-    [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
+    PFUser *user = [PFUser currentUser];
+    if (user == nil)
+        [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    else
+    {
+        [WPHelperConstant setImageAsBGForTableView:self.tableView image:[UIImage imageNamed:@"lacBG"]];
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        [blurEffectView setFrame:self.navigationController.navigationBar.frame];
+        [self.view addSubview:blurEffectView];
+        [ManagedParseUser fetchAllEvents:self selector:@selector(updateEventList:)];
+    }
 }
 
 #pragma mark ->Segmented Control value changed
@@ -119,7 +128,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark ->SLExpandableTableViewDatasource
+#pragma mark ->SLExpandableTableViewDatasource / Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -152,7 +161,7 @@
         eventList = self.eventListReceived;
     else
         eventList = self.eventListSent;
-
+    
     if (!cell)
     {
         cell = [[MoreListEventTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MoreListEventTableViewCell"];
@@ -163,7 +172,6 @@
     [WPHelperConstant setBlurForCell:cell];
     return cell;
 }
-
 
 - (BOOL)tableView:(SLExpandableTableView *)tableView canExpandSection:(NSInteger)section
 {
@@ -181,8 +189,8 @@
     
     PFObject *addressToUpdate = event[@"mygoogleaddress"];
     
-   if ([addressToUpdate isDataAvailable])
-       return NO;
+    if ([addressToUpdate isDataAvailable])
+        return NO;
     else
         return YES;//, if you need to download data to expand this section. tableView will call tableView:downloadDataForExpandableSection: for this section
     //return NO;
@@ -190,7 +198,7 @@
 
 - (UITableViewCell<UIExpandingTableViewCell>*)tableView:(SLExpandableTableView *)tableView expandingCellForSection:(NSInteger)section
 {
-   ListEventCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ListEventCell"];
+    ListEventCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ListEventCell"];
     NSArray *eventList = nil;
     
     if (self.segmentedControl.selectedSegmentIndex == 0)
@@ -207,8 +215,6 @@
     return cell;
 }
 
-#pragma mark ->SLExpandableTableViewDelegate
-
 - (void)tableView:(SLExpandableTableView *)tableView downloadDataForExpandableSection:(NSInteger)section
 {
     PFObject *event = nil;
@@ -219,23 +225,22 @@
         event = [self.eventListSent objectAtIndex:section];
     
     PFObject *addressToUpdate = event[@"mygoogleaddress"];
-    
     [addressToUpdate fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-       if (!error)
-       {
-           [object pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-               [tableView expandSection:section animated:YES];
-           }];
-       }
+        if (!error)
+        {
+            [object pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [tableView expandSection:section animated:YES];
+            }];
+        }
         else
         {
             NSLog(@"Error fetching address in: tableView:(SLExpandableTableView *)tableView downloadDataForExpandableSection:(NSInteger)section, error:%@" ,error);
-           [tableView cancelDownloadInSection:section];
+            [tableView cancelDownloadInSection:section];
         }
     }];
     
     // download your data here
-     //[tableView expandSection:section animated:YES]; //if download was successful
+    //[tableView expandSection:section animated:YES]; //if download was successful
     // call [tableView cancelDownloadInSection:section]; if your download was NOT successful
 }
 
@@ -257,7 +262,7 @@
     else
         self.currentEvent = [self.eventListSent objectAtIndex:indexPath.section];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -307,40 +312,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark ->Menu
-
-- (IBAction)menuShow:(id)sender
-{
-    MenuViewController  *menu = [[MenuViewController alloc] init];
-    
-    menu.delegate = self;
-    menu.view.frame = self.view.frame;
-    menu.definesPresentationContext = YES;
-    menu.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    [self presentViewController:menu animated:YES completion:nil];
-}
-
-#pragma mark ->Menu delegate
-
-- (void) didDismissMenuWithSubMenuType:(subTypeMenu)type
-{
-    switch (type) {
-        case kMenuLogout:
-        {
-            [PFUser logOut];
-            [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-        }   break;
-        default:
-            break;
-    }
-}
-
 
 #pragma mark ->MoreListEventTableViewCellDelegate
 
 - (void) didClickOnDisplayEventButton:(ListEventCell *)cell
 {
-       [self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void) didClickOnAcceptedButton:(MoreListEventTableViewCell *)cell
@@ -360,7 +337,7 @@
         [friendsDeclined removeObject:[PFUser currentUser].username];
         [event setObject:friendsDeclined forKey:@"usersDeclined"];
     }
-
+    
     if (friends == nil)
         friends = [[NSMutableArray alloc] init];
     if ([friends containsObject:[PFUser currentUser].username])
@@ -469,26 +446,26 @@
         event = [self.eventListSent objectAtIndex:cell.indexpath.section];
         
         [event deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-           if (succeeded)
-           {
-               [event unpinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                   NSMutableArray *arrayTmp = [NSMutableArray arrayWithArray:self.eventListSent];
-                   [arrayTmp removeObject:event];
-                   self.eventListSent = [NSArray arrayWithArray:arrayTmp];
-                   
-                   NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-                   NSString *alertMessage = [NSString stringWithFormat:@"%@ just canceled an event !",[PFUser currentUser].username];
-                   
-                   [data setObject:alertMessage forKey:@"alert"];
-                   [data setObject:@"eventIsAccepted" forKey:@"eventType"];
-                   [data setObject:@"default" forKey:@"sound"];
-                   [data setObject:event.objectId forKey:@"eventId"];
-                   [ManagedParseUser sendNotificationPush:event[@"sendinguser"] data:data completionBlock:^{
-                       NSLog(@"Event Canceled");
-                   }];
-                   [self.tableView reloadData];
-               }];
-           }
+            if (succeeded)
+            {
+                [event unpinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    NSMutableArray *arrayTmp = [NSMutableArray arrayWithArray:self.eventListSent];
+                    [arrayTmp removeObject:event];
+                    self.eventListSent = [NSArray arrayWithArray:arrayTmp];
+                    
+                    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                    NSString *alertMessage = [NSString stringWithFormat:@"%@ just canceled an event !",[PFUser currentUser].username];
+                    
+                    [data setObject:alertMessage forKey:@"alert"];
+                    [data setObject:@"eventCancel" forKey:@"eventType"];
+                    [data setObject:@"default" forKey:@"sound"];
+                    [data setObject:event.objectId forKey:@"eventId"];
+                    [ManagedParseUser sendNotificationPush:event[@"sendinguser"] data:data completionBlock:^{
+                        NSLog(@"Event Canceled");
+                    }];
+                    [self.tableView reloadData];
+                }];
+            }
             [alert dismissViewControllerAnimated:YES completion:nil];
             self.hud.hidden = true;
         }];
@@ -523,7 +500,7 @@
                               destPos[@"longitude"]];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkMAPS]];
     }
-
+    
 }
 
 - (void) didClickOnAddToCalendarButton:(MoreListEventTableViewCell *)cell
@@ -554,6 +531,88 @@
         
         //self.savedEventId = event.eventIdentifier;  //save the event id if you want to access this later
     }];
+}
+
+- (void) didClickOnUsersConcernedButton:(MoreListEventTableViewCell*)cell
+{
+    PFObject    *event = nil;
+    NSArray     *usersConcerned = nil;
+    NSArray     *usersAccepted = nil;
+    NSArray     *usersDeclined = nil;
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0)
+        event = [self.eventListReceived objectAtIndex:cell.indexpath.section];
+    else
+        event = [self.eventListSent objectAtIndex:cell.indexpath.section];
+    if ([event objectForKey:@"usersConcerned"])
+    {
+        usersConcerned = event[@"usersConcerned"];
+    }
+    if ([event objectForKey:@"usersDeclined"])
+    {
+        usersDeclined = event[@"usersDeclined"];
+    }
+    if ([event objectForKey:@"usersAccepted"])
+    {
+        usersAccepted = event[@"usersAccepted"];
+    }
+    
+    UINavigationController *nav = [[self storyboard] instantiateViewControllerWithIdentifier:@"TOWPShowParticipantTableViewController"];
+    
+    WPShowParticipantTableViewController *destVC = [[nav viewControllers] objectAtIndex:0];//= [[self storyboard] instantiateViewControllerWithIdentifier:@"WPShowParticipantTableViewController"];
+    
+    //    WPShowParticipantTableViewController *destVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"WPShowParticipantTableViewController"];
+    
+    destVC.usersConcerned = usersConcerned;
+    destVC.usersAccepted = usersAccepted;
+    destVC.usersDeclined = usersDeclined;
+    //  destVC.transitioningDelegate = self;
+    // destVC.modalPresentationStyle = UIModalPresentationCustom;
+    nav.transitioningDelegate = self;
+    nav.modalPresentationStyle = UIModalPresentationCustom;
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
+}
+
+#pragma mark ->UIViewControllerTransitionDelegate
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    return [[PresentingAnimationController alloc] init];
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [[DismissingAnimationController alloc] init];
+}
+
+
+#pragma mark ->Menu
+
+- (IBAction)menuShow:(id)sender
+{
+    
+    
+    //MenuViewController  *menu = [[MenuViewController alloc] init];
+    //menu.delegate = self;
+    //menu.view.frame = self.view.frame;
+    //menu.definesPresentationContext = YES;
+    // menu.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    //[self presentViewController:menu animated:YES completion:nil];
+}
+
+#pragma mark ->Menu delegate
+
+- (void) didDismissMenuWithSubMenuType:(subTypeMenu)type
+{
+    switch (type) {
+        case kMenuLogout:
+        {
+            [PFUser logOut];
+            [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+        }   break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - Navigation

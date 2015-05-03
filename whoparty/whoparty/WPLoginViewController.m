@@ -115,16 +115,19 @@
 
 - (IBAction)loginWithFB:(id)sender
 {
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"user_friends"];
     
+    self.hud.hidden = false;
+    self.hud.labelText = @"";
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error)
      {
         if (user)
         {
             FBRequest *request = [FBRequest requestForMe];
-            [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+              [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
              {
+                 self.hud.hidden = true;
                 if (!error)
                 {
                     // result is a dictionary with the user's Facebook data
@@ -133,14 +136,31 @@
                     NSString *facebookID = userData[@"id"];
                     user.username = userData[@"first_name"];
                     user.email = userData[@"email"];
+                    if ([user objectForKey:@"profilePictureFile"])
+                        [self performSegueWithIdentifier:@"loginSuccess" sender:self];
+                    
                     NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
                     user[@"profilePicture"] = [pictureURL absoluteString];
                     NSLog(@"FacebookLog :%@ %@", user.username, user.email);
                     [user saveEventually];
+         
+                    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                    NSString *channel = [CHANNELUSERPREFIX stringByAppendingString:user.objectId];
+                    [currentInstallation setChannels:[NSArray arrayWithObject:channel]];
+                    [currentInstallation saveInBackground];
+                    self.hud.hidden = true;
                     [self performSegueWithIdentifier:@"loginSuccess" sender:self];
                 }
+                 else
+                     NSLog(@"[ERROR]: loginFb: %@",error);
+                 self.hud.hidden = true;
              }];
         }
+         else
+             NSLog(@"[ERROR]: loginFb: %@",error);
+         dispatch_async(dispatch_get_main_queue(), ^{
+             self.hud.hidden = true;
+         });
         
     }];
 }

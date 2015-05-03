@@ -8,16 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		5812B1B11AC560FA00D8A679 /* noav.png in Resources */ = {isa = PBXBuildFile; fileRef = 5812B1B01AC560FA00D8A679 /* noav.png */; };
+		5822F5451AD0015E00B712C5 /* WPAccountInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5822F5441AD0015E00B712C5 /* WPAccountInformationViewController.m */; };
 		5827C59F1AA4E67E00680747 /* MYGoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */; };
 		5827C5A21AA5CC3E00680747 /* WPSelectFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A11AA5CC3E00680747 /* WPSelectFriendsViewController.m */; };
 		5827C5A51AA5D27200680747 /* ManagedParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5827C5A41AA5D27200680747 /* ManagedParseUser.m */; };
 		5827C5A81AA5E62E00680747 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 5827C5A61AA5E62E00680747 /* plus.png */; };
 		5827C5A91AA5E62E00680747 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5827C5A71AA5E62E00680747 /* plus@2x.png */; };
+		582B92311ACEABA70058773A /* WPShowParticipantTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 582B92301ACEABA70058773A /* WPShowParticipantTableViewController.m */; };
 		583ADBD51AB82C5C009B79B4 /* WPSumUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583ADBD41AB82C5C009B79B4 /* WPSumUpViewController.m */; };
 		583D2BA01AB4B98C00744608 /* lacBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 583D2B9E1AB4B98C00744608 /* lacBG.png */; };
 		583D2BA11AB4B98C00744608 /* lacBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 583D2B9F1AB4B98C00744608 /* lacBG@2x.png */; };
 		583D2BAF1AB4EB9500744608 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 583D2BAE1AB4EB9500744608 /* ParseFacebookUtils.framework */; };
-		583D2BB11AB4EC4900744608 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 583D2BB01AB4EC4900744608 /* FacebookSDK.framework */; };
 		5846D45B1AA90A0D00259C09 /* ReceiveEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5846D45A1AA90A0D00259C09 /* ReceiveEventCell.xib */; };
 		5846D45E1AA90BF000259C09 /* ReceiveEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */; };
 		5846D4611AA9107500259C09 /* WPReceiveEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */; };
@@ -50,6 +51,7 @@
 		586EE9BB1AB9EFE1002A11DB /* friendIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 586EE9B91AB9EFE1002A11DB /* friendIcon.png */; };
 		586EE9BC1AB9EFE1002A11DB /* friendIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 586EE9BA1AB9EFE1002A11DB /* friendIcon@2x.png */; };
 		587CAF1F1AA4BEAE004129F9 /* GooglePlaceDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */; };
+		587D272A1AEBF0D6003EF296 /* AddFBFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 587D27291AEBF0D6003EF296 /* AddFBFriendsViewController.m */; };
 		587F435A1AB0615100726D67 /* MarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F43591AB0615100726D67 /* MarkerView.m */; };
 		587F435C1AB06C8900726D67 /* MarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 587F435B1AB06C8900726D67 /* MarkerView.xib */; };
 		587F56181AA27D750083638A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F56171AA27D750083638A /* main.m */; };
@@ -59,6 +61,11 @@
 		587F56261AA27D750083638A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 587F56251AA27D750083638A /* Images.xcassets */; };
 		587F56291AA27D750083638A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 587F56271AA27D750083638A /* LaunchScreen.xib */; };
 		587F56351AA27D750083638A /* whopartyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 587F56341AA27D750083638A /* whopartyTests.m */; };
+		588A89931AF64BCB00D16DBC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 583D2BA81AB4CCB100744608 /* FacebookSDK.framework */; };
+		588A89981AF64BCB00D16DBC /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588A89941AF64BCB00D16DBC /* FBSDKShareKit.framework */; };
+		588A89991AF64BCB00D16DBC /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588A89951AF64BCB00D16DBC /* FBSDKLoginKit.framework */; };
+		588A899A1AF64BCB00D16DBC /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588A89961AF64BCB00D16DBC /* FBSDKCoreKit.framework */; };
+		588A899B1AF64BCB00D16DBC /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588A89971AF64BCB00D16DBC /* FBAudienceNetwork.framework */; };
 		588EDCE91AA3B89F003A146F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588EDCE81AA3B89F003A146F /* Accounts.framework */; };
 		588EDCEB1AA3B8A6003A146F /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588EDCEA1AA3B8A6003A146F /* Twitter.framework */; };
 		588EDCED1AA3B8B9003A146F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 588EDCEC1AA3B8B9003A146F /* Social.framework */; };
@@ -154,6 +161,8 @@
 /* Begin PBXFileReference section */
 		2751F0E55F0CB5423D6E17F6 /* Pods-whoparty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whoparty.release.xcconfig"; path = "Pods/Target Support Files/Pods-whoparty/Pods-whoparty.release.xcconfig"; sourceTree = "<group>"; };
 		5812B1B01AC560FA00D8A679 /* noav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noav.png; sourceTree = "<group>"; };
+		5822F5431AD0015E00B712C5 /* WPAccountInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPAccountInformationViewController.h; sourceTree = "<group>"; };
+		5822F5441AD0015E00B712C5 /* WPAccountInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPAccountInformationViewController.m; sourceTree = "<group>"; };
 		5827C59D1AA4E67E00680747 /* MYGoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYGoogleAddress.h; sourceTree = "<group>"; };
 		5827C59E1AA4E67E00680747 /* MYGoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYGoogleAddress.m; sourceTree = "<group>"; };
 		5827C5A01AA5CC3E00680747 /* WPSelectFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPSelectFriendsViewController.h; sourceTree = "<group>"; };
@@ -162,13 +171,14 @@
 		5827C5A41AA5D27200680747 /* ManagedParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedParseUser.m; sourceTree = "<group>"; };
 		5827C5A61AA5E62E00680747 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		5827C5A71AA5E62E00680747 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
+		582B922F1ACEABA70058773A /* WPShowParticipantTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPShowParticipantTableViewController.h; sourceTree = "<group>"; };
+		582B92301ACEABA70058773A /* WPShowParticipantTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPShowParticipantTableViewController.m; sourceTree = "<group>"; };
 		583ADBD31AB82C5C009B79B4 /* WPSumUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPSumUpViewController.h; sourceTree = "<group>"; };
 		583ADBD41AB82C5C009B79B4 /* WPSumUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPSumUpViewController.m; sourceTree = "<group>"; };
 		583D2B9E1AB4B98C00744608 /* lacBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lacBG.png; sourceTree = "<group>"; };
 		583D2B9F1AB4B98C00744608 /* lacBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lacBG@2x.png"; sourceTree = "<group>"; };
 		583D2BA81AB4CCB100744608 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		583D2BAE1AB4EB9500744608 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
-		583D2BB01AB4EC4900744608 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		5846D45A1AA90A0D00259C09 /* ReceiveEventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReceiveEventCell.xib; sourceTree = "<group>"; };
 		5846D45C1AA90BF000259C09 /* ReceiveEventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveEventCell.h; sourceTree = "<group>"; };
 		5846D45D1AA90BF000259C09 /* ReceiveEventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveEventCell.m; sourceTree = "<group>"; };
@@ -209,6 +219,8 @@
 		586EE9BA1AB9EFE1002A11DB /* friendIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friendIcon@2x.png"; sourceTree = "<group>"; };
 		587CAF1D1AA4BEAD004129F9 /* GooglePlaceDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GooglePlaceDataProvider.h; sourceTree = "<group>"; };
 		587CAF1E1AA4BEAD004129F9 /* GooglePlaceDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GooglePlaceDataProvider.m; sourceTree = "<group>"; };
+		587D27281AEBF0D6003EF296 /* AddFBFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFBFriendsViewController.h; sourceTree = "<group>"; };
+		587D27291AEBF0D6003EF296 /* AddFBFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFBFriendsViewController.m; sourceTree = "<group>"; };
 		587F43581AB0615100726D67 /* MarkerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkerView.h; sourceTree = "<group>"; };
 		587F43591AB0615100726D67 /* MarkerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkerView.m; sourceTree = "<group>"; };
 		587F435B1AB06C8900726D67 /* MarkerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerView.xib; sourceTree = "<group>"; };
@@ -224,6 +236,10 @@
 		587F562E1AA27D750083638A /* whopartyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = whopartyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		587F56331AA27D750083638A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587F56341AA27D750083638A /* whopartyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = whopartyTests.m; sourceTree = "<group>"; };
+		588A89941AF64BCB00D16DBC /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		588A89951AF64BCB00D16DBC /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		588A89961AF64BCB00D16DBC /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		588A89971AF64BCB00D16DBC /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBAudienceNetwork.framework; path = ../../../../FacebookSDK/FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		588EDCE81AA3B89F003A146F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		588EDCEA1AA3B8A6003A146F /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		588EDCEC1AA3B8B9003A146F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -334,6 +350,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				588A89981AF64BCB00D16DBC /* FBSDKShareKit.framework in Frameworks */,
+				588A89991AF64BCB00D16DBC /* FBSDKLoginKit.framework in Frameworks */,
+				588A899A1AF64BCB00D16DBC /* FBSDKCoreKit.framework in Frameworks */,
+				588A899B1AF64BCB00D16DBC /* FBAudienceNetwork.framework in Frameworks */,
+				588A89931AF64BCB00D16DBC /* FacebookSDK.framework in Frameworks */,
 				589A61A91AAEFCCA006FB5A2 /* libstdc++.6.dylib in Frameworks */,
 				5860EB931AA4A98800D81E5F /* OpenGLES.framework in Frameworks */,
 				5860EB911AA4A97700D81E5F /* libicucore.dylib in Frameworks */,
@@ -354,7 +375,6 @@
 				58D7AA1B1AA37AF300E8E788 /* SystemConfiguration.framework in Frameworks */,
 				58D7AA191AA37ADE00E8E788 /* StoreKit.framework in Frameworks */,
 				58D7AA171AA37AD400E8E788 /* Security.framework in Frameworks */,
-				583D2BB11AB4EC4900744608 /* FacebookSDK.framework in Frameworks */,
 				58D7AA151AA37AC600E8E788 /* QuartzCore.framework in Frameworks */,
 				589A61A71AAEFC7C006FB5A2 /* ParseCrashReporting.framework in Frameworks */,
 				58D7AA131AA37A6500E8E788 /* MobileCoreServices.framework in Frameworks */,
@@ -397,6 +417,15 @@
 			name = GoogleData;
 			sourceTree = "<group>";
 		};
+		582B922E1ACEAB7B0058773A /* ShowParticipant */ = {
+			isa = PBXGroup;
+			children = (
+				582B922F1ACEABA70058773A /* WPShowParticipantTableViewController.h */,
+				582B92301ACEABA70058773A /* WPShowParticipantTableViewController.m */,
+			);
+			name = ShowParticipant;
+			sourceTree = "<group>";
+		};
 		5846D4651AA9C1F800259C09 /* AddEvent */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +448,7 @@
 		5846D4661AA9C20900259C09 /* ReceiveEvent */ = {
 			isa = PBXGroup;
 			children = (
+				582B922E1ACEAB7B0058773A /* ShowParticipant */,
 				5846D45F1AA9107500259C09 /* WPReceiveEventViewController.h */,
 				5846D4601AA9107500259C09 /* WPReceiveEventViewController.m */,
 				5846D4681AA9C24E00259C09 /* WPListEventViewController.h */,
@@ -443,7 +473,6 @@
 		587F56091AA27D750083638A = {
 			isa = PBXGroup;
 			children = (
-				583D2BB01AB4EC4900744608 /* FacebookSDK.framework */,
 				583D2BAE1AB4EB9500744608 /* ParseFacebookUtils.framework */,
 				589A61A61AAEFC7C006FB5A2 /* ParseCrashReporting.framework */,
 				5860EB821AA4A90200D81E5F /* GoogleMaps.bundle */,
@@ -605,6 +634,10 @@
 			children = (
 				58C478211AAE136100612E2B /* MenuViewController.h */,
 				58C478221AAE136100612E2B /* MenuViewController.m */,
+				5822F5431AD0015E00B712C5 /* WPAccountInformationViewController.h */,
+				5822F5441AD0015E00B712C5 /* WPAccountInformationViewController.m */,
+				587D27281AEBF0D6003EF296 /* AddFBFriendsViewController.h */,
+				587D27291AEBF0D6003EF296 /* AddFBFriendsViewController.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -689,9 +722,9 @@
 		58D7A9E31AA3687900E8E788 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				587F56221AA27D750083638A /* Main.storyboard */,
 				58F4D6881AC6AE5800A280BC /* TimePicker */,
 				58998E041AB7468300F408E2 /* ViewFactory */,
-				587F56221AA27D750083638A /* Main.storyboard */,
 				58998DEC1AB650F300F408E2 /* Calendar */,
 				58998DB11AB5CB5100F408E2 /* ListEventCell */,
 				58B606941AB3981E00D500EB /* Constraint */,
@@ -714,8 +747,6 @@
 			children = (
 				589A61C11AAF89C7006FB5A2 /* Menu */,
 				5860EB771AA4988000D81E5F /* Tabbar */,
-				58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */,
-				58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */,
 				58D7A9E61AA36E9A00E8E788 /* LoginForm */,
 			);
 			name = ViewController;
@@ -724,6 +755,8 @@
 		58D7A9E61AA36E9A00E8E788 /* LoginForm */ = {
 			isa = PBXGroup;
 			children = (
+				58D7A9EA1AA36ED700E8E788 /* WPLoginViewController.h */,
+				58D7A9EB1AA36ED700E8E788 /* WPLoginViewController.m */,
 				58D7A9E71AA36EBC00E8E788 /* LoginFormViewController.h */,
 				58D7A9E81AA36EBC00E8E788 /* LoginFormViewController.m */,
 				58D7A9F21AA3722800E8E788 /* NSString+FormValidation.h */,
@@ -775,6 +808,10 @@
 		F5F0000FCA0955343BD41AC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				588A89941AF64BCB00D16DBC /* FBSDKShareKit.framework */,
+				588A89951AF64BCB00D16DBC /* FBSDKLoginKit.framework */,
+				588A89961AF64BCB00D16DBC /* FBSDKCoreKit.framework */,
+				588A89971AF64BCB00D16DBC /* FBAudienceNetwork.framework */,
 				583D2BA81AB4CCB100744608 /* FacebookSDK.framework */,
 				589A61A81AAEFCCA006FB5A2 /* libstdc++.6.dylib */,
 				589A61A21AAEFB79006FB5A2 /* ParseCrashReporting.framework */,
@@ -1011,7 +1048,9 @@
 			files = (
 				58C477F21AACB9B800612E2B /* SendView.m in Sources */,
 				588EDD0A1AA3DF13003A146F /* Animations.m in Sources */,
+				587D272A1AEBF0D6003EF296 /* AddFBFriendsViewController.m in Sources */,
 				58BE5D9B1AA5EB8200BE2DB3 /* WPAddFriendsViewController.m in Sources */,
+				582B92311ACEABA70058773A /* WPShowParticipantTableViewController.m in Sources */,
 				58BE5DAA1AA6466000BE2DB3 /* AddEventCell.m in Sources */,
 				58C478201AAE0D4800612E2B /* MenuSubView.m in Sources */,
 				5860EB7D1AA498D000D81E5F /* WPAddEventViewController.m in Sources */,
@@ -1023,6 +1062,7 @@
 				58C478231AAE136100612E2B /* MenuViewController.m in Sources */,
 				58D7A9E91AA36EBC00E8E788 /* LoginFormViewController.m in Sources */,
 				583ADBD51AB82C5C009B79B4 /* WPSumUpViewController.m in Sources */,
+				5822F5451AD0015E00B712C5 /* WPAccountInformationViewController.m in Sources */,
 				58998E031AB73D9200F408E2 /* SelectPlace.m in Sources */,
 				58F4D6871AC6AA8100A280BC /* WPTimePickerViewController.m in Sources */,
 				58D7A9EC1AA36ED700E8E788 /* WPLoginViewController.m in Sources */,
@@ -1101,6 +1141,9 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1144,6 +1187,9 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1172,6 +1218,9 @@
 			baseConfigurationReference = CE32DBA3C481ACEAD9EF10D2 /* Pods-whoparty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1185,6 +1234,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1193,6 +1243,9 @@
 			baseConfigurationReference = 2751F0E55F0CB5423D6E17F6 /* Pods-whoparty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = NO;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ayrton WERCK (QDLD92PTE6)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1206,6 +1259,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

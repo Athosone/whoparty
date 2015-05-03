@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import "MenuSubView.h"
 
 @protocol MenuVCDelegate <NSObject>
@@ -15,7 +16,7 @@
 
 @end
 
-@interface MenuViewController : UIViewController<UITableViewDataSource, UITabBarDelegate>
+@interface MenuViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, FBFriendPickerDelegate>
 
 @property (weak, nonatomic) id<MenuVCDelegate> delegate;
 

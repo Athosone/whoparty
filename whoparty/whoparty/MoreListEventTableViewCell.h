@@ -18,6 +18,7 @@
 - (void) didClickOnMapButton:(MoreListEventTableViewCell*)cell;
 - (void) didClickOnAddToCalendarButton:(MoreListEventTableViewCell*)cell;
 - (void) didClickOnCancelEvent:(MoreListEventTableViewCell*)cell;
+- (void) didClickOnUsersConcernedButton:(MoreListEventTableViewCell*)cell;
 
 @end
 

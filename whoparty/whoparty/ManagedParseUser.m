@@ -37,6 +37,34 @@
     return sharedInstance;
 }
 
++ (void) isUsernameExist:(NSString *) username completionBlock:(void(^)(bool))completion
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    
+    [query whereKey:@"username" equalTo:username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+       
+        if (!error && objects.count == 0)
+            completion(NO);
+        else if (error || (!error && objects.count > 0))
+            completion(YES);
+    }];
+}
+
++ (void) isEmailExist:(NSString *) email completionBlock:(void(^)(bool))completion
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    
+    [query whereKey:@"email" equalTo:email];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (!error && objects.count == 0)
+            completion(NO);
+        else if (error || (!error && objects.count > 0))
+            completion(YES);
+    }];
+}
+
 
 + (void) userWithUserName:(NSString*) username completionBlock:(void(^)(PFObject*))completion
 {
@@ -45,56 +73,56 @@
     [query whereKey:@"username" equalTo:username];
     [query fromLocalDatastore];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-    {
-        if (objects && objects.count == 1)
-        {
-            PFObject *user = [objects objectAtIndex:0];
-            [user fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                completion(object);
-            }];
-        }
-        else
-        {
-            PFQuery *queryOnline = [[PFQuery alloc] initWithClassName:@"_User"];
-            
-            [queryOnline whereKey:@"username" equalTo:username];
-            [queryOnline findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-             {
-                if (objects && objects.count == 1)
-                {
-                    PFObject *user = [objects objectAtIndex:0];
-                    [user fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                        if (error)
-                            completion(nil);
-                        else
-                        {
-
-                            if (![object objectForKey:@"profilePictureFile"] && [object objectForKey:@"profilePicture"])
-                            {
-                                    NSURL *url = [NSURL URLWithString:[object objectForKey:@"profilePicture"]];
-                                    NSData *data = [NSData dataWithContentsOfURL:url];
-                                    PFFile *picture = [PFFile fileWithData:data];
-                                    [user setObject:picture forKey:@"profilePictureFile"];
-                                    [user setObject:data forKey:@"test"];
-                                    [user saveInBackground];
-                                    [user pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                        completion(object);
-                                    }];
-                            }
-                            else
-                                completion(object);
-                        }
-                    }];
-                }
-                else
-                    completion(nil);
+     {
+         if (objects && objects.count == 1)
+         {
+             PFObject *user = [objects objectAtIndex:0];
+             [user fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                 completion(object);
              }];
-        }
-        completion(nil);
-    }];
+         }
+         else
+         {
+             PFQuery *queryOnline = [[PFQuery alloc] initWithClassName:@"_User"];
+             
+             [queryOnline whereKey:@"username" equalTo:username];
+             [queryOnline findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+              {
+                  if (objects && objects.count == 1)
+                  {
+                      PFObject *user = [objects objectAtIndex:0];
+                      [user fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                          if (error)
+                              completion(nil);
+                          else
+                          {
+                              
+                              if (![object objectForKey:@"profilePictureFile"] && [object objectForKey:@"profilePicture"])
+                              {
+                                  NSURL *url = [NSURL URLWithString:[object objectForKey:@"profilePicture"]];
+                                  NSData *data = [NSData dataWithContentsOfURL:url];
+                                  PFFile *picture = [PFFile fileWithData:data];
+                                  [user setObject:picture forKey:@"profilePictureFile"];
+                                  [user setObject:data forKey:@"test"];
+                                  [user saveInBackground];
+                                  [user pinInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                      completion(object);
+                                  }];
+                              }
+                              else
+                                  completion(object);
+                          }
+                      }];
+                  }
+                  else
+                      completion(nil);
+              }];
+         }
+         completion(nil);
+     }];
     
 }
-    
+
 + (void) addOperationToQueue:(NSOperation*) op
 {
     ManagedParseUser   *client = [ManagedParseUser sharedInstance];
@@ -227,8 +255,6 @@
 
 + (void) sendNotificationPushSync:(NSArray*)userConcerned data:(NSDictionary*)data
 {
-    
-    
     for (NSString *usernameDest in userConcerned)
     {
         NSError     *error;
@@ -304,8 +330,6 @@
     [query3 whereKey:@"usersConcerned" equalTo:[PFUser currentUser].username];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[query1,query2, query3]];
-    
-    
     return query;
 }
 
@@ -319,64 +343,54 @@
         [query orderByDescending:@"createdAt"];
         [query fromLocalDatastore];
         //Find locals objects
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objectsLocal, NSError *error) {
-            
-            //Update GUI with existing objects
-            if ([target respondsToSelector:selector])
-                [target performSelectorOnMainThread:selector withObject:objectsLocal waitUntilDone:YES];
-            else
-                NSLog(@"Error selector non declared in the target passed as parameters");
-            //Update locals objects
-            [PFObject fetchAllInBackground:objectsLocal block:^(NSArray *objectsLocalUpdated, NSError *error) {
-                if (error)
-                    NSLog(@"error fetching all in background fetchallevent");
-                else
-                {   //Save new updated objects
-                    [PFObject pinAllInBackground:objectsLocalUpdated block:^(BOOL succeeded, NSError *error) {
-                        if (succeeded)
-                        {
-                            //Find new events and exclude already fetched one
-                            NSMutableArray *idsToExclude = [[NSMutableArray alloc] init];
-                            for (int i = 0; i < objectsLocalUpdated.count; ++i)
-                                [idsToExclude addObject:[[objectsLocalUpdated objectAtIndex:i] objectId]];
-                            //setup query
-                            PFQuery *queryOnServer = [ManagedParseUser getPFQueryForEvent];
-                            if (idsToExclude.count > 0)
-                                [queryOnServer whereKey:@"objectId" notContainedIn:idsToExclude];
-                            [queryOnServer orderByDescending:@"createdAt"];
-                            //Find new event
-                            __block NSArray *objectToMerge = [NSArray arrayWithArray:objectsLocalUpdated];
-                            [queryOnServer findObjectsInBackgroundWithBlock:^(NSArray *objectsServer, NSError *error) {
-                                
-                                if (objectsServer.count > 0)
-                                {
-                                    //Save new event if there is new event
-                                    [PFObject pinAllInBackground:objectsServer block:^(BOOL succeeded, NSError *error) {
-                                        //Update gui with new event
-                                        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
-                                        NSArray *sortDescriptor = [NSArray arrayWithObject:sort];
-                                        
-                                        objectToMerge = [objectToMerge arrayByAddingObjectsFromArray:objectsServer];
-                                        objectToMerge = [objectToMerge sortedArrayUsingDescriptors:sortDescriptor];
-                                        
-                                        if ([target respondsToSelector:selector])
-                                            [target performSelectorOnMainThread:selector withObject:objectToMerge waitUntilDone:YES];
-                                        else
-                                            NSLog(@"Error selector non declared in the target passed as parameters");
-                                    }];
-                                    
-                                }
-                            }];
-                        }
-                    }];
-                }
-                
-            }];
-        }];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objectsLocal, NSError *error)
+         {
+             //Update GUI with existing objects
+             if ([target respondsToSelector:selector])
+                 [target performSelectorOnMainThread:selector withObject:objectsLocal waitUntilDone:YES];
+             else
+                 NSLog(@"Error selector non declared in the target passed as parameters");
+             
+             //Update locals objects
+             PFQuery *queryOnline = [ManagedParseUser getPFQueryForEvent];
+             
+             [queryOnline orderByDescending:@"createdAt"];
+             [queryOnline findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+              {
+                  if (!error)
+                  {
+                      if (objects.count < objectsLocal.count)
+                      {
+                          //Remove non found object on server
+                          NSMutableArray *objIds = [[NSMutableArray alloc] init];
+                          for (int i = 0; i < objects.count; ++i)
+                              [objIds addObject:((PFObject*)[objects objectAtIndex:i]).objectId];
+                          for (int i= 0; i < objectsLocal.count; ++i)
+                          {
+                              NSString *oId = ((PFObject*)[objectsLocal objectAtIndex:i]).objectId;
+                              if (![objIds containsObject:oId])
+                              {
+                                  PFObject *o = [objectsLocal objectAtIndex:i];
+                                  [o unpinInBackground];
+                              }
+                          }
+                      }
+                      [PFObject pinAllInBackground:objects block:^(BOOL succeeded, NSError *error) {
+                          
+                          if ([target respondsToSelector:selector])
+                              [target performSelectorOnMainThread:selector withObject:objects waitUntilDone:YES];
+                          else
+                              NSLog(@"Error selector non declared in the target passed as parameters");
+                          
+                      }];
+                  }
+                  else
+                      NSLog(@"Error finding events online :%@", error);
+              }];
+         }];
     }];
     [ManagedParseUser addOperationToQueue:operation];
 }
-
 
 + (void) fetchLocalEvents:(id)target selector:(SEL)selector
 {
@@ -402,7 +416,6 @@
     }];
 }
 
-
 + (void) createEvent:(PFObject*)event success:(void(^)())success
 {
     NSBlockOperation *mainOp = [[NSBlockOperation alloc] init];
@@ -412,30 +425,30 @@
     }];
     
     [mainOp addExecutionBlock:^
-    {
-        [event[@"mygoogleaddress"] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error)
-                NSLog(@"fail saving event google address:%@", error);
-            
-            [event saveEventually:^(BOOL succeeded, NSError *error) {
-                if (succeeded)
-                    NSLog(@"Successed save new event");
-                else
-                    NSLog(@"Error saving new event: %@", error);
-                NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-                NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
-                [data setObject:alert forKey:@"alert"];
-                [data setObject:@"createEvent" forKey:@"eventType"];
-                [data setObject:@"default" forKey:@"sound"];
-                [data setObject:event.objectId forKey:@"eventId"];
-                [ManagedParseUser sendNotificationPushSync:event[@"usersConcerned"]
-                                                      data:data];
-                success();
-                
-            }];
-    }];
-        
-    }];
+     {
+         [event[@"mygoogleaddress"] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+             if (error)
+                 NSLog(@"fail saving event google address:%@", error);
+             
+             [event saveEventually:^(BOOL succeeded, NSError *error) {
+                 if (succeeded)
+                     NSLog(@"Successed save new event");
+                 else
+                     NSLog(@"Error saving new event: %@", error);
+                 NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+                 NSString *alert = [NSString stringWithFormat:@"%@ just sent you an event !",[PFUser currentUser].username];
+                 [data setObject:alert forKey:@"alert"];
+                 [data setObject:@"createEvent" forKey:@"eventType"];
+                 [data setObject:@"default" forKey:@"sound"];
+                 [data setObject:event.objectId forKey:@"eventId"];
+                 [ManagedParseUser sendNotificationPushSync:event[@"usersConcerned"]
+                                                       data:data];
+                 success();
+                 
+             }];
+         }];
+         
+     }];
     [ManagedParseUser addOperationToQueue:mainOp];
 }
 

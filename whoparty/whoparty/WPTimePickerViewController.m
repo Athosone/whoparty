@@ -31,9 +31,7 @@
     [components setHour: 23];
     [components setMinute: 59];
     [components setSecond: 59];
-    
-    NSDate *newDate = [gregorian dateFromComponents: components];
-    
+        
    // self.datePicker.datePickerMode = UIDatePickerModeTime;
     self.datePicker.timeZone = [NSTimeZone localTimeZone];
     //self.datePicker.locale = [NSLocale systemLocale];

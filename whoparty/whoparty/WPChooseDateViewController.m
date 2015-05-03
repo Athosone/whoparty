@@ -13,7 +13,6 @@
 #import "WPTimePickerViewController.h"
 
 @interface WPChooseDateViewController ()
-@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic) NSDate *currentDate;
 @property (weak, nonatomic) IBOutlet JTCalendarContentView *jtcalendarcontentview;
 @property (weak, nonatomic) IBOutlet JTCalendarMenuView *jtcalendarmenuview;
@@ -29,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [WPHelperConstant setBGWithImageForView:self.view image:@"lacBG"];
-  }
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath  ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -75,7 +74,7 @@
     self.jtcalendarmenuview.backgroundColor = [UIColor clearColor];
     self.jtcalendarmenuview.hidden = NO;
     self.jtcalendarcontentview.hidden = NO;
-
+    
     [self addObserver:self forKeyPath:@"currentDate" options:NSKeyValueObservingOptionNew context:nil];
     [WPHelperConstant setBlurForView:self.tutoView];
     [self.tutoView bringSubviewToFront:self.labelTuto];
@@ -84,7 +83,7 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [self.calendar repositionViews];
+  //  [self.calendar repositionViews];
 }
 
 - (BOOL)calendarHaveEvent:(JTCalendar *)calendar date:(NSDate *)date
@@ -94,7 +93,7 @@
 
 - (void)calendarDidDateSelected:(JTCalendar *)calendar date:(NSDate *)date
 {
-
+    
     if (self.currentDate == date)
     {
         [calendar setCurrentDateSelected:nil];
@@ -106,7 +105,7 @@
         self.currentDate = date;
     }
     NSLog(@"%@", calendar.currentDateSelected);
-
+    
     //self.currentDate = [date dateByAddingTimeInterval:60*60*24*1];
     //NSLog(@"%@", self.currentDate);
     
@@ -121,7 +120,7 @@
     }];
     
     [alertError addAction:ok];
-
+    
     
     
     if (self.currentDate == nil)
@@ -144,7 +143,7 @@
     
     date1 = [calendar dateFromComponents:date1Components];
     date2 = [calendar dateFromComponents:date2Components];
-
+    
     
     if ([date1 compare:date2] == NSOrderedAscending)
         [self.navigationController presentViewController:alertError animated:YES completion:nil];

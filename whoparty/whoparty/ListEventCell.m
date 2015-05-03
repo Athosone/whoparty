@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelDateOfEvent;
 @property (strong, nonatomic) IBOutlet UIImageView *imageViewSenderPicture;
 @property (strong, nonatomic) IBOutlet UILabel *labelComment;
+@property (weak, nonatomic) IBOutlet UILabel *labelNameEvent;
 
 @end
 
@@ -56,7 +57,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.imageViewSenderPicture.layer.cornerRadius = self.imageViewSenderPicture.frame.size.width / 2;
     self.imageViewSenderPicture.layer.masksToBounds = YES;
-
+    self.labelNameEvent.layer.cornerRadius = 6.0f;
 }
 
 - (void) initWithEvent:(PFObject*) event
@@ -65,6 +66,11 @@
     self.imageViewSenderPicture.image = [UIImage imageNamed:@"noav.png"];
     //PFObject *address =  event[@"mygoogleaddress"];
     NSDate          *date = event[@"eventdate"];
+    
+    if ([self.event objectForKey:@"name"])
+    {
+        self.labelNameEvent.text = self.event[@"name"];
+    }
     
     self.usernameSender.text = (NSString*)self.event[@"sendinguser"];
     self.labelDateOfEvent.text = [WPHelperConstant dateToString:date];

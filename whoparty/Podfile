@@ -5,9 +5,7 @@ inhibit_all_warnings!
 
 target 'whoparty' do
 
-pod 'AFNetworking', '2.5'
 pod 'MBProgressHUD', '0.9'
-pod 'NUI'
 pod 'pop', '~> 1.0'
 pod 'FlatUIKit'
 pod 'JTCalendar', '~> 1.0'

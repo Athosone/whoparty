@@ -102,7 +102,7 @@
 {
     NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
     
-    dateFormater.dateFormat = @"yyy-mm-dd";
+    dateFormater.dateFormat = @"yyy-MM-dd";
     NSString *subString = [[dateString componentsSeparatedByString:@"T"] firstObject];
     
     NSDate *lRet = [dateFormater dateFromString:subString];

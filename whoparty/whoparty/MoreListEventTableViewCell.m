@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelNBUsersDeclined;
 @property (strong, nonatomic) PFObject          *event;
 @property (weak, nonatomic) IBOutlet UILabel *labelState;
+@property (weak, nonatomic) IBOutlet UIButton *buttonUsersConcerned;
 
 @end
 
@@ -34,6 +35,17 @@
     self.buttonUsersAccepted.layer.borderWidth = 2;
     self.buttonUsersDeclined.layer.borderColor = [UIColor redColor].CGColor;
     self.buttonUsersDeclined.layer.borderWidth = 2;
+    self.buttonUsersConcerned.layer.borderWidth = 2;
+    self.buttonUsersConcerned.layer.borderColor = [UIColor whiteColor].CGColor;
+    
+    self.buttonUsersConcerned.layer.cornerRadius = self.buttonUsersConcerned.frame.size.width / 2;
+    self.buttonUsersAccepted.layer.cornerRadius = self.buttonUsersAccepted.frame.size.width / 2;
+    self.buttonUsersDeclined.layer.cornerRadius = self.buttonUsersDeclined.frame.size.width / 2;
+    
+    self.buttonUsersConcerned.layer.masksToBounds = YES;
+    self.buttonUsersDeclined.layer.masksToBounds = YES;
+    self.buttonUsersAccepted.layer.masksToBounds = YES;
+    
     self.labelState.hidden = true;
     [WPHelperConstant setBlurForCell:self];
 }
@@ -87,6 +99,11 @@
         self.cancelEvent.enabled = false;
         self.labelState.hidden = false;
     }
+}
+
+- (IBAction)buttonUsersConcernedOnClick:(id)sender
+{
+    [self.delegate didClickOnUsersConcernedButton:self];
 }
 
 - (IBAction)buttonUsersDeclinedOnClick:(id)sender

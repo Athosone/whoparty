@@ -7,9 +7,9 @@
 //
 
 #import <AFNetworking/AFNetworking.h>
+#import <SPGooglePlacesAutocomplete/SPGooglePlacesAutocomplete.h>
 #import "GooglePlaceDataProvider.h"
 #import "WPHelperConstant.h"
-#import <SPGooglePlacesAutocomplete/SPGooglePlacesAutocomplete.h>
 
 #define RADIUS        50000
 
@@ -81,7 +81,6 @@
     NSString    *name = [(NSString*)[data objectForKey:@"name"] stringByReplacingOccurrencesOfString:@" " withString:@"+"];
    //NSString *queryPar = [NSString stringWithFormat:@"%@+%@", name, (NSString*)[data objectForKey:@"city"]];
     NSString *queryPar = [NSString stringWithFormat:@"%@", name];
-    
     NSString *dataString = [NSString stringWithFormat:@"query=%@&location=%f,%f&radius=%@&key=%@",
                             queryPar,
                             [[data objectForKey:@"latitude"] doubleValue],
@@ -90,7 +89,6 @@
                             GOOGLESERVERAPIKEY];
     NSString *requestString = [GOOGLEBASEURL stringByAppendingString:dataString];
     NSLog(@"request string: %@", requestString);
-    
     NSURL *requestUrl = [NSURL URLWithString:requestString];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

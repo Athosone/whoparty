@@ -34,7 +34,5 @@
 
 - (void)loadPreviousMonth;
 - (void)loadNextMonth;
-- (void)repositionViews;
-
 
 @end
